@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter";
+  scroll-behavior: smooth;
+  letter-spacing: 0;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 16px;
+  overflow-x: hidden;
+}

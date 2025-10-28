@@ -1,0 +1,195 @@
+.hero-container {
+  width: 1400px;
+  height: 650px;
+  color: white;
+
+  .img-backround {
+    height: 1400px;
+    height: 650px;
+    position: relative;
+    border-radius: 16px;
+
+    .top-text_container {
+      position: absolute;
+      top: 109px;
+      left: 60px;
+      gap: 36px;
+      width: 905px;
+      display: flex;
+      flex-direction: column;
+
+      .heading_container {
+        width: 628px;
+        height: min-content;
+
+        .header {
+          width: 628px;
+          height: 202px;
+          font-weight: 400;
+          font-size: 56px;
+          line-height: 67.2px;
+          letter-spacing: -1px;
+          vertical-align: middle;
+        }
+      }
+
+      .button-container {
+        gap: 16px;
+        width: min-content;
+        height: min-content;
+        display: flex;
+
+        .hash-link {
+          text-decoration: none;;
+        }
+
+        .input-container {
+          display: flex;
+          border-radius: 5px;
+          padding: 16px 24px;
+          gap: 15px;
+          background-color: white;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          .input {
+            width: 256px;
+            height: 19px;
+            font-family: "Inter";
+            color: #c2c2c2;
+            border: 0;
+            font-size: 16px;
+            background: transparent;
+            pointer-events: none;
+
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+      }
+    }
+
+    .stats_container {
+      position: absolute;
+      top: 441px;
+      left: 60px;
+      gap: 36px;
+      display: flex;
+      flex-direction: column;
+
+      .secondary-header_container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+
+        .secondary-header {
+          width: 306px;
+          height: 24px;
+          font-weight: 500;
+          font-size: 20px;
+          line-height: 100%;
+          letter-spacing: -0.5px;
+          vertical-align: middle;
+        }
+
+        .secondary-header_subtitle {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 14.4px;
+          letter-spacing: 0%;
+          height: 15px;
+          vertical-align: middle;
+        }
+      }
+
+      &-2 {
+        display: flex;
+        gap: 16.5px;
+
+        .frame {
+          display: flex;
+          flex-direction: column;
+          padding-right: 24px;
+          gap: 8px;
+          border-right: 1px solid rgba(255, 255, 255, 0.4);
+          height: 62px;
+
+          &-title {
+            height: 15px;
+            font-weight: 500;
+            line-height: 14.4px;
+            letter-spacing: -0.24px;
+            font-size: 12px;
+          }
+
+          &-number {
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 38.4px;
+            letter-spacing: -0.64px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1440px) {
+    width: 100%;
+    overflow-x: hidden;
+
+    .img-backround {
+      .stats_container {
+        &-2 {
+          .frame {
+            .frame-title {
+              height: min-content;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .top-text_container {
+      position: static !important;
+      justify-content: end;
+      align-items: center;
+      width: 100% !important;
+      height: 100%;
+      padding: 24px 16px;
+      .heading_container {
+        width: 100% !important;
+        .header {
+          font-size: 32px !important;
+          font-weight: 900 !important;
+          line-height: 40px !important;
+          height: min-content !important;
+          width: 100% !important;
+            text-align: center;
+        }
+      }
+      .button-container {
+        flex-direction: column;
+        width: 100% !important;
+
+        .input-container {
+          width: 100%;
+
+          input {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+    .img-backround {
+      background-position: center;
+      .stats_container {
+        display: none;
+      }
+    }
+  }
+}

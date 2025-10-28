@@ -1,0 +1,14 @@
+.JobDetailsWaitingListContainer {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    padding: 16px;
+    gap: 24px;
+    background-color: #FAFAFA;
+    width: 100%;
+
+    .candidates {
+        color: #5C5C5C;
+        line-height: 32px;
+    }
+}

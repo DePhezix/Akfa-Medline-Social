@@ -1,0 +1,105 @@
+.HiringDepartmentsContainer {
+  display: flex;
+  width: 1280px;
+  border-radius: 12px;
+  padding: 0 3px;
+  gap: 42px;
+  margin-bottom: 80px;
+  color: #1e1e1e;
+
+  &-header {
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 140%;
+    letter-spacing: -1px;
+    vertical-align: middle;
+    width: 598px;
+  }
+
+  &-departmentsList {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f4f4;
+    border-radius: 12px;
+    padding: 24px;
+    gap: 10px;
+    height: min-content;
+
+    .departments {
+      width: 586px;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 180%;
+      letter-spacing: -1px;
+      vertical-align: middle;
+      height: 144px;
+      overflow: hidden;
+      transition: 0.3s ease-in-out;
+
+      &.show {
+        height: auto;
+      }
+    }
+
+    .see-more {
+      display: flex;
+      gap: 10px;
+      cursor: pointer;
+
+      .text {
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: -0.5px;
+        vertical-align: middle;
+      }
+
+      img {
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  @media (max-width: 1440px) {
+    width: 100%;
+
+    &-header {
+      width: 100%;
+      font-size: 32px;
+    }
+    &-departmentsList {
+      width: 100%;
+
+      .departments {
+        width: 100%;
+        font-size: 18px;
+      }
+
+      .see-more {
+        display: flex;
+        align-items: center;
+        .text {
+          font-size: 18px;
+        }
+
+        img {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+
+    &-departmentsList {
+      height: min-content;
+    }
+
+    &-header {
+      line-height: 40px;
+      font-weight: 700;
+    }
+  }
+}

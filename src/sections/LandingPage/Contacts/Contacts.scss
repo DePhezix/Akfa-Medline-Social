@@ -1,0 +1,107 @@
+.ContactsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 1280px;
+  gap: 43px;
+  margin-bottom: 80px;
+  color: #1e1e1e;
+
+  .contacts {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 42px;
+
+    &-header {
+      font-size: 56px;
+    }
+
+    &-list {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+
+      .contactContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        border-radius: 16px;
+        padding: 32px;
+        gap: 40px;
+        border: 1px solid #52525a;
+        min-width: 280px;
+
+        .icon-container {
+          width: 40px;
+          height: 40px;
+          border-radius: 8px;
+          background-color: #df072e;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .text-container {
+          display: flex;
+          flex-direction: column;
+          gap: 19px;
+
+          .contacts-headerContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 7.09px;
+
+            .header {
+              font-weight: 600;
+              font-size: 21px;
+              line-height: 33.6px;
+              letter-spacing: -0.5px;
+            }
+
+            .subtitle {
+              font-size: 16px;
+              line-height: 27.2px;
+              color: #232f3a;
+              white-space: nowrap;
+            }
+          }
+
+          .contact {
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 27.2px;
+            letter-spacing: -0.5px;
+          }
+        }
+      }
+    }
+  }
+
+  .maps {
+    width: 1280px;
+    height: 550px;
+    border: 0;
+  }
+
+  @media (max-width: 1440px) {
+    width: 100%;
+
+    .contacts {
+        &-header {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 700;
+        }
+    }
+
+    .maps {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .maps {
+      height: 358px;
+    }
+  }
+}

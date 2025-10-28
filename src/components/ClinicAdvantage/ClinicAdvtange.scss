@@ -1,0 +1,83 @@
+.ClinicAdvantage_container {
+  display: flex;
+  width: 1280px;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+
+  &--inverse {
+    flex-direction: row-reverse;
+  }
+
+  .ClinicAdvantage_text-container {
+    display: flex;
+    flex-direction: column;
+    width: 537px;
+    gap: 16px;
+    height: min-content;
+
+    .ClinicAdvantage_title {
+      font-weight: 600;
+      font-size: 32px;
+      letter-spacing: -1px;
+      vertical-align: middle;
+      color: #1e1e1e;
+    }
+
+    .ClinicAdvantage_details {
+      width: 537px;
+      height: 90px;
+      font-size: 20px;
+      line-height: 150%;
+      letter-spacing: -1px;
+      vertical-align: middle;
+      color: #666666;
+    }
+  }
+
+  .ClinicAdvantage_img {
+    width: 628px;
+    height: 350px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 1440px) {
+    flex-direction: column-reverse;
+    width: 308px;
+    min-width: 308px;
+    gap: 16px;
+    background-color: #fafafa;
+    padding-bottom: 16px;
+    justify-content: start;;
+
+    .ClinicAdvantage_text-container {
+      gap: 16px;
+      width: 100%;
+      padding: 0 25px;
+      height: 100%;
+      justify-content: space-between;
+
+      .ClinicAdvantage_title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+        width: 100%;
+      }
+
+      .ClinicAdvantage_details {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        width: 100%;
+        height: min-content;
+        height: 50%;
+      }
+    }
+
+    .ClinicAdvantage_img {
+      width: 100%;
+      height: 164px;
+      min-height: 164px;
+    }
+  }
+}

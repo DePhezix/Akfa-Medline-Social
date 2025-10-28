@@ -1,0 +1,212 @@
+.WaitingListContainer {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(6px);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-out;
+
+  &--hidden {
+    display: none;
+  }
+
+  .WaitingList {
+    display: flex;
+    flex-direction: column;
+    width: 758px;
+    background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    padding: 40px;
+    gap: 36px;
+    color: #1e1e1e;
+    height: min-content;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: translateY(10px);
+    animation: slideUp 0.35s ease forwards;
+
+    &--phase2 {
+      align-items: center;
+    }
+
+    &-headerAndCloseContainer {
+      display: flex;
+      width: 100%;
+      gap: 48px;
+      align-items: flex-start;
+      justify-content: end;
+      .WaitingList-headerContainer {
+        width: 100%;
+        .header {
+          font-size: 40px;
+        }
+      }
+
+      .close-button {
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.25s ease;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    &-details {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .WaitingList-invitation,
+      .WaitilingList-ultimatum {
+        font-weight: 700;
+        font-size: 20px;
+      }
+
+      .WaitlingList-building {
+        font-size: 16px;
+        line-height: 150%;
+        color: #737474;
+      }
+    }
+
+    &-form {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      gap: 24px;
+
+      .languageButtonContainer {
+        width: min-content;
+      }
+
+      .input-container {
+        display: flex;
+        width: 100%;
+        gap: 24px;
+      }
+
+      .input-container2 {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 13px;
+      }
+
+      input,
+      select {
+        transition: border 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+          border-color: #0057ff;
+          box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.15);
+          outline: none;
+        }
+      }
+    }
+
+    .textContainer {
+      display: flex;
+      height: 126px;
+      gap: 12px;
+      flex-direction: column;
+      color: #1e1e1f;
+      text-align: center;
+
+      .thanks {
+        font-family: "Mediator Serif Web Narrow", serif;
+        font-size: 42px;
+        font-weight: 600;
+      }
+
+      .consent {
+        font-size: 16px;
+        line-height: 150%;
+      }
+    }
+
+    .buttonsContainer {
+      display: flex;
+      width: 327px;
+      gap: 24px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    background: white;
+    .WaitingList {
+      height: min-content;
+      margin: 0;
+      padding: 40px 20px;
+      &-headerAndCloseContainer {
+        .WaitingList-headerContainer {
+          .header {
+            font-size: 32px;
+            font-weight: 600;
+          }
+        }
+      }
+      &-form {
+        .input-container {
+          flex-direction: column;
+        }
+      }
+      .languageButtonContainer {
+        width: 100%;
+      }
+    }
+  }
+  @media (max-width: 390px) {
+    background: white;
+    .WaitingList--phase2 {
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      gap: 64px;
+      .textContainer {
+        height: min-content;
+        gap: 64px;
+        .thanks {
+          font-size: 32px;
+          font-weight: 600;
+        }
+        .consent {
+          color: #737474;
+        }
+      }
+      .buttonsContainer {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+

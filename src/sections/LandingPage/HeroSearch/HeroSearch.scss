@@ -1,0 +1,128 @@
+.HeroSearchContainer {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(6px);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-out;
+
+  .ContentContainer {
+    display: flex;
+    flex-direction: column;
+    width: 758px;
+    background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    color: #1e1e1e;
+    height: min-content;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: translateY(10px);
+    animation: slideUp 0.35s ease forwards;
+
+    .SearchContainer {
+      display: flex;
+      position: relative;
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      width: 16px; 
+        height: 16px;
+        pointer-events: none; 
+      }
+
+      .search-input {
+        padding: 12px 40px;
+        width: 100%;
+        height: 51.2px;
+        font-size: 100%;
+        border: 0;
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .close-button {
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.25s ease;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+          transform: translateY(-50%) rotate(90deg);
+        }
+      }
+    }
+
+    .VacanciesContainer {
+      .title {
+        color: rgb(75, 85, 99);
+        background-color: rgb(243, 244, 246);
+        padding: 8px 16px;
+      }
+      .Vacancies {
+        overflow-y: auto;
+        height: 70vh;
+        max-height: 582.4px;
+        .VacancyContainer {
+          display: block;
+          padding: 12px 16px;
+          border-bottom: 1px solid rgb(229, 231, 235);
+          height: min-content;
+          text-decoration: none;
+
+          &:hover {
+            background: rgb(249, 250, 251);
+          }
+
+          .vacancyTitle {
+            font-weight: 500;
+            color: rgb(17, 24, 39);
+            line-height: 24px;
+          }
+
+          .vacancyCategory {
+            color: rgb(107, 114, 128);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            margin-top: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

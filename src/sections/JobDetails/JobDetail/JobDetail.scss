@@ -1,0 +1,25 @@
+.JobDetailContainer {
+  width: 844px;
+  border-radius: 16px;
+  padding: 16px;
+  background-color: #fafafa;
+  color: #374151;
+  font-size: 16px;
+
+  p {
+    line-height: 1.75;
+    margin-bottom: 16px;
+
+    strong {
+      font-size: 20px;
+    }
+  }
+  strong {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  @media (max-width: 1440px) {
+    width: 100%;
+  }
+}
