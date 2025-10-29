@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Pagination.scss";
-import DownArrow from "/svgs/downArrow.svg";
+import DownArrow from "../../assets//svgs/downArrow.svg";
 
 function Pagination({ children, itemsPerPage = 5, className = "" }) {
   const [currentPage, setCurrentPage] = useState(1);

@@ -1,10 +1,10 @@
 import "./JoinUs.scss";
 import Card from "../../../components/Card/Card";
-import Star from "/svgs/star.svg";
-import Circles from "/svgs/2_circles.svg";
-import Community from "/svgs/community.svg";
-import RightArrow from "/svgs/right-white-arrow.svg";
-import bckgrndImg from "/images/doctor_holding_stethoscope.jpg";
+import Star from "../../../assets/svgs/star.svg";
+import Circles from "../../../assets/svgs/2_circles.svg";
+import Community from "../../../assets/svgs/community.svg";
+import RightArrow from "../../../assets/svgs/right-white-arrow.svg";
+import bckgrndImg from "../../../assets/images/doctor_holding_stethoscope.jpg";
 import Button from "../../../components/Button/Button";
 import { HashLink } from 'react-router-hash-link'
 
@@ -43,7 +43,7 @@ function JoinUsSection() {
           </div>
           <HashLink
             smooth
-            to="/#vacancies"
+            to="/Akfa-Medline-Social/#vacancies"
             className="button-container"
           >
             <Button

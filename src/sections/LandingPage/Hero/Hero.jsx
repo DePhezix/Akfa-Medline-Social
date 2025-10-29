@@ -1,8 +1,8 @@
 import "./Hero.scss";
 import { useState, useEffect, useContext } from "react";
-import HeroImage from "/svgs/hero.svg";
-import SearchIcon from "/svgs/search-icon.svg";
-import RightArrow from "/svgs/right-white-arrow.svg";
+import HeroImage from "../../../assets/svgs/hero.svg";
+import SearchIcon from "../../../assets/svgs/search-icon.svg";
+import RightArrow from "../../../assets/svgs/right-white-arrow.svg";
 import Button from "../../../components/Button/Button";
 import axios from "axios";
 import { LoadingContext } from "../../../contexts/LoadingContext";
@@ -70,7 +70,7 @@ function Hero() {
               </div>
               <HashLink
                 smooth
-                to="/#vacancies"
+                to="/Akfa-Medline-Social/#vacancies"
                 className="hash-link"
               >
                 <Button text="Подать заявку" imgSrc={RightArrow} />

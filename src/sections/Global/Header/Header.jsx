@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import "./Header.scss";
-import Logo from "/svgs/header_logo.svg";
-import RightArrow from "/svgs/right-white-arrow.svg";
-import DownArrow from "/svgs/downArrow.svg";
+import Logo from "../../../assets/svgs/header_logo.svg";
+import RightArrow from "../../../assets/svgs/right-white-arrow.svg";
+import DownArrow from "../../../assets/svgs/downArrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { Link } from "react-router-dom";
 import { HamburgerContext } from "../../../contexts/HamburgerContext";
@@ -12,12 +12,6 @@ import Button from "../../../components/Button/Button";
 function Header() {
   const { isHamburgerOpen, setIsHamburgerOpen } = useContext(HamburgerContext);
   const { setIsOpen } = useContext(WaitingListContext);
-  const NavLinks = [
-    {
-      name: "Связаться с нами",
-      linkTo: "/#contacts",
-    },
-  ];
 
   const toggleMenu = () => setIsHamburgerOpen((prev) => !prev);
 
@@ -32,16 +26,12 @@ function Header() {
 
   return (
     <div className="header-container">
-      <Link to="/" className="header-container_logo">
+      <Link to="/Akfa-Medline-Social/" className="header-container_logo">
         <img src={Logo} alt="Logo" />
       </Link>
 
       <div className="header-container_text">
-        <HashLink
-          smooth
-          to="/#contacts"
-          className="navlink"
-        >
+        <HashLink smooth to="/Akfa-Medline-Social/#contacts" className="navlink">
           Связаться с нами
         </HashLink>
         <div className="header-container_language-container">
@@ -69,7 +59,7 @@ function Header() {
           <div className="mobile_nav">
             <HashLink
               smooth
-              to="/#benefits"
+              to="/Akfa-Medline-Social/#benefits"
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -77,7 +67,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to="/#vacancies"
+              to="/Akfa-Medline-Social/#vacancies"
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -85,7 +75,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to="/#contacts"
+              to="/Akfa-Medline-Social/#contacts"
               className="mobile_link"
               onClick={handleNavClick}
             >

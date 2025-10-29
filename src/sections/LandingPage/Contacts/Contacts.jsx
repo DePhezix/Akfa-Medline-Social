@@ -1,22 +1,26 @@
 import './Contacts.scss'
+import PhoneSVG from '../../../assets/svgs/phone.svg';
+import MailSVG from '../../../assets/svgs/mail.svg';
+import LocationSVG from '../../../assets/svgs/location.svg'
+
 
 
 function Contacts() {
   const ContactsList = [
     {
-      imgSrc: "/svgs/phone.svg",
+      imgSrc: PhoneSVG,
       title: "Позвоните нам",
       text1: "Пн-Пт с 9:00 до 18:00.",
       text2: "+998 77 403-30-03",
     },
     {
-      imgSrc: "/svgs/mail.svg",
+      imgSrc: MailSVG,
       title: "Напишите нам",
       text1: "Круглосуточно, каждый день",
       text2: "hr.pm@akfamedline.uz",
     },
     {
-      imgSrc: "/svgs/location.svg",
+      imgSrc: LocationSVG,
       title: "Мы рады видеть вас здесь",
       text1: "",
       text2:

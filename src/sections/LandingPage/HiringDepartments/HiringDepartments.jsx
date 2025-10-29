@@ -1,5 +1,5 @@
 import "./HiringDepartments.scss";
-import DownArrow from "/svgs/downArrow.svg";
+import DownArrow from "../../../assets/svgs/downArrow.svg";
 import { useState } from 'react'
 
 function HiringDepartments() {

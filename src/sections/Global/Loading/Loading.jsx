@@ -1,7 +1,7 @@
 import './Loading.scss'
 import { LoadingContext } from '../../../contexts/LoadingContext'
 import { useContext } from 'react'
-import LoadingImage from '/images/loading.png'
+import LoadingImage from "../../../assets/images/loading.png";
 
 function Loading() {
     const { isLoading } = useContext(LoadingContext)

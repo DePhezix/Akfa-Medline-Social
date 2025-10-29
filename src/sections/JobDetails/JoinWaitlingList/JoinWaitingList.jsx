@@ -1,10 +1,10 @@
 import "./JoinWaitingList.scss";
 import { useState, useContext } from "react";
-import X from "/svgs/x.svg";
+import X from "../../../assets/svgs/x.svg";
 import Input from "../../../components/Input/Input";
-import DownArrow from "/svgs/downArrow.svg";
+import DownArrow from "../../../assets/svgs/downArrow.svg";
 import Button from "../../../components/Button/Button";
-import Plus from "/svgs/plus.svg";
+import Plus from "../../../assets/svgs/plus.svg";
 import { WaitingListContext } from "../../../contexts/JoinWaitingListContext";
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import axios from "axios";

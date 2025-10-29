@@ -31,9 +31,9 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/Akfa-Medline-Social/" element={<LandingPage />} />
         <Route
-          path="/jobs/:jobid"
+          path="/Akfa-Medline-Social/jobs/:jobid"
           element={<JobDetails />}
         />
       </Routes>

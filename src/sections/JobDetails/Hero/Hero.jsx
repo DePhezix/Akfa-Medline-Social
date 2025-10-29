@@ -1,5 +1,5 @@
 import "./Hero.scss";
-import SurgeryImage from "/images/surgery.jpg";
+import SurgeryImage from "../../../assets/images/surgery.jpg";
 
 function Hero({ imgSrc = SurgeryImage, Heading, SubHeading }) {
   return (

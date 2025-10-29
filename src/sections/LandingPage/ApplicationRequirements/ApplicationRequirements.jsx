@@ -1,6 +1,6 @@
 import "./ApplicationRequirements.scss";
 import Button from "../../../components/Button/Button";
-import RightArrow from "/svgs/right-white-arrow.svg";
+import RightArrow from "../../../assets/svgs/right-white-arrow.svg";
 import { HashLink } from 'react-router-hash-link'
 
 function ApplicationRequirements() {
@@ -26,7 +26,7 @@ function ApplicationRequirements() {
         </div>
         <HashLink
           smooth
-          to="/#vacancies"
+          to="/Akfa-Medline-Social/#vacancies"
           className="button-container"
         >
           <Button text="Подать заявку" imgSrc={RightArrow} variant="black" />
