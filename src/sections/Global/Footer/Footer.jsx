@@ -1,4 +1,4 @@
-import "./footer.scss";
+import "./Footer.scss";
 import TelegramLogo from "/svgs/footer_telegram-logo.svg";
 import FacebookLogo from "/svgs/footer_facebook-logo.svg";
 import LinkedinLogo from "/svgs/footer_linkedin-logo.svg";
