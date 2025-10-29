@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import "./Header.scss";
-import Logo from "/Akfa-Medline-Social/svgs/header_logo.svg";
-import RightArrow from "/Akfa-Medline-Social/svgs/right-white-arrow.svg";
-import DownArrow from "/Akfa-Medline-Social/svgs/downArrow.svg";
+import Logo from "/svgs/header_logo.svg";
+import RightArrow from "/svgs/right-white-arrow.svg";
+import DownArrow from "/svgs/downArrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { Link } from "react-router-dom";
 import { HamburgerContext } from "../../../contexts/HamburgerContext";
@@ -32,14 +32,14 @@ function Header() {
 
   return (
     <div className="header-container">
-      <Link to="/Akfa-Medline-Social" className="header-container_logo">
+      <Link to="/" className="header-container_logo">
         <img src={Logo} alt="Logo" />
       </Link>
 
       <div className="header-container_text">
         <HashLink
           smooth
-          to="/Akfa-Medline-Social/#contacts"
+          to="/#contacts"
           className="navlink"
         >
           Связаться с нами
@@ -69,7 +69,7 @@ function Header() {
           <div className="mobile_nav">
             <HashLink
               smooth
-              to="/Akfa-Medline-Social/#benefits"
+              to="/#benefits"
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -77,7 +77,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to="/Akfa-Medline-Social/#vacancies"
+              to="/#vacancies"
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -85,7 +85,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to="/Akfa-Medline-Social/#contacts"
+              to="/#contacts"
               className="mobile_link"
               onClick={handleNavClick}
             >

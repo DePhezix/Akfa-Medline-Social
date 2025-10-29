@@ -4,8 +4,8 @@ import { LandingHeroSearchContext } from "../../../contexts/LandingHeroSearchCon
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import CloseImg from "/Akfa-Medline-Social/svgs/x.svg";
-import SearchImg from "/Akfa-Medline-Social/svgs/search-icon.svg";
+import CloseImg from "/svgs/x.svg";
+import SearchImg from "/svgs/search-icon.svg";
 
 function HeroSearch() {
   const { setIsSearchOpen } = useContext(LandingHeroSearchContext);
@@ -101,7 +101,7 @@ function HeroSearch() {
             {filteredVacancies.length > 0 &&
               filteredVacancies.map((vacancy) => (
                 <Link
-                  to={`/Akfa-Medline-Social/jobs/${vacancy.id}`}
+                  to={`/jobs/${vacancy.id}`}
                   className="VacancyContainer"
                   key={vacancy.id}
                   onClick={handleClose}

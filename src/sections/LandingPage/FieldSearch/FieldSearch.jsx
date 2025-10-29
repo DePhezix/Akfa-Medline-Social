@@ -1,7 +1,7 @@
 import "./FieldSearch.scss";
 import { useState, useEffect, useContext } from "react";
 import JobApplicationCard from "../../../components/JobApplicationCard/JobApplicationCard";
-import Notice from "/Akfa-Medline-Social/svgs/notice.svg";
+import Notice from "/svgs/notice.svg";
 import axios from "axios";
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import Pagination from "../../../components/Pagination/Pagination";

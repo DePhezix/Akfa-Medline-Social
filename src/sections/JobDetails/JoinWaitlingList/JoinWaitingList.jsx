@@ -1,10 +1,10 @@
 import "./JoinWaitingList.scss";
 import { useState, useContext } from "react";
-import X from "/Akfa-Medline-Social/svgs/x.svg";
+import X from "/svgs/x.svg";
 import Input from "../../../components/Input/Input";
-import DownArrow from "/Akfa-Medline-Social/svgs/downArrow.svg";
+import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../../components/Button/Button";
-import Plus from "/Akfa-Medline-Social/svgs/plus.svg";
+import Plus from "/svgs/plus.svg";
 import { WaitingListContext } from "../../../contexts/JoinWaitingListContext";
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import axios from "axios";
