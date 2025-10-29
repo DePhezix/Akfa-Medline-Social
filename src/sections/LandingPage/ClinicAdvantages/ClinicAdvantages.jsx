@@ -1,52 +1,42 @@
 import "./ClinicAdvantages.scss";
 import ClinicAdvantage from "../../../components/ClinicAdvantage/ClinicAdvantage";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 
 function ClinicAdvantages() {
-  var sliderSettings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  }
-
   const data = [
     {
       title: "Обучение за счёт клиники",
       details:
         "Поддержка повышения квалификации для врачей и медицинских сестёр без финансовой нагрузки для работника.",
-      imgSrc: "/images/ClinicalAdvantageImage1.jpg",
+      imgSrc: "/Akfa-Medline-Social/images/ClinicalAdvantageImage1.jpg",
       inverse: false,
     },
     {
       title: "Участие в международных конференциях",
       details:
         "Мы открываем доступ к мировым медицинским событиям. Общение с лидерами индустрии и обмен опытом обеспечен.",
-      imgSrc: "/images/ClinicalAdvantageImage2.jpg",
+      imgSrc: "/Akfa-Medline-Social/images/ClinicalAdvantageImage2.jpg",
       inverse: true,
     },
     {
       title: "Совместные проекты с ведущими организациями",
       details:
         "Сотрудничество с Akfa Medline, Central Asian University и другими лидерами индустрии. Работа в команде с передовыми специалистами и учёными.",
-      imgSrc: "/images/ClinicalAdvantageImage3.jpg",
+      imgSrc: "/Akfa-Medline-Social/images/ClinicalAdvantageImage3.jpg",
       inverse: false,
     },
     {
       title: "Ежегодный бесплатный Check-up",
       details:
         "Полный медицинский осмотр для наших врачей и медсестёр – мы заботимся о вашем здоровье.",
-      imgSrc: "/images/ClinicalAdvantageImage4.jpg",
+      imgSrc: "/Akfa-Medline-Social/images/ClinicalAdvantageImage4.jpg",
       inverse: true,
     },
     {
       title: "Специальные медицинские услуги для семей и близких",
       details:
         "Пакеты медуслуг для ваших близких. Поддержка и забота для всей семьи.",
-      imgSrc: "/images/ClinicalAdvantageImage5.png",
+      imgSrc: "/Akfa-Medline-Social/images/ClinicalAdvantageImage5.png",
       inverse: false,
     },
   ];

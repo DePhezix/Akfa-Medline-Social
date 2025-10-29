@@ -4,19 +4,19 @@ import './Contacts.scss'
 function Contacts() {
   const ContactsList = [
     {
-      imgSrc: "/svgs/phone.svg",
+      imgSrc: "/Akfa-Medline-Social/svgs/phone.svg",
       title: "Позвоните нам",
       text1: "Пн-Пт с 9:00 до 18:00.",
       text2: "+998 77 403-30-03",
     },
     {
-      imgSrc: "/svgs/mail.svg",
+      imgSrc: "/Akfa-Medline-Social/svgs/mail.svg",
       title: "Напишите нам",
       text1: "Круглосуточно, каждый день",
       text2: "hr.pm@akfamedline.uz",
     },
     {
-      imgSrc: "/svgs/location.svg",
+      imgSrc: "/Akfa-Medline-Social/svgs/location.svg",
       title: "Мы рады видеть вас здесь",
       text1: "",
       text2:

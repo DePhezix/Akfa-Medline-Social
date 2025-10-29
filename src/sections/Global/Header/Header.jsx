@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import "./Header.scss";
-import Logo from "/svgs/header_logo.svg";
-import RightArrow from "/svgs/right-white-arrow.svg";
-import DownArrow from "/svgs/downArrow.svg";
+import Logo from "/Akfa-Medline-Social/svgs/header_logo.svg";
+import RightArrow from "/Akfa-Medline-Social/svgs/right-white-arrow.svg";
+import DownArrow from "/Akfa-Medline-Social/svgs/downArrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { Link } from "react-router-dom";
 import { HamburgerContext } from "../../../contexts/HamburgerContext";
@@ -32,12 +32,16 @@ function Header() {
 
   return (
     <div className="header-container">
-      <Link to="" className="header-container_logo">
+      <Link to="/Akfa-Medline-Social" className="header-container_logo">
         <img src={Logo} alt="Logo" />
       </Link>
 
       <div className="header-container_text">
-        <HashLink smooth to="/#contacts" className="navlink">
+        <HashLink
+          smooth
+          to="/Akfa-Medline-Social/#contacts"
+          className="navlink"
+        >
           Связаться с нами
         </HashLink>
         <div className="header-container_language-container">
@@ -65,7 +69,7 @@ function Header() {
           <div className="mobile_nav">
             <HashLink
               smooth
-              to="/#benefits"
+              to="/Akfa-Medline-Social/#benefits"
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -73,7 +77,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to="/#vacancies"
+              to="/Akfa-Medline-Social/#vacancies"
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -81,7 +85,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to="/#contacts"
+              to="/Akfa-Medline-Social/#contacts"
               className="mobile_link"
               onClick={handleNavClick}
             >

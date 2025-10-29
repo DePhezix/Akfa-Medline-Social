@@ -1,10 +1,10 @@
 import "./JoinUs.scss";
 import Card from "../../../components/Card/Card";
-import Star from "/svgs/star.svg";
-import Circles from "/svgs/2_circles.svg";
-import Community from "/svgs/community.svg";
-import RightArrow from "/svgs/right-white-arrow.svg";
-import bckgrndImg from "/images/doctor_holding_stethoscope.jpg";
+import Star from "/Akfa-Medline-Social/svgs/star.svg";
+import Circles from "/Akfa-Medline-Social/svgs/2_circles.svg";
+import Community from "/Akfa-Medline-Social/svgs/community.svg";
+import RightArrow from "/Akfa-Medline-Social/svgs/right-white-arrow.svg";
+import bckgrndImg from "/Akfa-Medline-Social/images/doctor_holding_stethoscope.jpg";
 import Button from "../../../components/Button/Button";
 import { HashLink } from 'react-router-hash-link'
 
@@ -41,7 +41,11 @@ function JoinUsSection() {
               набора.
             </div>
           </div>
-          <HashLink smooth to='/#vacancies' className="button-container">
+          <HashLink
+            smooth
+            to="/Akfa-Medline-Social/#vacancies"
+            className="button-container"
+          >
             <Button
               text="Подать заявку"
               imgSrc={RightArrow}

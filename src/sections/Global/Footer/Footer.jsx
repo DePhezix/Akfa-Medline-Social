@@ -1,8 +1,8 @@
 import "./Footer.scss";
-import TelegramLogo from "/svgs/footer_telegram-logo.svg";
-import FacebookLogo from "/svgs/footer_facebook-logo.svg";
-import LinkedinLogo from "/svgs/footer_linkedin-logo.svg";
-import FooterLogo from "/svgs/footer_logo.svg";
+import TelegramLogo from "/Akfa-Medline-Social/svgs/footer_telegram-logo.svg";
+import FacebookLogo from "/Akfa-Medline-Social/svgs/footer_facebook-logo.svg";
+import LinkedinLogo from "/Akfa-Medline-Social/svgs/footer_linkedin-logo.svg";
+import FooterLogo from "/Akfa-Medline-Social/svgs/footer_logo.svg";
 
 function Footer() {
   return (

@@ -7,14 +7,13 @@ import { Routes, Route } from "react-router";
 import Header from "./sections/Global/Header/Header";
 import Footer from "./sections/Global/Footer/Footer";
 import LandingPage from "./pages/Landing";
-import JobDetails from './pages/JobDetails/JobDetails'
-import Loading from './sections/Global/Loading/Loading'
+import JobDetails from "./pages/JobDetails/JobDetails";
+import Loading from "./sections/Global/Loading/Loading";
 
 function App() {
   const { isOpen } = useContext(WaitingListContext);
   const { isHamburgerOpen } = useContext(HamburgerContext);
   const { isSearchOpen } = useContext(LandingHeroSearchContext);
-
 
   useEffect(() => {
     if (isOpen || isHamburgerOpen | isSearchOpen) {
@@ -32,8 +31,11 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path='/jobs/:jobid' element={<JobDetails />} />
+        <Route path="/Akfa-Medline-Social" element={<LandingPage />} />
+        <Route
+          path="/Akfa-Medline-Social/jobs/:jobid"
+          element={<JobDetails />}
+        />
       </Routes>
       <Loading />
       <Footer />
