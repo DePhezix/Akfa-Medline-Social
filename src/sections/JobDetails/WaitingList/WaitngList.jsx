@@ -1,7 +1,7 @@
 import './WaitingList.scss'
 import { useContext } from 'react';
 import Button from '../../../components/Button/Button';
-import { WaitingListContext } from '../../../Contexts/JoinWaitingListContext';
+import { WaitingListContext } from '../../../contexts/JoinWaitingListContext';
 
 function WaitingList ({applicantNumber, className}) {
     const { setIsOpen } = useContext(WaitingListContext);

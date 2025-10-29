@@ -5,7 +5,7 @@ import Input from "../../../components/Input/Input";
 import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../../components/Button/Button";
 import Plus from "/svgs/plus.svg";
-import { WaitingListContext } from "../../../Contexts/JoinWaitingListContext";
+import { WaitingListContext } from "../../../contexts/JoinWaitingListContext";
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";

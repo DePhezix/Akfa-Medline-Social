@@ -1,7 +1,7 @@
 import "./App.css";
 import { useContext, useEffect } from "react";
-import { WaitingListContext } from "./Contexts/JoinWaitingListContext";
-import { HamburgerContext } from "./Contexts/HamburgerContext";
+import { WaitingListContext } from "./contexts/JoinWaitingListContext";
+import { HamburgerContext } from "./contexts/HamburgerContext";
 import { LandingHeroSearchContext } from "./contexts/LandingHeroSearchContext";
 import { Routes, Route } from "react-router";
 import Header from "./sections/Global/Header/Header";

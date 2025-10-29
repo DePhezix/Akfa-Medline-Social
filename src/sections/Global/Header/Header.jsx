@@ -6,7 +6,7 @@ import DownArrow from "/svgs/downArrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { Link } from "react-router-dom";
 import { HamburgerContext } from "../../../contexts/HamburgerContext";
-import { WaitingListContext } from "../../../Contexts/JoinWaitingListContext";
+import { WaitingListContext } from "../../../contexts/JoinWaitingListContext";
 import Button from "../../../components/Button/Button";
 
 function Header() {
