@@ -1,5 +1,8 @@
 import "./Input.scss";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import CalenderSVG from "/svgs/calender.svg";
+import { IMaskInput } from "react-imask";
+
 
 function Input({
   label,
@@ -12,14 +15,18 @@ function Input({
   inputOptions,
   doubleInputPlaceholder,
   doubleInputDisabled,
+  doubleInputValue,
+  doubleInputOnChange,
   fileNote,
   fileType,
   fileSize,
   value: externalValue,
   onChange,
+  errorMessage,
 }) {
   const [localValue, setLocalValue] = useState("");
   const value = externalValue !== undefined ? externalValue : localValue;
+  const dateRef = useRef(null);
 
   const handleValueChange = (e) => {
     const val = e.target.value;
@@ -71,7 +78,7 @@ function Input({
   };
 
   return (
-    <div className="Input">
+    <div className={`Input ${errorMessage ? "Input--invalid" : ""}`}>
       {label && (
         <label className="Input-header">
           {label} {required && <span className="star">*</span>}
@@ -85,21 +92,55 @@ function Input({
             required={required}
             placeholder={doubleInputPlaceholder}
             disabled={doubleInputDisabled || inputDisabled}
-            onChange={handleValueChange}
+            value={doubleInputValue}
+            onChange={(e) => {
+              if (doubleInputOnChange) doubleInputOnChange(e);
+              else handleValueChange(e);
+            }}
           />
         )}
 
         {inputType === "date" ? (
-          <input
-            type="text"
-            inputMode="numeric"
-            className="Input-input"
-            required={required}
-            placeholder={placeholder || "ДД/ММ/ГГГГ"}
-            disabled={inputDisabled}
+          <div className="dateWrapper">
+            <input
+              type="text"
+              inputMode="numeric"
+              className="Input-input"
+              required={required}
+              placeholder={placeholder || "ДД/ММ/ГГГГ"}
+              disabled={inputDisabled}
+              value={value}
+              onChange={handleDateChange}
+              maxLength={10}
+            />
+            <img
+              src={CalenderSVG}
+              alt="calendar"
+              onClick={() => dateRef.current?.showPicker?.()}
+              className="calender-icon"
+            />
+            <input
+              ref={dateRef}
+              type="date"
+              className="hidden-dateInput"
+              onChange={(e) => {
+                const isoDate = e.target.value;
+                if (!isoDate) return;
+                const [year, month, day] = isoDate.split("-");
+                const formatted = `${day}/${month}/${year}`;
+                if (onChange) onChange({ target: { value: formatted } });
+                else setLocalValue(formatted);
+              }}
+            />
+          </div>
+        ) : inputType === "tel" ? (
+          <IMaskInput
+            mask="+{998} (00) 000-00-00"
+            type="tel"
             value={value}
-            onChange={handleDateChange}
-            maxLength={10}
+            onAccept={(val) => onChange({ target: { value: val } })}
+            placeholder={placeholder}
+            className="Input-input"
           />
         ) : inputType === "dropdown" ? (
           <select
@@ -160,6 +201,7 @@ function Input({
           />
         )}
       </div>
+      {errorMessage && <div className="Input-error">{errorMessage}</div>}
     </div>
   );
 }

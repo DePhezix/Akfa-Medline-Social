@@ -19,7 +19,7 @@
       color: #1e1e1e;
 
       .text {
-        width: 349px;
+        width: 100%;
       }
     }
   }
@@ -50,7 +50,7 @@
     }
 
     .button-container {
-      width: 183px;
+      width: max-content;
       text-decoration: none;
     }
   }

@@ -35,10 +35,20 @@
     }
   }
 
-  .ClinicAdvantage_img {
+  .ClinicAdvantage_img-container {
     width: 628px;
     height: 350px;
     border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ClinicAdvantage_img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   @media (max-width: 1440px) {
@@ -48,7 +58,9 @@
     gap: 16px;
     background-color: #fafafa;
     padding-bottom: 16px;
-    justify-content: start;;
+    justify-content: start;
+    border-radius: 10px;
+
 
     .ClinicAdvantage_text-container {
       gap: 16px;
@@ -74,10 +86,13 @@
       }
     }
 
-    .ClinicAdvantage_img {
+    .ClinicAdvantage_img-container {
       width: 100%;
       height: 164px;
       min-height: 164px;
+      .ClinicAdvantage_img {
+        width: 100%;
+      }
     }
   }
 }

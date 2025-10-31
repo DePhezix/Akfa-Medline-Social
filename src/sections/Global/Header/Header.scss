@@ -1,10 +1,12 @@
 .header-container {
   padding: 16px 80px;
-  width: 1440px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15.85px;
+  position: fixed;
+  background-color: #fff;
+  z-index: 100;
 
   &_logo {
     height: 50.15px;
@@ -18,7 +20,7 @@
 
   @media (max-width: 1440px) {
     width: 100%;
-    padding: 32px 0 16px;
+    padding: 32px 16px 16px;
   }
 
   &_text {
@@ -47,18 +49,26 @@
       width: 120px;
 
       .header-container_language_background {
-        border-radius: 12px;
+        border-radius: 10px;
         background-color: #eeeeee;
-        padding: 10px;
 
         .header-container_language-container_2 {
           width: 100px;
 
-          div {
+          .header-container_language {
+            padding: 10px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
             width: 100px;
-            height: 21px;
             font-weight: 400;
             font-size: 14px;
+            background-color: transparent;
+            border: none;
+            &:focus {
+              outline: none;
+            }
           }
         }
       }
@@ -133,14 +143,37 @@
         }
       }
 
-      .mobile-language_container {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px;
-        border-radius: 4px;
-        background-color: #eeeeee;
+      .mobile-language_wrapper {
+        position: relative;
         width: min-content;
-        gap: 8px;
+        .mobile-language_container {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          display: flex;
+          align-items: center;
+          padding: 12px 16px;
+          border-radius: 4px;
+          background-color: #eeeeee;
+          width: min-content;
+          gap: 8px;
+          width: 80px;
+          height: 48px;
+          line-height: 21px;
+          font-size: 14px;
+          border: none;
+          position: relative;
+        }
+
+        .downArrow {
+          position: absolute;
+          pointer-events: none;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 20px;
+          height: 20px;
+        }
       }
     }
 
@@ -218,15 +251,22 @@
         width: min-content;
       }
     }
+    .mobile-menu {
+      top: 80px;
+      height: calc(100vh - 80px);
+      .menu {
+        .mobile-language_container {
+          font-size: 14px;
 
-    .menu {
-      .mobile-language_container {
-        font-size: 14px;
-
-        img {
-          width: 20px;
+          img {
+            width: 20px;
+          }
         }
       }
     }
   }
+}
+
+.no_underline {
+  text-decoration: none;;
 }

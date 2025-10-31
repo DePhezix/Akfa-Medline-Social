@@ -1,12 +1,13 @@
 import './JobApplicationCArd.scss'
-import RightArrow from '../../assets/svgs/right-white-arrow.svg'
-import Clock from '../../assets/svgs/clock.svg'
+import RightArrow from '/svgs/right-white-arrow.svg'
+import Clock from '/svgs/clock.svg'
 import {Link} from 'react-router'
 
-function JobApplicationCard({title, numberOfApplicants, jobID}) {
+function JobApplicationCard({title, numberOfApplicants, jobID, language}) {
+  const linkPath = language === 'ru' ? `/Akfa-Medline-Social/jobs/${jobID}` : `/Akfa-Medline-Social/jobs/${jobID}/${language}`
     return (
       <Link
-        to={`/Akfa-Medline-Social/jobs/${jobID}`}
+        to={linkPath}
         className="JobApplicationCardContainer"
       >
         <div className="JobApplicationCardContainer-title">{title}</div>

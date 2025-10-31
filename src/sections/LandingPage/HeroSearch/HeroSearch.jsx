@@ -1,15 +1,16 @@
 import "./HeroSearch.scss";
 import { useState, useContext, useEffect } from "react";
-import { LandingHeroSearchContext } from "../../../contexts/LandingHeroSearchContext";
 import { LoadingContext } from "../../../contexts/LoadingContext";
-import { Link } from "react-router-dom";
+import { PopUpContext } from "../../../contexts/PopupContext";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import CloseImg from "../../../assets/svgs/x.svg";
-import SearchImg from "../../../assets/svgs/search-icon.svg";
+import CloseImg from "/svgs/x.svg";
+import SearchImg from "/svgs/search-icon.svg";
 
-function HeroSearch() {
-  const { setIsSearchOpen } = useContext(LandingHeroSearchContext);
+function HeroSearch({ setIsSearchOpen }) {
   const { setIsLoading } = useContext(LoadingContext);
+  const { setIsPopUpOpen } = useContext(PopUpContext);
+  const { language } = useParams();
 
   const [vacancies, setVacancies] = useState([]);
   const [filteredVacancies, setFilteredVacancies] = useState([]);
@@ -18,7 +19,6 @@ function HeroSearch() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true);
         const res = await axios.get(
           "https://hr.centralasian.uz/api/social/vacancies"
         );
@@ -49,21 +49,26 @@ function HeroSearch() {
     const filtered = vacancies.filter((v) =>
       v.title.toLowerCase().includes(value)
     );
-
     setFilteredVacancies(filtered);
   };
 
   const handleClose = () => {
+    setIsPopUpOpen(false);
     setIsSearchOpen(false);
   };
 
-  const stopPropagation = (e) => {
-    e.stopPropagation();
-  };
+  const stopPropagation = (e) => e.stopPropagation();
 
   const clearSearch = () => {
     setSearchTerm("");
     setFilteredVacancies(vacancies.slice(0, 8));
+  };
+
+  const getVacancyLink = (id) => {
+    if (language && language !== "ru") {
+      return `/Akfa-Medline-Social/jobs/${id}/${language}`;
+    }
+    return `/Akfa-Medline-Social/jobs/${id}`;
   };
 
   return (
@@ -98,18 +103,17 @@ function HeroSearch() {
           </div>
 
           <div className="Vacancies">
-            {filteredVacancies.length > 0 &&
-              filteredVacancies.map((vacancy) => (
-                <Link
-                  to={`/Akfa-Medline-Social/jobs/${vacancy.id}`}
-                  className="VacancyContainer"
-                  key={vacancy.id}
-                  onClick={handleClose}
-                >
-                  <div className="vacancyTitle">{vacancy.title}</div>
-                  <div className="vacancyCategory">{vacancy.category}</div>
-                </Link>
-              ))}
+            {filteredVacancies.map((vacancy) => (
+              <Link
+                to={getVacancyLink(vacancy.id)}
+                className="VacancyContainer"
+                key={vacancy.id}
+                onClick={handleClose}
+              >
+                <div className="vacancyTitle">{vacancy.title}</div>
+                <div className="vacancyCategory">{vacancy.category}</div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

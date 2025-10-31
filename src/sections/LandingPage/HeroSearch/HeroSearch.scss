@@ -21,6 +21,8 @@
       0 0 0 1px rgba(255, 255, 255, 0.1);
     transform: translateY(10px);
     animation: slideUp 0.35s ease forwards;
+    border-radius: 10px;
+    overflow-x: hidden;
 
     .SearchContainer {
       display: flex;
@@ -31,9 +33,9 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
-      width: 16px; 
+        width: 16px;
         height: 16px;
-        pointer-events: none; 
+        pointer-events: none;
       }
 
       .search-input {

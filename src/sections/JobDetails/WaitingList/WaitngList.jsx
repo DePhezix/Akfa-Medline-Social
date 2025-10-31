@@ -1,13 +1,14 @@
 import './WaitingList.scss'
 import { useContext } from 'react';
 import Button from '../../../components/Button/Button';
-import { WaitingListContext } from '../../../contexts/JoinWaitingListContext';
+import { PopUpContext } from '../../../contexts/PopupContext';
 
-function WaitingList ({applicantNumber, className}) {
-    const { setIsOpen } = useContext(WaitingListContext);
+function WaitingList ({applicantNumber, className, setIsWaitingListOpen}) {
+    const { setIsPopUpOpen } = useContext(PopUpContext);
 
     const handleButtonClick = () => {
-        setIsOpen(true);
+        setIsWaitingListOpen(true);
+        setIsPopUpOpen(true)
     }
     
     return (

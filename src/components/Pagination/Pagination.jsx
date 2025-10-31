@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import "./Pagination.scss";
-import DownArrow from "../../assets//svgs/downArrow.svg";
+import DownArrow from "/svgs/downArrow.svg";
 
-function Pagination({ children, itemsPerPage = 5, className = "" }) {
-  const [currentPage, setCurrentPage] = useState(1);
+function Pagination({ children, itemsPerPage = 5, className = "", paginationFor = 'none' }) {
+  const [paginationRecords, setPaginationRecords] = useState({})
 
+  const currentPage = paginationRecords[paginationFor] ?  paginationRecords[paginationFor] : 1
+  
   const childArray = Array.isArray(children) ? children : [children];
   const totalPages = Math.max(1, Math.ceil(childArray.length / itemsPerPage));
 
@@ -13,12 +15,12 @@ function Pagination({ children, itemsPerPage = 5, className = "" }) {
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [children]);
+    setPaginationRecords((prev) => ({
+      ...prev,
+      [paginationFor]: page,
+    }));
+  };
 
   return (
     <div className="PaginationContainer">

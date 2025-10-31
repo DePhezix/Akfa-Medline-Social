@@ -1,11 +1,11 @@
+
+
 .LoadingContainer {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   background: white;
   justify-content: center;
   align-items: start;
-  position: fixed;
+  width: 100vw;
 
   img {
     animation: spin 5s linear infinite;
@@ -19,9 +19,5 @@
     to {
       transform: rotate(360deg);
     }
-  }
-
-  &--not-loading {
-    display: none;
   }
 }

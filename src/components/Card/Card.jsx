@@ -5,8 +5,8 @@ function Card({imgSrc, title, details}) {
         <div className="card-container">
             <img src={imgSrc} className='image' />
             <div className="details-container">
-                <div className="title">{title}</div>
-                <div className="details">{details}</div>
+                <h3 className="title">{title}</h3>
+                <p className="details">{details}</p>
             </div>
         </div>
     )

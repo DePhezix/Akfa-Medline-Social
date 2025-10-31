@@ -1,53 +1,81 @@
-.JobDetailsContainer {
-  margin: 4.15px 0 50px;
+.LoadingJobDetailsWrapper {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #df072e;
+  font-size: 20px;
+  font-weight: 600;
+  gap: 20px;
+}
+
+.JobDetailsWrapper {
+  width: 100%;
+  margin: 82.5px 0 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
+  background-color: #f3f4f4;
+  padding-bottom: 50px;
 
-  .detailsContainer {
+  .JobDetailsContent {
     display: flex;
-    gap: 24px;
-    width: 1280px;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    background-color: #f3f4f4;
 
-    .left {
+    .detailsContainer {
+      display: flex;
+      gap: 24px;
+      width: 1280px;
+
+      .left {
         display: flex;
         flex-direction: column;
         gap: 40px;
-      .WaitingList--mobile {
-        display: none;
+        .WaitingList--mobile {
+          display: none;
+        }
       }
-    }
 
-    .right {
-      width: 100%;
+      .right {
+        width: 100%;
+      }
     }
   }
 
   @media (max-width: 1440px) {
-    width: 100%;
-
-    .detailsContainer {
+    width: 100vw;
+    .JobDetailsContent {
       width: 100%;
-      .left {
+
+      .detailsContainer {
         width: 100%;
-      }
-      .right {
-        flex-basis: 50%;
+        .left {
+          width: 100%;
+        }
+        .right {
+          flex-basis: 50%;
+        }
       }
     }
   }
 
   @media (max-width: 768px) {
-    .detailsContainer {
-      .left {
-        .WaitingList--mobile {
-          display: flex;
+    .JobDetailsContent {
+      .detailsContainer {
+        .left {
+          .WaitingList--mobile {
+            display: flex;
+          }
         }
-      }
 
-      .right {
-        display: none;
+        .right {
+          display: none;
+        }
       }
     }
   }

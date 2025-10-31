@@ -2,29 +2,34 @@ import "./Overview.scss";
 
 function Overview({ title, salary, category }) {
   return (
-    <div className="OverviewContainer">
-      <div className="title">Описание позиции</div>
-      <div className="descriptionContainer">
+    <section className="OverviewContainer" aria-labelledby="overview-title">
+      <h2 id="overview-title" className="title">
+        Описание позиции
+      </h2>
+
+      <dl className="descriptionContainer">
         {title && (
           <div className="detailContainer">
-            <div className="side side--left">Должность: </div>
-            <div className="sidse side--right">{title}</div>
+            <dt className="side side--left">Должность:</dt>
+            <dd className="side side--right">{title}</dd>
           </div>
         )}
+
         {category && (
           <div className="detailContainer">
-            <div className="side side--left">Направление: </div>
-            <div className="sidse side--right">{category}</div>
+            <dt className="side side--left">Направление:</dt>
+            <dd className="side side--right">{category}</dd>
           </div>
         )}
+
         {salary && (
           <div className="detailContainer">
-            <div className="side side--left">Зарплата: </div>
-            <div className="sidse side--right">{salary} UZS</div>
+            <dt className="side side--left">Зарплата:</dt>
+            <dd className="side side--right">{salary} UZS</dd>
           </div>
         )}
-      </div>
-    </div>
+      </dl>
+    </section>
   );
 }
 

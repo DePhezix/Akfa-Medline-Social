@@ -1,8 +1,7 @@
-.JobDetailContainer {
+.JobDetailsContent {
   width: 844px;
   border-radius: 16px;
   padding: 16px;
-  background-color: #fafafa;
   color: #374151;
   font-size: 16px;
 
@@ -13,6 +12,10 @@
     strong {
       font-size: 20px;
     }
+  }
+
+  ul {
+    margin: 20px 0;
   }
   strong {
     font-weight: 600;

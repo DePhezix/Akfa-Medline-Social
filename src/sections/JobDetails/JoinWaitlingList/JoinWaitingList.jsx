@@ -1,18 +1,19 @@
 import "./JoinWaitingList.scss";
 import { useState, useContext } from "react";
-import X from "../../../assets/svgs/x.svg";
+import X from "/svgs/x.svg";
 import Input from "../../../components/Input/Input";
-import DownArrow from "../../../assets/svgs/downArrow.svg";
+import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../../components/Button/Button";
-import Plus from "../../../assets/svgs/plus.svg";
-import { WaitingListContext } from "../../../contexts/JoinWaitingListContext";
+import Plus from "/svgs/plus.svg";
+import { PopUpContext } from '../../../contexts/PopupContext';
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function JoinWaitingList() {
+function JoinWaitingList({isOpen, setIsOpen}) {
   const { jobid } = useParams();
   const [phase, setPhase] = useState(1);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -26,14 +27,81 @@ function JoinWaitingList() {
     employmentStatus: "",
     cv: "",
   });
-  const { isOpen, setIsOpen } = useContext(WaitingListContext);
+  const { setIsPopUpOpen } = useContext(PopUpContext);
   const { setIsLoading } = useContext(LoadingContext);
 
   const handleInputChange = (field) => (e) => {
+    setErrors((prev) => ({
+      ...prev,
+      [field]: null,
+    }))
     setFormData((prev) => ({
       ...prev,
       [field]: e.target.value,
     }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
+
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "Invalid email format";
+
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    else if (!/^\+998 \(\d{2}\) \d{3}-\d{2}-\d{2}$/.test(formData.phone))
+      newErrors.phone = "Invalid phone number format";
+
+    if (!formData.citizenship.trim())
+      newErrors.citizenship = "Citizenship is required";
+
+    if (!formData.dob.trim()) {
+      newErrors.dob = "Date of birth is required";
+    } else {
+      const parts = formData.dob.split("/");
+
+      const [day, month, year] = parts.map(Number);
+
+      if (
+        isNaN(day) ||
+        isNaN(month) ||
+        isNaN(year) ||
+        day < 1 ||
+        month < 1 ||
+        month > 12 ||
+        year < 1900
+      ) {
+        newErrors.dob = "Invalid date format (dd/mm/yyyy)";
+      } else {
+        const dob = new Date(year, month - 1, day);
+        const today = new Date();
+
+        if (
+          dob.getFullYear() !== year ||
+          dob.getMonth() + 1 !== month ||
+          dob.getDate() !== day
+        ) {
+          newErrors.dob = "Invalid calendar date";
+        } else if (dob > today || year < 1900) {
+          newErrors.dob = "Check Date of birth";
+        }
+      }
+    }
+
+    if (!formData.placeOfBirth.trim())
+      newErrors.placeOfBirth = "Place of birth is required";
+
+    if (!formData.educationLevel.trim())
+      newErrors.educationLevel = "Education level is required";
+
+    if (!formData.employmentStatus.trim())
+      newErrors.employmentStatus = "Employment status is required";
+
+    if (!formData.cv) newErrors.cv = "Resume is required";
+
+    return newErrors;
   };
 
   const handleLanguageChange = (index, field, value) => {
@@ -51,42 +119,102 @@ function JoinWaitingList() {
     }));
   };
 
+  const removeLanguage = () => {
+    console.log("removing");
+    if (formData.languages.length > 1) {
+      console.log("initiaiting");
+      setFormData((prev) => ({
+        ...prev,
+        languages: prev.languages.slice(0, -1),
+      }));
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      citizenship: "",
+      dob: "",
+      placeOfBirth: "",
+      educationLevel: "",
+      languages: [{ name: "", level: "" }],
+      startDate: "",
+      employmentStatus: "",
+      cv: "",
+    });
+  };
+
   const handleClose = () => {
+    resetForm();
+    setIsPopUpOpen(false)
     setIsOpen(false);
+    setPhase(1);
   };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    setPhase(2);
+    const validationErrors = validateForm();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      setPhase(2);
+    }
   };
 
-  const onFormConfirm = () => {
+  const onFormConfirm = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const postData = async () => {
-        const res = await axios.post(
-          "https://hr.centralasian.uz/api/applicants/apply",
-          {
-            vacancyID: jobid,
-            full_name: formData.fullName,
-            email: formData.email,
-            phone_number: formData.phone,
-            country_of_citizenship: formData.citizenship,
-            degree_and_field_of_study: formData.educationLevel,
-            language: JSON.stringify(
-              formData.languages.map((lang) => lang.name)
-            ),
-            total_years: "Unknown",
-            when_you_start: formData.employmentStatus,
-            resume: formData.cv,
-          }
-        );
-      };
-      postData()
+      const convertFileToBinary = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Data = reader.result.split(",")[1];
+            resolve({ $binary: base64Data });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+      let resumeData = formData.cv;
+
+      if (formData.cv instanceof File) {
+        resumeData = await convertFileToBinary(formData.cv);
+      }
+
+      await axios.post(
+        "https://hr.centralasian.uz/api/applicants/apply",
+        {
+          vacancyId: Number(jobid),
+          full_name: formData.fullName,
+          email: formData.email,
+          phone_number: formData.phone,
+          country_of_citizenship: formData.citizenship,
+          degree_and_field_of_study: formData.educationLevel,
+          language: JSON.stringify(formData.languages.map((lang) => lang.name)),
+          total_years: "Unknown",
+          when_you_start: formData.employmentStatus,
+          resume: resumeData,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log(" Submitted successfully");
     } catch (err) {
+      console.error(" Submission failed:", err);
     } finally {
       setIsLoading(false);
+      setIsPopUpOpent(false)
       setIsOpen(false);
+      setPhase(1);
+      resetForm();
     }
   };
 
@@ -97,7 +225,7 @@ function JoinWaitingList() {
 
   const StopPropogate = (e) => {
     e.stopPropagation();
-  }
+  };
 
   return (
     <div
@@ -108,7 +236,6 @@ function JoinWaitingList() {
     >
       <div
         className={`WaitingList ${phase === 2 ? "WaitingList--phase2" : ""}`}
-        style={phase === 2 ? { marginTop: "0" } : {}}
         onClick={StopPropogate}
       >
         <div className="WaitingList-headerAndCloseContainer">
@@ -125,24 +252,32 @@ function JoinWaitingList() {
           />
         </div>
 
-        {phase === 1 ? (
-          <>
-            <div className="WaitingList-details">
-              <div className="WaitingList-invitation">
-                Would you like to join us?
-              </div>
-              <div className="WaitlingList-building">
-                We are building a waiting list of candidates for a new, modern
-                clinic that will soon open its doors. If you're interested in
-                working with us, simply fill out this short form — we’ll contact
-                you as soon as the active recruitment phase begins.
-              </div>
-              <div className="WaitilingList-ultimatum">
-                Be the first one we invite for an interview!
-              </div>
+        <>
+          <div
+            className={`WaitingList-details ${
+              phase === 2 ? "WaitingList-details--hidden" : ""
+            }`}
+          >
+            <div className="WaitingList-invitation">
+              Would you like to join us?
             </div>
+            <div className="WaitlingList-building">
+              We are building a waiting list of candidates for a new, modern
+              clinic that will soon open its doors. If you're interested in
+              working with us, simply fill out this short form — we’ll contact
+              you as soon as the active recruitment phase begins.
+            </div>
+            <div className="WaitilingList-ultimatum">
+              Be the first one we invite for an interview!
+            </div>
+          </div>
 
-            <form className="WaitingList-form" onSubmit={onFormSubmit}>
+          <form className="WaitingList-form">
+            <div
+              className={`FormWrapper FormWrapper--phase1 ${
+                phase === 2 ? "FormWrapper--phase1--hidden" : ""
+              }`}
+            >
               <div className="input-container">
                 <Input
                   label="Full Name"
@@ -150,6 +285,7 @@ function JoinWaitingList() {
                   required
                   value={formData.fullName}
                   onChange={handleInputChange("fullName")}
+                  errorMessage={errors.fullName}
                 />
                 <Input
                   label="Email address"
@@ -158,17 +294,19 @@ function JoinWaitingList() {
                   required
                   value={formData.email}
                   onChange={handleInputChange("email")}
+                  errorMessage={errors.email}
                 />
               </div>
 
               <div className="input-container">
                 <Input
-                  inputType="number"
+                  inputType="tel"
                   label="Phone number"
                   placeholder="Your phone number"
                   required
                   value={formData.phone}
                   onChange={handleInputChange("phone")}
+                  errorMessage={errors.phone}
                 />
                 <Input
                   label="Country of Citizenship"
@@ -176,6 +314,7 @@ function JoinWaitingList() {
                   required
                   value={formData.citizenship}
                   onChange={handleInputChange("citizenship")}
+                  errorMessage={errors.fullName}
                 />
               </div>
 
@@ -187,6 +326,7 @@ function JoinWaitingList() {
                   required
                   value={formData.dob}
                   onChange={handleInputChange("dob")}
+                  errorMessage={errors.dob}
                 />
                 <Input
                   label="Place of Birth"
@@ -194,6 +334,7 @@ function JoinWaitingList() {
                   required
                   value={formData.placeOfBirth}
                   onChange={handleInputChange("placeOfBirth")}
+                  errorMessage={errors.placeOfBirth}
                 />
               </div>
 
@@ -218,6 +359,7 @@ function JoinWaitingList() {
                   ]}
                   value={formData.educationLevel}
                   onChange={handleInputChange("educationLevel")}
+                  errorMessage={errors.educationLevel}
                 />
               </div>
 
@@ -227,7 +369,6 @@ function JoinWaitingList() {
                     key={i}
                     label={i === 0 ? "Foreign Language Proficiency" : ""}
                     placeholder="Level"
-                    required
                     imgSrc={DownArrow}
                     imgStyles={{
                       height: "16px",
@@ -252,17 +393,24 @@ function JoinWaitingList() {
                   />
                 ))}
 
-                <div onClick={addLanguage} className="languageButtonContainer">
+                <div className="languageButtonContainer">
                   <Button
                     text="Add Language"
                     imgSrc={Plus}
                     variant="black"
                     buttonType="button"
+                    onButtonClick={addLanguage}
                     additionalStyle={{
                       height: "51px",
                       padding: "16px 18px",
                       fontWeight: "500",
                     }}
+                  />
+                  <img
+                    onClick={removeLanguage}
+                    src={X}
+                    alt="close button"
+                    className="language-remove-button"
                   />
                 </div>
               </div>
@@ -271,9 +419,9 @@ function JoinWaitingList() {
                 <Input
                   label="When can you start if offered the position?"
                   placeholder="Enter when you can start if offered the position"
-                  required
                   value={formData.startDate}
                   onChange={handleInputChange("startDate")}
+                  errorMessage={errors.startDate}
                 />
               </div>
 
@@ -300,6 +448,7 @@ function JoinWaitingList() {
                   ]}
                   value={formData.employmentStatus}
                   onChange={handleInputChange("employmentStatus")}
+                  errorMessage={errors.employmentStatus}
                 />
               </div>
 
@@ -309,7 +458,8 @@ function JoinWaitingList() {
                   placeholder="Submit your CV"
                   required
                   inputType="file"
-                  fileNote="No more than 20 mb. PDF, DOC, DOCX"
+                  fileType=".pdf"
+                  fileNote="No more than 20 mb. PDF"
                   value={formData.cv}
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -317,6 +467,7 @@ function JoinWaitingList() {
                       cv: e.target.value,
                     }))
                   }
+                  errorMessage={errors.cv}
                 />
               </div>
 
@@ -327,30 +478,33 @@ function JoinWaitingList() {
                   width: "100%",
                   marginTop: "12px",
                 }}
-                buttonType="submit"
+                onButtonClick={onFormSubmit}
               />
-            </form>
-          </>
-        ) : (
-          <>
-            <div className="textContainer">
-              <div className="thanks">Thank you!</div>
-              <div className="consent">
-                By submitting this form, I consent to the collection and
-                processing of my personal data in accordance with the
-                organization's privacy policy
+            </div>
+            <div
+              className={`FormWrapper FormWrapper--phase2  ${
+                phase === 1 ? "FormWrapper--phase2--hidden" : ""
+              }`}
+            >
+              <div className="textContainer">
+                <div className="thanks">Thank you!</div>
+                <div className="consent">
+                  By submitting this form, I consent to the collection and
+                  processing of my personal data in accordance with the
+                  organization's privacy policy
+                </div>
+              </div>
+              <div className="buttonsContainer">
+                <Button text="Back" variant="white" onButtonClick={onBack} />
+                <Button
+                  text="Confirm"
+                  variant="black2"
+                  onButtonClick={onFormConfirm}
+                />
               </div>
             </div>
-            <div className="buttonsContainer">
-              <Button text="Back" variant="white" onButtonClick={onBack} />
-              <Button
-                text="Confirm"
-                variant="black2"
-                onButtonClick={onFormConfirm}
-              />
-            </div>
-          </>
-        )}
+          </form>
+        </>
       </div>
     </div>
   );

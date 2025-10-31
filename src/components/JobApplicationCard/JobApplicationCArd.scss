@@ -14,7 +14,7 @@
     left: 0;
     height: 2px;
     width: 0;
-    background-color: #000;
+    background-color: #DF072E;
     transition: width 0.3s ease;
   }
 
@@ -81,7 +81,7 @@
   }
 
   @media (max-width: 1440px) {
-    min-width: 400px;
+    min-width: 350px;
     flex: 1;
 
     &-title {

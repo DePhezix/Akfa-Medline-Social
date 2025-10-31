@@ -1,40 +1,73 @@
 import "./Hero.scss";
 import { useState, useEffect, useContext } from "react";
-import HeroImage from "../../../assets/svgs/hero.svg";
-import SearchIcon from "../../../assets/svgs/search-icon.svg";
-import RightArrow from "../../../assets/svgs/right-white-arrow.svg";
+import HeroImage from "/svgs/hero.svg";
+import SearchIcon from "/svgs/search-icon.svg";
+import RightArrow from "/svgs/right-white-arrow.svg";
 import Button from "../../../components/Button/Button";
 import axios from "axios";
-import { LoadingContext } from "../../../contexts/LoadingContext";
-import { LandingHeroSearchContext } from "../../../contexts/LandingHeroSearchContext";
 import { HashLink } from "react-router-hash-link";
 import HeroSearch from "../HeroSearch/HeroSearch";
+import { LoadingContext } from "../../../contexts/LoadingContext";
+import { PopUpContext } from "../../../contexts/PopupContext";
+import { useParams } from "react-router-dom";
 
 function Hero() {
-  const [waitingList, setWaitingList] = useState({});
-  const { isSearchOpen, setIsSearchOpen } = useContext(
-    LandingHeroSearchContext
-  );
+  const [waitingList, setWaitingList] = useState([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { setIsPopUpOpen } = useContext(PopUpContext);
   const { setIsLoading } = useContext(LoadingContext);
+  const { language } = useParams();
+  const currentLan = language || "ru";
+
+  const text = {
+    ru: {
+      heading: (
+        <>
+          Набираем команду, <br />
+          где каждый профессионал важен
+        </>
+      ),
+      searchPlaceholder: "Поиск по вакансии",
+      buttonText: "Подать заявку",
+      subtitle: "Следите за количеством заявок",
+      subheader: "Поданные заявки на вакансии по направлениям:",
+    },
+    en: {
+      heading: (
+        <>We are recruiting a team where every professional is important</>
+      ),
+      searchPlaceholder: "Search by vacancy",
+      buttonText: "Submit an Application",
+      subtitle: "Keep track of the number of applications",
+      subheader: "Applications submitted for vacancies in the following areas:",
+    },
+  };
 
   const handleButtonClick = () => {
+    setIsPopUpOpen(true);
     setIsSearchOpen(true);
   };
 
   useEffect(() => {
     const fetchWaitListData = async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         const res = await axios.get(
           "https://hr.centralasian.uz/api/dashboard/social/v3/stats/by-schools"
         );
 
-        const updatedList = {};
-        res.data.forEach((item) => {
-          updatedList[item.name] = item.response;
+        const parsedList = res.data.map((item) => {
+          const match = item.name.match(/^(.*?)\s*\((.*?)\)/);
+          const russian = match ? match[1].trim() : item.name;
+          const english = match ? match[2].trim() : item.name;
+          return {
+            ru: russian,
+            en: english,
+            count: item.response,
+          };
         });
 
-        setWaitingList(updatedList);
+        setWaitingList(parsedList);
       } catch (err) {
         console.log(err);
       } finally {
@@ -47,23 +80,21 @@ function Hero() {
 
   return (
     <>
-      <div className="hero-container">
+      <main className="hero-container">
         <div
           className="img-backround"
           style={{ backgroundImage: `url(${HeroImage})` }}
         >
           <div className="top-text_container">
             <div className="heading_container">
-              <div className="header">
-                Набираем команду, <br />
-                где каждый профессионал важен
-              </div>
+              <h1 className="header">{text[currentLan].heading}</h1>
             </div>
+
             <div className="button-container">
               <div className="input-container" onClick={handleButtonClick}>
                 <img src={SearchIcon} className="search-icon" />
                 <input
-                  placeholder="Поиск по вакансии"
+                  placeholder={text[currentLan].searchPlaceholder}
                   className="input"
                   readOnly
                 />
@@ -73,70 +104,35 @@ function Hero() {
                 to="/Akfa-Medline-Social/#vacancies"
                 className="hash-link"
               >
-                <Button text="Подать заявку" imgSrc={RightArrow} />
+                <Button
+                  text={text[currentLan].buttonText}
+                  imgSrc={RightArrow}
+                />
               </HashLink>
             </div>
           </div>
 
           <div className="stats_container">
             <div className="secondary-header_container">
-              <h3 className="secondary-header">
-                Следите за количеством заявок
-              </h3>
-              <div className="secondary-header_subtitle">
-                Поданные заявки на вакансии по направлениям:
-              </div>
+              <h3 className="secondary-header">{text[currentLan].subtitle}</h3>
+              <h5 className="secondary-header_subtitle">
+                {text[currentLan].subheader}
+              </h5>
             </div>
 
             <div className="stats_container-2">
-              <div className="frame frame-1">
-                <div className="frame-title">Врачи / Специалисты</div>
-                <div className="frame-number">
-                  {
-                    waitingList[
-                      "Врачи / Специалисты (Physicians & Specialists)"
-                    ]
-                  }
+              {waitingList.map((item, index) => (
+                <div key={index} className={`frame frame-${index + 1}`}>
+                  <p className="frame-title">{item[currentLan]}</p>
+                  <p className="frame-number">{item.count}</p>
                 </div>
-              </div>
-
-              <div className="frame frame-2">
-                <div className="frame-title">
-                  Медицинский и сестринский персонал
-                </div>
-                <div className="frame-number">
-                  {
-                    waitingList[
-                      "Медицинский и сестринский персонал (Nursing & Clinical Staff)"
-                    ]
-                  }
-                </div>
-              </div>
-
-              <div className="frame frame-3">
-                <div className="frame-title">
-                  Менеджмент и управленческий персонал
-                </div>
-                <div className="frame-number">
-                  {
-                    waitingList[
-                      "Менеджмент и управленческий персонал (Leadership & Management)"
-                    ]
-                  }
-                </div>
-              </div>
-
-              <div className="frame frame-4">
-                <div className="frame-title">Персонал лабораторные службы</div>
-                <div className="frame-number">
-                  {waitingList["Лабораторные службы (Diagnostics)"]}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
-      </div>
-      {isSearchOpen && <HeroSearch />}
+      </main>
+
+      {isSearchOpen && <HeroSearch setIsSearchOpen={setIsSearchOpen} />}
     </>
   );
 }

@@ -1,43 +1,36 @@
 import "./App.css";
 import { useContext, useEffect } from "react";
-import { WaitingListContext } from "./contexts/JoinWaitingListContext";
-import { HamburgerContext } from "./contexts/HamburgerContext";
-import { LandingHeroSearchContext } from "./contexts/LandingHeroSearchContext";
+import { LoadingContext } from "./contexts/LoadingContext";
 import { Routes, Route } from "react-router";
 import Header from "./sections/Global/Header/Header";
 import Footer from "./sections/Global/Footer/Footer";
-import LandingPage from "./pages/Landing";
+import LandingPage from "./pages/Landing/Landing";
 import JobDetails from "./pages/JobDetails/JobDetails";
-import Loading from "./sections/Global/Loading/Loading";
+import { PopUpContext } from "./contexts/PopupContext";
 
 function App() {
-  const { isOpen } = useContext(WaitingListContext);
-  const { isHamburgerOpen } = useContext(HamburgerContext);
-  const { isSearchOpen } = useContext(LandingHeroSearchContext);
+  const { isPopUpOpen } = useContext(PopUpContext);
+  const { isLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    if (isOpen || isHamburgerOpen | isSearchOpen) {
+    if (isPopUpOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen, isHamburgerOpen, isSearchOpen]);
+    return () => (document.body.style.overflow = "auto");
+  }, [isPopUpOpen]);
 
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/Akfa-Medline-Social/" element={<LandingPage />} />
-        <Route
-          path="/Akfa-Medline-Social/jobs/:jobid"
-          element={<JobDetails />}
-        />
-      </Routes>
-      <Loading />
+        <Routes>
+          <Route path="/Akfa-Medline-Social/:language?" element={<LandingPage />} />
+          <Route
+            path="/Akfa-Medline-Social/jobs/:jobid/:language?"
+            element={<JobDetails />}
+          />
+        </Routes>
       <Footer />
     </>
   );
