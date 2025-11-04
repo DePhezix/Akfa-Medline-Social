@@ -8,13 +8,14 @@ import HiringDepartments from "../../sections/LandingPage/HiringDepartments/Hiri
 import FieldSearch from "../../sections/LandingPage/FieldSearch/FieldSearch";
 import Contacts from "../../sections/LandingPage/Contacts/Contacts";
 import { useContext, useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { LoadingContext } from "../../contexts/LoadingContext";
 import Loading from "../../sections/Global/Loading/Loading";
 
 function LandingPage() {
   const { isLoading, setIsLoading } = useContext(LoadingContext);
   const { language } = useParams();
+  const { hash } = useLocation();
   const [currentLan, setCurrentLan] = useState(language || "ru");
   const isInitialRender = useRef(true);
 
@@ -31,6 +32,17 @@ function LandingPage() {
     return () => clearTimeout(timer);
   }, [language]);
 
+  useEffect(() => {
+    if (!isLoading && hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [isLoading, hash]);
+
   return (
     <>
       {isLoading ? (
@@ -43,13 +55,15 @@ function LandingPage() {
       ) : (
         <>
           <Hero />
-          <InvitationSection />
-          <JoinUsSection />
-          <ClinicAdvantages />
-          <ApplicationRequirements />
-          <HiringDepartments />
-          <FieldSearch />
-          <Contacts />
+          <div className="restSections">
+            <InvitationSection />
+            <JoinUsSection />
+            <ClinicAdvantages />
+            <ApplicationRequirements />
+            <HiringDepartments />
+            <FieldSearch />
+            <Contacts />
+          </div>
         </>
       )}
     </>

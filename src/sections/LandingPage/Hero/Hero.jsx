@@ -73,7 +73,7 @@ function Hero() {
       } finally {
         setIsLoading(false);
       }
-    };
+  };
 
     fetchWaitListData();
   }, []);
@@ -101,7 +101,7 @@ function Hero() {
               </div>
               <HashLink
                 smooth
-                to="/Akfa-Medline-Social/#vacancies"
+                to = {currentLan === 'ru' ? "/Akfa-Medline-Social/#vacancies" : `/Akfa-Medline-Social/${currentLan}#vacancies`}
                 className="hash-link"
               >
                 <Button

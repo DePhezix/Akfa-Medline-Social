@@ -79,7 +79,11 @@ function JoinUsSection() {
           </header>
           <HashLink
             smooth
-            to="/Akfa-Medline-Social/#vacancies"
+            to={
+              currentLan === "ru"
+                ? "/Akfa-Medline-Social/#vacancies"
+                : `/Akfa-Medline-Social/${currentLan}#vacancies`
+            }
             className="button-container"
           >
             <Button

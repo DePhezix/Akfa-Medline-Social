@@ -1,39 +1,39 @@
 import "./App.css";
 import { useContext, useEffect } from "react";
 import { LoadingContext } from "./contexts/LoadingContext";
-import { Routes, Route } from "react-router";
-import Header from "./sections/Global/Header/Header";
-import Footer from "./sections/Global/Footer/Footer";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import Layout from "./layouts/layout";
+
 import LandingPage from "./pages/Landing/Landing";
 import JobDetails from "./pages/JobDetails/JobDetails";
 import { PopUpContext } from "./contexts/PopupContext";
 
 function App() {
   const { isPopUpOpen } = useContext(PopUpContext);
-  const { isLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    if (isPopUpOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = isPopUpOpen ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
   }, [isPopUpOpen]);
 
-  return (
-    <>
-      <Header />
-        <Routes>
-          <Route path="/Akfa-Medline-Social/:language?" element={<LandingPage />} />
-          <Route
-            path="/Akfa-Medline-Social/jobs/:jobid/:language?"
-            element={<JobDetails />}
-          />
-        </Routes>
-      <Footer />
-    </>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/Akfa-Medline-Social",
+      element: <Layout />,
+      children: [
+        {
+          path: ":language?",
+          element: <LandingPage />,
+        },
+        {
+          path: ":language?/jobs/:jobid",
+          element: <JobDetails />,
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
-export default App;
+export default App

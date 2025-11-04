@@ -100,9 +100,9 @@ function HiringDepartments() {
         </div>
 
         <div className="see-more" onClick={() => setShowAll(!showAll)}>
-          <text className="text">
+          <p className="text">
             {showAll ? text[currentLan].hide : text[currentLan].seeMore}
-          </text>
+          </p>
           <img
             src={DownArrow}
             alt="down arrow"

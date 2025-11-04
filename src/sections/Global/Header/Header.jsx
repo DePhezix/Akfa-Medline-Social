@@ -15,22 +15,11 @@ function Header() {
   const { pathname } = useLocation();
 
   const currentLan = pathname.includes("/en") ? "en" : "ru";
-  const basePath =
-    currentLan === "ru"
-      ? "/Akfa-Medline-Social"
-      : `/Akfa-Medline-Social/${currentLan}`;
+  const basePath = pathname.replace("/en", "");
 
   const toggleMenu = () => {
     setIsHamburgerOpen((prev) => !prev);
     setIsPopUpOpen((prev) => !prev);
-  };
-
-  const handleLanguage = (lan) => {
-    if (lan === "ru") {
-      navigate("/Akfa-Medline-Social/");
-    } else {
-      navigate(`/Akfa-Medline-Social/${lan}`);
-    }
   };
 
   const handleNavClick = () => {
@@ -38,9 +27,29 @@ function Header() {
     setIsPopUpOpen(false);
   };
 
+  const handleLanguage = (lan) => {
+    const newPath =
+      lan === "ru"
+        ? basePath // remove "/en"
+        : basePath.startsWith("/Akfa-Medline-Social/en")
+        ? basePath // already correct
+        : `/Akfa-Medline-Social/en${basePath.replace(
+            "/Akfa-Medline-Social",
+            ""
+          )}`;
+
+    navigate(newPath);
+    handleNavClick();
+  };
+
   return (
     <nav className="header-container">
-      <Link to={`${basePath}/`} className="header-container_logo">
+      <Link
+        to={
+          currentLan === "ru" ? `/Akfa-Medline-Social/` : `/Akfa-Medline-Social/${currentLan}`
+        }
+        className="header-container_logo"
+      >
         <img src={Logo} alt="Logo" />
       </Link>
 
@@ -65,7 +74,6 @@ function Header() {
         </div>
       </div>
 
-      {/* HAMBURGER ICON */}
       <div
         className={`header-container_hamburger ${
           isHamburgerOpen ? "open" : ""
@@ -77,13 +85,12 @@ function Header() {
         <span />
       </div>
 
-      {/* MOBILE MENU */}
       <div className={`mobile-menu ${isHamburgerOpen ? "show" : ""}`}>
         <div className="menu">
           <div className="mobile_nav">
             <HashLink
               smooth
-              to={`${basePath}/#benefits`}
+              to={`${basePath}#benefits`}
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -91,7 +98,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to={`${basePath}/#vacancies`}
+              to={`${basePath}#vacancies`}
               className="mobile_link"
               onClick={handleNavClick}
             >
@@ -99,7 +106,7 @@ function Header() {
             </HashLink>
             <HashLink
               smooth
-              to={`${basePath}/#contacts`}
+              to={`${basePath}#contacts`}
               className="mobile_link"
               onClick={handleNavClick}
             >

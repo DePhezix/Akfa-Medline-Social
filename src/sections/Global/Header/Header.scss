@@ -4,7 +4,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
   background-color: #fff;
   z-index: 100;
 
@@ -211,6 +210,7 @@
 
   /* ---------------- Responsive ---------------- */
   @media (max-width: 768px) {
+    position: fixed;
     .header-container_hamburger {
       display: flex;
     }
@@ -268,5 +268,5 @@
 }
 
 .no_underline {
-  text-decoration: none;;
+  text-decoration: none;
 }

@@ -12,7 +12,6 @@
 
 .JobDetailsWrapper {
   width: 100%;
-  margin: 82.5px 0 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -26,6 +25,7 @@
     gap: 40px;
     align-items: center;
     background-color: #f3f4f4;
+    width: 100%;
 
     .detailsContainer {
       display: flex;
@@ -36,13 +36,10 @@
         display: flex;
         flex-direction: column;
         gap: 40px;
-        .WaitingList--mobile {
-          display: none;
-        }
       }
 
       .right {
-        width: 100%;
+        width: 250px;
       }
     }
   }
@@ -51,14 +48,12 @@
     width: 100vw;
     .JobDetailsContent {
       width: 100%;
+      padding: 0 30px;
 
       .detailsContainer {
         width: 100%;
         .left {
           width: 100%;
-        }
-        .right {
-          flex-basis: 50%;
         }
       }
     }
@@ -67,14 +62,10 @@
   @media (max-width: 768px) {
     .JobDetailsContent {
       .detailsContainer {
-        .left {
-          .WaitingList--mobile {
-            display: flex;
-          }
-        }
+        flex-direction: column;
 
         .right {
-          display: none;
+          width: 100%;
         }
       }
     }

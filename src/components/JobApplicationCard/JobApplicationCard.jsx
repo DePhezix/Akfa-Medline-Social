@@ -4,7 +4,7 @@ import Clock from '/svgs/clock.svg'
 import {Link} from 'react-router'
 
 function JobApplicationCard({title, numberOfApplicants, jobID, language}) {
-  const linkPath = language === 'ru' ? `/Akfa-Medline-Social/jobs/${jobID}` : `/Akfa-Medline-Social/jobs/${jobID}/${language}`
+  const linkPath = language === 'ru' ? `/Akfa-Medline-Social/jobs/${jobID}` : `/Akfa-Medline-Social/${language}/jobs/${jobID}`
     return (
       <Link
         to={linkPath}

@@ -8,7 +8,7 @@ import Pagination from "../../../components/Pagination/Pagination";
 import { useParams } from "react-router-dom";
 
 function FieldSearch() {
-    const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const { setIsLoading } = useContext(LoadingContext);
   const { language } = useParams();
   const currentLan = language || "ru";
@@ -26,7 +26,6 @@ function FieldSearch() {
   const staticFields = {
     "Врачи / Специалисты (Physicians & Specialists)": {
       ru: {
-        name: "Врачи / Специалисты",
         invitation:
           "Мы приглашаем молодых и целеустремлённых врачей присоединиться к команде новой современной клиники.",
         benefits: [
@@ -58,7 +57,6 @@ function FieldSearch() {
           "Высшее медицинское образование: бакалавриат по специальности Врач общей практики, послевузовское профессиональное образование может быть преимуществом.",
       },
       en: {
-        name: "Physicians & Specialists",
         invitation:
           "We invite young and ambitious doctors to join the team of our new, modern clinic.",
         benefits: [
@@ -94,7 +92,6 @@ function FieldSearch() {
 
     "Медицинский и сестринский персонал (Nursing & Clinical Staff)": {
       ru: {
-        name: "Медицинский и сестринский",
         invitation:
           "Мы приглашаем выпускников медицинских колледжей и начинающих специалистов, которые хотят построить карьеру в современной клинике.",
         benefits: [
@@ -126,7 +123,6 @@ function FieldSearch() {
         },
       },
       en: {
-        name: "Medical and Nursing Staff",
         invitation:
           "We invite graduates of medical colleges and early-career specialists who want to build a career in a modern clinic.",
         benefits: [
@@ -161,7 +157,6 @@ function FieldSearch() {
 
     "Менеджмент и управленческий персонал (Leadership & Management)": {
       ru: {
-        name: "Менеджмент и управленческий",
         invitation:
           "Мы строим систему управления клиникой с нуля — и открыты к кандидатам, готовым учиться, расти и брать на себя ответственность. .",
         benefits: [
@@ -194,7 +189,6 @@ function FieldSearch() {
         },
       },
       en: {
-        name: "Management and Executive Staff",
         invitation:
           "We are building a clinic management system from scratch — and are open to candidates ready to learn, grow, and take responsibility.",
         benefits: [
@@ -230,7 +224,6 @@ function FieldSearch() {
 
     "Лабораторные службы (Diagnostics)": {
       ru: {
-        name: "Лабораторные службы",
         invitation:
           "Если вы выпускник или начинающий специалист, мечтающий работать в современной лаборатории — мы ждём вас! ",
         benefits: [
@@ -262,7 +255,6 @@ function FieldSearch() {
         },
       },
       en: {
-        name: "Laboratory Services",
         invitation:
           "If you are a graduate or beginning specialist dreaming of working in a modern laboratory — we are waiting for you!",
         benefits: [
@@ -291,12 +283,11 @@ function FieldSearch() {
             "<span class='highlight'>Social package:</span> Free lunch in corporate cafeteria <br />" +
             "<span class='highlight'>Professional development:</span> Annual training and courses at the clinic's expense <br />" +
             "<span class='highlight'>Additional:</span> Mentorship, modern infrastructure, and staff development support",
-          },
         },
       },
-    };
-    
-    
+    },
+  };
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -324,11 +315,15 @@ function FieldSearch() {
     fetchJobs();
   }, [selectedKey]);
 
+  const fieldName =
+    currentLan === "ru"
+      ? selectedKey.split("(")[0].trim()
+      : selectedKey.match(/\((.*?)\)/)?.[1]?.trim() || selectedKey;
   const selected = staticFields[selectedKey]?.[currentLan];
   const blockHeader =
     currentLan === "ru"
-      ? `Вакансии по направлению ${selected?.name}`
-      : `Job Vacancies for ${selected?.name}`;
+      ? `Вакансии по направлению ${fieldName}`
+      : `Job Vacancies for ${fieldName}`;
 
   return (
     <section className="FieldSearchContainer" id="vacancies">
@@ -340,18 +335,25 @@ function FieldSearch() {
         className="FieldSearchContainer-fieldsContainer"
         aria-label="Job categories"
       >
-        {Object.entries(staticFields).map(([key, field]) => (
-          <button
-            key={key}
-            type="button"
-            className={`fieldContainer ${
-              key === selectedKey ? "selected" : ""
-            }`}
-            onClick={() => setSelectedKey(key)}
-          >
-            <span className="field">{field[currentLan].name}</span>
-          </button>
-        ))}
+        {Object.entries(staticFields).map(([key, field]) => {
+          const label =
+            currentLan === "ru"
+              ? key.split("(")[0].trim()
+              : key.match(/\((.*?)\)/)?.[1]?.trim() || key;
+
+          return (
+            <button
+              key={key}
+              type="button"
+              className={`fieldContainer ${
+                key === selectedKey ? "selected" : ""
+              }`}
+              onClick={() => setSelectedKey(key)}
+            >
+              <span className="field">{label}</span>
+            </button>
+          );
+        })}
       </nav>
 
       {selected && (
@@ -364,13 +366,13 @@ function FieldSearch() {
             )}
 
             {selected.benefits?.length > 0 && (
-              <text className="benefits-list">
+              <div className="benefits-list">
                 {selected.benefits.map((benefit, index) => (
                   <span key={index} className="benefits-item">
                     {benefit}
                   </span>
                 ))}
-              </text>
+              </div>
             )}
 
             {selected.values && (
@@ -430,7 +432,7 @@ function FieldSearch() {
                 title={job.title}
                 numberOfApplicants={job.numberOfApplicants}
                 jobID={job.jobID}
-                language={language}
+                language={currentLan}
               />
             ))}
           </Pagination>

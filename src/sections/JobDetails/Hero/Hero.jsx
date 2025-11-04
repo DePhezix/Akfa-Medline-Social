@@ -1,7 +1,7 @@
 import "./Hero.scss";
-import SurgeryImage from "/images/surgery.jpg";
+import VacanciesImg from "/images/vacancies.avif";
 
-function Hero({ imgSrc = SurgeryImage, Heading, SubHeading }) {
+function Hero({ imgSrc = VacanciesImg, Heading, SubHeading }) {
   return (
     <div className="JobDetailsHeroContainer">
       <div
@@ -10,8 +10,8 @@ function Hero({ imgSrc = SurgeryImage, Heading, SubHeading }) {
       >
         <div className="textContainer">
           <div className="heading">
-            <div className="main-heading">{Heading}</div>
-            <div className="subheading">{SubHeading}</div>
+            <h3 className="subheading">{SubHeading}</h3>
+            <h1 className="main-heading">{Heading}</h1>
           </div>
         </div>
       </div>

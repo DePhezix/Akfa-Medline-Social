@@ -14,14 +14,11 @@ function JobDetails() {
   const { jobid, language } = useParams();
   const { pathname } = useLocation();
 
+
   const [isWaitingListOpen, setIsWaitingListOpen] = useState(false);
   const [jobData, setJobData] = useState({});
   const { isLoading, setIsLoading } = useContext(LoadingContext);
-  const [currentLan, setCurrentLan] = useState(language || "ru");
-
-  useEffect(() => {
-    setCurrentLan(language || "ru");
-  }, [language]);
+  const currentLan = language || "ru";
 
   useEffect(() => {
     const fetchJobData = async () => {
@@ -47,9 +44,6 @@ function JobDetails() {
     fetchJobData();
   }, [jobid]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
 
   return (
     <>
@@ -65,17 +59,16 @@ function JobDetails() {
       ) : (
         <section className="JobDetailsWrapper">
           <div className="JobDetailsContent">
-            <Hero Heading={jobData?.category?.split("(")[0].trim()} />
+            <Hero
+              SubHeading={jobData?.category?.split("(")[0].trim()}
+              Heading={jobData?.title?.split("(")[0].trim()}
+            />
             <div className="detailsContainer">
               <div className="left">
                 <Overview
                   title={jobData?.title}
                   salary={jobData?.salary}
                   category={jobData?.category?.split("(")[0].trim()}
-                />
-                <WaitingList
-                  applicantNumber={jobData?.onWaitingList}
-                  className="WaitingList--mobile"
                 />
                 {jobData?.body && <JobDetail text={jobData.body} />}
                 {jobData?.requirements && (
@@ -84,10 +77,7 @@ function JobDetails() {
                 {jobData?.conditions && <JobDetail text={jobData.conditions} />}
               </div>
               <div className="right">
-                <WaitingList
-                  applicantNumber={jobData?.onWaitingList}
-                  setIsWaitingListOpen={setIsWaitingListOpen}
-                />
+                <WaitingList setIsWaitingListOpen={setIsWaitingListOpen} />
               </div>
             </div>
           </div>

@@ -12,11 +12,4 @@
   align-items: center;
   flex-direction: column;
   overflow-x: hidden;
-  padding: 0 15px;
-}
-
-@media (max-width: 768px) {
-  #root {
-    padding: 0 16px;
-  }
 }
