@@ -52,8 +52,8 @@ function JobDetails() {
           <Loading />
           <p className="LoadingJobDetailsSubtitle">
             {currentLan === "ru"
-              ? "Загрузка вакансий..."
-              : "Loading vacancies..."}
+              ? "Загрузка..."
+              : "Loading..."}
           </p>
         </div>
       ) : (

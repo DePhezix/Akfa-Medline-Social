@@ -14,6 +14,10 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
   const { jobid } = useParams();
   const [phase, setPhase] = useState(1);
   const [errors, setErrors] = useState({});
+  const [toast, setToast] = useState({
+    message: "",
+    visible: false,
+  });
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -40,6 +44,12 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
       [field]: e.target.value,
     }));
   };
+
+const showToast = (msg) => {
+  setToast({ message: msg, visible: true });
+  setTimeout(() => setToast({ message: "", visible: false }), 4000);
+};
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -159,6 +169,13 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+
+      const firstErrorField = Object.keys(validationErrors)[0];
+      const firstErrorEl = document.getElementById(firstErrorField);
+      if (firstErrorEl) {
+        firstErrorEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        firstErrorEl.focus();
+      }
     } else {
       setErrors({});
       setPhase(2);
@@ -188,23 +205,25 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
       formDataToSend.append("relocate", true);
       formDataToSend.append("job_recent_title", "LinkedIn");
       formDataToSend.append("interested_joint_university", "string");
-      formDataToSend.append("resume", formData.cv.file)
+      formDataToSend.append("resume", formData.cv.file);
 
       await axios.post(
         "https://hr.centralasian.uz/api/applicants/apply",
-        formDataToSend,
+        formDataToSend
       );
 
-
       // console.log(" Submitted successfully");
-    } catch (err) {
-      console.error(" Submission failed:", err);
-    } finally {
-      setIsLoading(false);
       setIsPopUpOpen(false);
       setIsOpen(false);
       setPhase(1);
       resetForm();
+    } catch (err) {
+      const msg =
+        err.response?.data?.message ||
+        "Failed to submit form. Please try again.";
+      showToast(msg);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -276,6 +295,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.fullName}
                   onChange={handleInputChange("fullName")}
                   errorMessage={errors.fullName}
+                  id="full_name"
                 />
                 <Input
                   label="Email address"
@@ -285,6 +305,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.email}
                   onChange={handleInputChange("email")}
                   errorMessage={errors.email}
+                  id="email"
                 />
               </div>
 
@@ -297,6 +318,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.phone}
                   onChange={handleInputChange("phone")}
                   errorMessage={errors.phone}
+                  id="phone"
                 />
                 <Input
                   label="Country of Citizenship"
@@ -305,6 +327,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.citizenship}
                   onChange={handleInputChange("citizenship")}
                   errorMessage={errors.fullName}
+                  id="citizenship"
                 />
               </div>
 
@@ -317,6 +340,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.dob}
                   onChange={handleInputChange("dob")}
                   errorMessage={errors.dob}
+                  id="dob"
                 />
                 <Input
                   label="Place of Birth"
@@ -325,6 +349,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.placeOfBirth}
                   onChange={handleInputChange("placeOfBirth")}
                   errorMessage={errors.placeOfBirth}
+                  id="placeOfBirth"
                 />
               </div>
 
@@ -439,6 +464,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                   value={formData.employmentStatus}
                   onChange={handleInputChange("employmentStatus")}
                   errorMessage={errors.employmentStatus}
+                  id="employmentStatus"
                 />
               </div>
 
@@ -458,6 +484,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                     }))
                   }
                   errorMessage={errors.cv}
+                  id="cv"
                 />
               </div>
 
@@ -493,6 +520,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
                 />
               </div>
             </div>
+            {toast.visible && <div className="toast">{toast.message}</div>}
           </form>
         </>
       </div>
