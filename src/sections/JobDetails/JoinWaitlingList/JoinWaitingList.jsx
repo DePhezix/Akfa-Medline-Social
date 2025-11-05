@@ -168,17 +168,6 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
   const onFormConfirm = async () => {
     setIsLoading(true);
     try {
-      const convertFileToBinary = (file) =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64Data = reader.result.split(",")[1];
-            resolve(base64Data);
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-
       const formDataToSend = new FormData();
 
       formDataToSend.append("vacancyId", Number(jobid));
@@ -195,13 +184,11 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
         formData.languages.map((l) => l.name).join(", ")
       );
       formDataToSend.append("total_years", "Unknown");
-      formDataToSend.append("when_you_start", formData.employmentStatus);
+      formDataToSend.append("when_you_start", formData.startDate);
       formDataToSend.append("relocate", true);
       formDataToSend.append("job_recent_title", "LinkedIn");
       formDataToSend.append("interested_joint_university", "string");
-
-      const resumeData = await convertFileToBinary(formData.cv.file)
-      formDataToSend.append("resume", resumeData)
+      formDataToSend.append("resume", formData.cv.file)
 
       await axios.post(
         "https://hr.centralasian.uz/api/applicants/apply",
@@ -215,9 +202,9 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
     } finally {
       setIsLoading(false);
       setIsPopUpOpen(false);
-      // setIsOpen(false);
-      // setPhase(1);
-      // resetForm();
+      setIsOpen(false);
+      setPhase(1);
+      resetForm();
     }
   };
 
