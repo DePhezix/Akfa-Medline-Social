@@ -51,7 +51,6 @@ function Input({
 
     const maxSize = fileSize || 20 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert(`File too large. Max size: ${maxSize / (1024 * 1024)} MB`);
       e.target.value = "";
       if (onChange) onChange({ target: { value: "" } });
       else setLocalValue("");
@@ -66,7 +65,6 @@ function Input({
       .pop()
       .toLowerCase();
     if (!allowedTypes.includes(fileExt)) {
-      alert(`Invalid file type. Allowed: ${allowedTypes.join(", ")}`);
       e.target.value = "";
       if (onChange) onChange({ target: { value: "" } });
       else setLocalValue("");

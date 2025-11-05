@@ -28,7 +28,7 @@ function Button({text, imgSrc, variant, additionalStyle, onButtonClick, buttonTy
     const combinedStyles = {...variants[variant], ...additionalStyle}
     return (
       <button
-        type={buttonType}
+        type={buttonType || 'button'}
         className={`button ${className ? className : ""}`}
         style={combinedStyles}
         onClick={onButtonClick}

@@ -62,6 +62,7 @@ function JobDetails() {
             <Hero
               SubHeading={jobData?.category?.split("(")[0].trim()}
               Heading={jobData?.title?.split("(")[0].trim()}
+              candidatesNumber={jobData?.onWaitingList}
             />
             <div className="detailsContainer">
               <div className="left">

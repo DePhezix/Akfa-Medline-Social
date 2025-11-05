@@ -5,12 +5,12 @@ import Input from "../../../components/Input/Input";
 import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../../components/Button/Button";
 import Plus from "/svgs/plus.svg";
-import { PopUpContext } from '../../../contexts/PopupContext';
+import { PopUpContext } from "../../../contexts/PopupContext";
 import { LoadingContext } from "../../../contexts/LoadingContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function JoinWaitingList({isOpen, setIsOpen}) {
+function JoinWaitingList({ isOpen, setIsOpen }) {
   const { jobid } = useParams();
   const [phase, setPhase] = useState(1);
   const [errors, setErrors] = useState({});
@@ -25,7 +25,7 @@ function JoinWaitingList({isOpen, setIsOpen}) {
     languages: [{ name: "", level: "" }],
     startDate: "",
     employmentStatus: "",
-    cv: "",
+    cv: { file: null, name: "" },
   });
   const { setIsPopUpOpen } = useContext(PopUpContext);
   const { setIsLoading } = useContext(LoadingContext);
@@ -34,7 +34,7 @@ function JoinWaitingList({isOpen, setIsOpen}) {
     setErrors((prev) => ({
       ...prev,
       [field]: null,
-    }))
+    }));
     setFormData((prev) => ({
       ...prev,
       [field]: e.target.value,
@@ -142,13 +142,13 @@ function JoinWaitingList({isOpen, setIsOpen}) {
       languages: [{ name: "", level: "" }],
       startDate: "",
       employmentStatus: "",
-      cv: "",
+      cv: { file: null, name: "" },
     });
   };
 
   const handleClose = () => {
     resetForm();
-    setIsPopUpOpen(false)
+    setIsPopUpOpen(false);
     setIsOpen(false);
     setPhase(1);
   };
@@ -173,48 +173,51 @@ function JoinWaitingList({isOpen, setIsOpen}) {
           const reader = new FileReader();
           reader.onloadend = () => {
             const base64Data = reader.result.split(",")[1];
-            resolve({ $binary: base64Data });
+            resolve(base64Data);
           };
           reader.onerror = reject;
           reader.readAsDataURL(file);
         });
 
-      let resumeData = formData.cv;
+      const formDataToSend = new FormData();
 
-      if (formData.cv instanceof File) {
-        resumeData = await convertFileToBinary(formData.cv);
-      }
+      formDataToSend.append("vacancyId", Number(jobid));
+      formDataToSend.append("full_name", formData.fullName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone_number", formData.phone);
+      formDataToSend.append("country_of_citizenship", formData.citizenship);
+      formDataToSend.append(
+        "degree_and_field_of_study",
+        formData.educationLevel
+      );
+      formDataToSend.append(
+        "language",
+        formData.languages.map((l) => l.name).join(", ")
+      );
+      formDataToSend.append("total_years", "Unknown");
+      formDataToSend.append("when_you_start", formData.employmentStatus);
+      formDataToSend.append("relocate", true);
+      formDataToSend.append("job_recent_title", "LinkedIn");
+      formDataToSend.append("interested_joint_university", "string");
+
+      const resumeData = await convertFileToBinary(formData.cv.file)
+      formDataToSend.append("resume", resumeData)
 
       await axios.post(
         "https://hr.centralasian.uz/api/applicants/apply",
-        {
-          vacancyId: Number(jobid),
-          full_name: formData.fullName,
-          email: formData.email,
-          phone_number: formData.phone,
-          country_of_citizenship: formData.citizenship,
-          degree_and_field_of_study: formData.educationLevel,
-          language: JSON.stringify(formData.languages.map((lang) => lang.name)),
-          total_years: "Unknown",
-          when_you_start: formData.employmentStatus,
-          resume: resumeData,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        formDataToSend,
       );
 
-      console.log(" Submitted successfully");
+
+      // console.log(" Submitted successfully");
     } catch (err) {
       console.error(" Submission failed:", err);
     } finally {
       setIsLoading(false);
-      setIsPopUpOpent(false)
-      setIsOpen(false);
-      setPhase(1);
-      resetForm();
+      setIsPopUpOpen(false);
+      // setIsOpen(false);
+      // setPhase(1);
+      // resetForm();
     }
   };
 
@@ -460,11 +463,11 @@ function JoinWaitingList({isOpen, setIsOpen}) {
                   inputType="file"
                   fileType=".pdf"
                   fileNote="No more than 20 mb. PDF"
-                  value={formData.cv}
+                  value={formData.cv.name}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
-                      cv: e.target.value,
+                      cv: { file: e.target.file, name: e.target.value },
                     }))
                   }
                   errorMessage={errors.cv}

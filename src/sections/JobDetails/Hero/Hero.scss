@@ -39,6 +39,21 @@
           opacity: 0.9;
           width: 495px;
         }
+
+        .candidatesWrapper {
+          background: #D40202;
+          width: 303px;
+          height: 2.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 9999px;
+          gap: .625rem;
+          font-size: 14px;
+          img {
+            filter: brightness(0) invert(1) brightness(100%);
+          }
+        }
       }
     }
   }
@@ -57,6 +72,8 @@
       padding: 24px 16px;
       .textContainer {
         position: static;
+        padding: 0;
+        padding-bottom: 30px;
 
         .heading {
           width: 100%;
