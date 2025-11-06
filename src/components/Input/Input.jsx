@@ -1,8 +1,7 @@
 import "./Input.scss";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import CalenderSVG from "/svgs/calender.svg";
 import { IMaskInput } from "react-imask";
-
 
 function Input({
   label,
@@ -20,19 +19,11 @@ function Input({
   fileNote,
   fileType,
   fileSize,
-  value: externalValue,
+  value,
   onChange,
   errorMessage,
 }) {
-  const [localValue, setLocalValue] = useState("");
-  const value = externalValue !== undefined ? externalValue : localValue;
   const dateRef = useRef(null);
-
-  const handleValueChange = (e) => {
-    const val = e.target.value;
-    if (onChange) onChange(e);
-    else setLocalValue(val);
-  };
 
   const handleDateChange = (e) => {
     let val = e.target.value.replace(/\D/g, "");
@@ -41,8 +32,15 @@ function Input({
     else if (val.length > 4)
       val = val.slice(0, 2) + "/" + val.slice(2, 4) + "/" + val.slice(4, 8);
 
-    if (onChange) onChange({ target: { value: val } });
-    else setLocalValue(val);
+    onChange({ target: { value: val } });
+  };
+
+  const handleHiddenDateChange = (e) => {
+    const isoDate = e.target.value;
+    if (!isoDate) return;
+    const [year, month, day] = isoDate.split("-");
+    const formatted = `${day}/${month}/${year}`;
+    onChange({ target: { value: formatted } });
   };
 
   const handleFileChange = (e) => {
@@ -52,8 +50,7 @@ function Input({
     const maxSize = fileSize || 20 * 1024 * 1024;
     if (file.size > maxSize) {
       e.target.value = "";
-      if (onChange) onChange({ target: { value: "" } });
-      else setLocalValue("");
+      onChange({ target: { value: "" } });
       return;
     }
 
@@ -66,13 +63,11 @@ function Input({
       .toLowerCase();
     if (!allowedTypes.includes(fileExt)) {
       e.target.value = "";
-      if (onChange) onChange({ target: { value: "" } });
-      else setLocalValue("");
+      onChange({ target: { value: "" } });
       return;
     }
 
-    if (onChange) onChange({ target: { value: file.name, file } });
-    else setLocalValue(file.name);
+    onChange({ target: { value: file.name, file } });
   };
 
   return (
@@ -93,7 +88,7 @@ function Input({
             value={doubleInputValue}
             onChange={(e) => {
               if (doubleInputOnChange) doubleInputOnChange(e);
-              else handleValueChange(e);
+              else onChange(e);
             }}
           />
         )}
@@ -121,14 +116,7 @@ function Input({
               ref={dateRef}
               type="date"
               className="hidden-dateInput"
-              onChange={(e) => {
-                const isoDate = e.target.value;
-                if (!isoDate) return;
-                const [year, month, day] = isoDate.split("-");
-                const formatted = `${day}/${month}/${year}`;
-                if (onChange) onChange({ target: { value: formatted } });
-                else setLocalValue(formatted);
-              }}
+              onChange={handleHiddenDateChange}
             />
           </div>
         ) : inputType === "tel" ? (
@@ -146,7 +134,7 @@ function Input({
             required={required}
             disabled={inputDisabled}
             value={value || ""}
-            onChange={handleValueChange}
+            onChange={onChange}
           >
             <option value="" disabled hidden>
               {placeholder || "Выберите вариант"}
@@ -186,7 +174,7 @@ function Input({
             placeholder={placeholder}
             disabled={inputDisabled}
             value={value}
-            onChange={handleValueChange}
+            onChange={onChange}
           />
         )}
 
