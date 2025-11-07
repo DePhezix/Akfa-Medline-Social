@@ -66,7 +66,7 @@ function HeroSearch({ setIsSearchOpen }) {
 
   const getVacancyLink = (id) => {
     if (language && language !== "ru") {
-      return `/Akfa-Medline-Social/jobs/${id}/${language}`;
+      return `/Akfa-Medline-Social/${language}/jobs/${id}/`;
     }
     return `/Akfa-Medline-Social/jobs/${id}`;
   };

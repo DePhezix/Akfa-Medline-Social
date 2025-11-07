@@ -17,6 +17,7 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
   const [toast, setToast] = useState({
     message: "",
     visible: false,
+    error: false
   });
   const [formData, setFormData] = useState({
     fullName: "",
@@ -45,9 +46,9 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
     }));
   };
 
-const showToast = (msg) => {
-  setToast({ message: msg, visible: true });
-  setTimeout(() => setToast({ message: "", visible: false }), 4000);
+const showToast = (msg, error) => {
+  setToast({ message: msg, visible: true, error: error });
+  setTimeout(() => setToast({ message: "", visible: false, error: false }), 4000);
 };
 
 
@@ -212,7 +213,6 @@ const showToast = (msg) => {
         formDataToSend
       );
 
-      // console.log(" Submitted successfully");
       setIsPopUpOpen(false);
       setIsOpen(false);
       setPhase(1);
@@ -221,7 +221,7 @@ const showToast = (msg) => {
       const msg =
         err.response?.data?.message ||
         "Failed to submit form. Please try again.";
-      showToast(msg);
+      showToast(msg, true);
     } finally {
       setIsLoading(false);
     }
