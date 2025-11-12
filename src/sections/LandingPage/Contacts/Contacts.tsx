@@ -4,10 +4,20 @@ import MailSVG from "/svgs/mail.svg";
 import LocationSVG from "/svgs/location.svg";
 import { useParams } from 'react-router-dom'
 
+type languagesType = "ru" | "en"
+
+interface contactsListType {
+  imgSrc: string;
+  title: string;
+  text1: string;
+  text2: string;
+  link: string;
+}
+
 function Contacts() {
-  const { language } = useParams()
-  const currentLan = language || 'ru'
-  const ContactsList = {
+  const { language } = useParams<{ language: languagesType }>();
+  const currentLan: languagesType = language || "ru";
+  const ContactsList: Record<languagesType, contactsListType[]> = {
     ru: [
       {
         imgSrc: PhoneSVG,
@@ -60,7 +70,7 @@ function Contacts() {
     ],
   };
 
-  const selectedContacts = ContactsList[currentLan];
+  const selectedContacts: contactsListType[] = ContactsList[currentLan];
 
   return (
     <section className="ContactsContainer" id="contacts">

@@ -3,7 +3,14 @@ import RightArrow from '/svgs/right-white-arrow.svg'
 import Clock from '/svgs/clock.svg'
 import {Link} from 'react-router'
 
-function JobApplicationCard({title, numberOfApplicants, jobID, language}) {
+type Props = {
+  title: string,
+  numberOfApplicants: number,
+  jobID: number,
+  language: string
+}
+
+function JobApplicationCard({title, numberOfApplicants, jobID, language}: Props) {
   const linkPath = language === 'ru' ? `/Akfa-Medline-Social/jobs/${jobID}` : `/Akfa-Medline-Social/${language}/jobs/${jobID}`
     return (
       <Link

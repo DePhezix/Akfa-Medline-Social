@@ -1,25 +1,45 @@
 import "./HeroSearch.scss";
-import { useState, useContext, useEffect } from "react";
-import { LoadingContext } from "../../../contexts/LoadingContext";
-import { PopUpContext } from "../../../contexts/PopupContext";
+import {
+  useState,
+  useContext,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+  MouseEvent
+} from "react";
+import { LoadingContext } from "../../../contexts/LoadingContext.js";
+import { PopUpContext } from "../../../contexts/PopupContext.js";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import CloseImg from "/svgs/x.svg";
 import SearchImg from "/svgs/search-icon.svg";
 
-function HeroSearch({ setIsSearchOpen }) {
+type Props = {
+  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+interface backendVacanciesData {
+  title: string;
+  id: number;
+  category: string;
+}
+
+type languagesType = "en" | "ru"
+
+function HeroSearch({ setIsSearchOpen }: Props) {
   const { setIsLoading } = useContext(LoadingContext);
   const { setIsPopUpOpen } = useContext(PopUpContext);
-  const { language } = useParams();
+  const { language } = useParams<{language: languagesType}>();
 
-  const [vacancies, setVacancies] = useState([]);
-  const [filteredVacancies, setFilteredVacancies] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [vacancies, setVacancies] = useState<backendVacanciesData[]>([]);
+  const [filteredVacancies, setFilteredVacancies] = useState<backendVacanciesData[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
+        const res = await axios.get<backendVacanciesData[]>(
           "https://hr.centralasian.uz/api/social/vacancies"
         );
 
@@ -37,7 +57,7 @@ function HeroSearch({ setIsSearchOpen }) {
     fetchData();
   }, [setIsLoading]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
 
@@ -57,14 +77,15 @@ function HeroSearch({ setIsSearchOpen }) {
     setIsSearchOpen(false);
   };
 
-  const stopPropagation = (e) => e.stopPropagation();
+  const stopPropagation = (e: MouseEvent<HTMLDivElement>) =>
+    e.stopPropagation();
 
   const clearSearch = () => {
     setSearchTerm("");
     setFilteredVacancies(vacancies.slice(0, 8));
   };
 
-  const getVacancyLink = (id) => {
+  const getVacancyLink = (id: number) => {
     if (language && language !== "ru") {
       return `/Akfa-Medline-Social/${language}/jobs/${id}/`;
     }

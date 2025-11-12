@@ -1,5 +1,5 @@
-import Header from "../sections/Global/Header/Header";
-import Footer from "../sections/Global/Footer/Footer";
+import Header from "../sections/Global/Header/Header.tsx";
+import Footer from "../sections/Global/Footer/Footer.tsx";
 import { Outlet, ScrollRestoration } from 'react-router-dom'
 
 

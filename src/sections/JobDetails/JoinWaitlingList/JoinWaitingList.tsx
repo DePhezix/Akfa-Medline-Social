@@ -1,25 +1,73 @@
 import "./JoinWaitingList.scss";
-import { useState, useContext } from "react";
+import {
+  useState,
+  useContext,
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+  MouseEvent,
+} from "react";
 import X from "/svgs/x.svg";
-import Input from "../../../components/Input/Input";
+import Input from "../../../components/Input/Input.js";
 import DownArrow from "/svgs/downArrow.svg";
-import Button from "../../../components/Button/Button";
+import Button from "../../../components/Button/Button.js";
 import Plus from "/svgs/plus.svg";
-import { PopUpContext } from "../../../contexts/PopupContext";
-import { LoadingContext } from "../../../contexts/LoadingContext";
+import { PopUpContext } from "../../../contexts/PopupContext.js";
+import { LoadingContext } from "../../../contexts/LoadingContext.js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function JoinWaitingList({ isOpen, setIsOpen }) {
+type Props = {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+type languagesType = { name: string; level: string }[];
+
+interface toastType {
+  message: string;
+  visible: boolean;
+  error: boolean;
+}
+
+interface errorType {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  citizenship?: string;
+  dob?: string;
+  placeOfBirth?: string;
+  educationLevel?: string;
+  languages?: string;
+  startDate?: string;
+  employmentStatus?: string;
+  cv?: string;
+}
+
+interface formType {
+  fullName: string;
+  email: string;
+  phone: string;
+  citizenship: string;
+  dob: string;
+  placeOfBirth: string;
+  educationLevel: string;
+  languages: languagesType;
+  startDate: string;
+  employmentStatus: string;
+  cv: { file: File | undefined | null; name: string };
+}
+
+function JoinWaitingList({ isOpen, setIsOpen }: Props) {
   const { jobid } = useParams();
   const [phase, setPhase] = useState(1);
-  const [errors, setErrors] = useState({});
-  const [toast, setToast] = useState({
+  const [errors, setErrors] = useState<errorType>({});
+  const [toast, setToast] = useState<toastType>({
     message: "",
     visible: false,
-    error: false
+    error: false,
   });
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<formType>({
     fullName: "",
     email: "",
     phone: "",
@@ -35,7 +83,9 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
   const { setIsPopUpOpen } = useContext(PopUpContext);
   const { setIsLoading } = useContext(LoadingContext);
 
-  const handleInputChange = (field) => (e) => {
+  const handleInputChange = (field: string) => (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setErrors((prev) => ({
       ...prev,
       [field]: null,
@@ -46,14 +96,16 @@ function JoinWaitingList({ isOpen, setIsOpen }) {
     }));
   };
 
-const showToast = (msg, error) => {
-  setToast({ message: msg, visible: true, error: error });
-  setTimeout(() => setToast({ message: "", visible: false, error: false }), 4000);
-};
-
+  const showToast = (msg: string, error: boolean) => {
+    setToast({ message: msg, visible: true, error: error });
+    // setTimeout(
+    //   () => setToast({ message: "", visible: false, error: false }),
+    //   4000
+    // );
+  };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: errorType = {};
 
     if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
 
@@ -71,32 +123,33 @@ const showToast = (msg, error) => {
     if (!formData.dob.trim()) {
       newErrors.dob = "Date of birth is required";
     } else {
-      const parts = formData.dob.split("/");
-
-      const [day, month, year] = parts.map(Number);
+      const parts = formData.dob.split("/").map(Number);
+      var [day, month, year] = parts;
+      day = Number(day);
+      month = Number(month);
+      year = Number(year);
 
       if (
-        isNaN(day) ||
-        isNaN(month) ||
-        isNaN(year) ||
-        day < 1 ||
+        parts.length !== 3 ||
+        parts.some((n) => isNaN(n)) ||
+        year < 1900 ||
         month < 1 ||
         month > 12 ||
-        year < 1900
+        day < 1
       ) {
         newErrors.dob = "Invalid date format (dd/mm/yyyy)";
       } else {
-        const dob = new Date(year, month - 1, day);
-        const today = new Date();
+        const daysInMonth = new Date(year, month, 0).getDate();
+        if (day > daysInMonth) {
+          newErrors.dob = `Invalid day for month ${month}`;
+        } else {
+          const dob = new Date(year, month - 1, day);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
 
-        if (
-          dob.getFullYear() !== year ||
-          dob.getMonth() + 1 !== month ||
-          dob.getDate() !== day
-        ) {
-          newErrors.dob = "Invalid calendar date";
-        } else if (dob > today || year < 1900) {
-          newErrors.dob = "Check Date of birth";
+          if (dob > today) {
+            newErrors.dob = "Date of birth cannot be in the future";
+          }
         }
       }
     }
@@ -110,15 +163,22 @@ const showToast = (msg, error) => {
     if (!formData.employmentStatus.trim())
       newErrors.employmentStatus = "Employment status is required";
 
-    if (!formData.cv) newErrors.cv = "Resume is required";
+    if (!formData.cv?.file) newErrors.cv = "Resume is required";
 
     return newErrors;
   };
 
-  const handleLanguageChange = (index, field, value) => {
+  const handleLanguageChange = (
+    index: number,
+    field: keyof languagesType[number],
+    value: string
+  ) => {
     setFormData((prev) => {
-      const updated = [...prev.languages];
-      updated[index][field] = value;
+      const updated: languagesType = [...prev.languages];
+      const item = updated[index];
+      if (item) {
+        item[field] = value;
+      }
       return { ...prev, languages: updated };
     });
   };
@@ -131,9 +191,7 @@ const showToast = (msg, error) => {
   };
 
   const removeLanguage = () => {
-    console.log("removing");
     if (formData.languages.length > 1) {
-      console.log("initiaiting");
       setFormData((prev) => ({
         ...prev,
         languages: prev.languages.slice(0, -1),
@@ -164,18 +222,19 @@ const showToast = (msg, error) => {
     setPhase(1);
   };
 
-  const onFormSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
+  const onFormSubmit = () => {
+    const validationErrors: errorType = validateForm();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
 
       const firstErrorField = Object.keys(validationErrors)[0];
-      const firstErrorEl = document.getElementById(firstErrorField);
-      if (firstErrorEl) {
-        firstErrorEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        firstErrorEl.focus();
+      if (firstErrorField) {
+        const firstErrorEl = document.getElementById(firstErrorField);
+        if (firstErrorEl) {
+          firstErrorEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          firstErrorEl.focus();
+        }
       }
     } else {
       setErrors({});
@@ -186,7 +245,7 @@ const showToast = (msg, error) => {
   const onFormConfirm = async () => {
     setIsLoading(true);
     try {
-      const formDataToSend = new FormData();
+      const formDataToSend: any = new FormData();
 
       formDataToSend.append("vacancyId", Number(jobid));
       formDataToSend.append("full_name", formData.fullName);
@@ -217,7 +276,7 @@ const showToast = (msg, error) => {
       setIsOpen(false);
       setPhase(1);
       resetForm();
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         err.response?.data?.message ||
         "Failed to submit form. Please try again.";
@@ -227,12 +286,26 @@ const showToast = (msg, error) => {
     }
   };
 
-  const onBack = (e) => {
-    e.preventDefault();
+  const onBack = () => {
     setPhase(1);
   };
 
-  const StopPropogate = (e) => {
+  const handleFileSubmit = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData((prev) => {
+      const file = (e.target as HTMLInputElement)?.files?.[0]
+      return {
+        ...prev,
+        cv: {
+          file: file ?? null,
+          name: file?.name ?? "",
+        },
+      };
+    });
+  };
+
+  const StopPropogate = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
@@ -477,12 +550,7 @@ const showToast = (msg, error) => {
                   fileType=".pdf"
                   fileNote="No more than 20 mb. PDF"
                   value={formData.cv.name}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      cv: { file: e.target.file, name: e.target.value },
-                    }))
-                  }
+                  onChange={handleFileSubmit}
                   errorMessage={errors.cv}
                   id="cv"
                 />

@@ -1,6 +1,10 @@
 import './JobDetail.scss'
 
-function JobDetail({text}) {
+type Props = {
+  text: string
+}
+
+function JobDetail({text}: Props) {
     return (
       <div
         className="JobDetailContainer"

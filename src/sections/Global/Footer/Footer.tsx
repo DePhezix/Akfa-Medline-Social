@@ -5,11 +5,17 @@ import LinkedinLogo from "/svgs/footer_linkedin-logo.svg";
 import FooterLogo from "/svgs/footer_logo.svg";
 import { useLocation } from 'react-router-dom'
 
+type SocialLink = {
+  icon: string;
+  alt: string;
+  url: string;
+};
+
 function Footer() {
     const { pathname } = useLocation();
 
   const currentLan = pathname.includes("/en") ? "en" : "ru";
-  const socialLinks = [
+  const socialLinks: SocialLink[] = [
     {
       icon: TelegramLogo,
       alt: "Telegram",
@@ -45,7 +51,6 @@ function Footer() {
               </div>
             </div>
 
-            {/* Social Links */}
             <div className="footer_social-icon-list">
               {socialLinks.map((social, index) => (
                 <a

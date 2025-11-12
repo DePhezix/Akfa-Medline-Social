@@ -1,6 +1,12 @@
 import "./Overview.scss";
 
-function Overview({ title, salary, category }) {
+type Props = {
+  title?: string,
+  salary?: string,
+  category?: string
+}
+
+function Overview({ title, salary, category }: Props) {
   return (
     <section className="OverviewContainer" aria-labelledby="overview-title">
       <h2 id="overview-title" className="title">

@@ -3,11 +3,13 @@ import DownArrow from "/svgs/downArrow.svg";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-function HiringDepartments() {
-  const { language } = useParams();
-  const currentLan = language || "ru";
+type languagesType = "en" | "ru"
 
-  const departmentsData = {
+function HiringDepartments() {
+  const { language } = useParams<{language: languagesType}>();
+  const currentLan: languagesType = language || "ru";
+
+  const departmentsData: Record<languagesType, string[]> = {
     ru: [
       "Отделение Офтальмологии",
       "Отделение Гастроэнтерологии",

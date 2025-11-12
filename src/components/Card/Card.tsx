@@ -1,6 +1,12 @@
 import './Card.scss'
 
-function Card({imgSrc, title, details}) {
+type Props = {
+    imgSrc: string,
+    title: string,
+    details: string,
+}
+
+function Card({imgSrc, title, details}: Props) {
     return (
         <div className="card-container">
             <img src={imgSrc} className='image' />

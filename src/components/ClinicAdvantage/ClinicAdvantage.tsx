@@ -1,6 +1,13 @@
 import "./ClinicAdvtange.scss";
 
-function ClinicAdvantage({ title, details, imgSrc, inverse }) {
+type Props = {
+  title: string,
+  details: string,
+  imgSrc: string,
+  inverse?: boolean
+}
+
+function ClinicAdvantage({ title, details, imgSrc, inverse }: Props) {
   return (
     <div
       className={`ClinicAdvantage_container ${

@@ -1,29 +1,56 @@
 import "./FieldSearch.scss";
 import { useState, useEffect, useContext } from "react";
-import JobApplicationCard from "../../../components/JobApplicationCard/JobApplicationCard";
+import JobApplicationCard from "../../../components/JobApplicationCard/JobApplicationCard.js";
 import Notice from "/svgs/notice.svg";
 import axios from "axios";
-import { LoadingContext } from "../../../contexts/LoadingContext";
-import Pagination from "../../../components/Pagination/Pagination";
+import { LoadingContext } from "../../../contexts/LoadingContext.js";
+import Pagination from "../../../components/Pagination/Pagination.js";
 import { useParams } from "react-router-dom";
 
+type languagesType = "en" | "ru";
+
+interface jobsType {
+  title: string;
+  numberOfApplicants: number;
+  jobID: number;
+}
+
+interface databaseJobsType {
+  title: string;
+  onWaitingList: number;
+  id: number;
+}
+
+interface staticFieldsValuesType {
+  invitation: string;
+  benefits: string[];
+  values: { header: string; details: string };
+  requirements: { header: string; details: string };
+  workingConditions: { header: string; details: string };
+  explanation?: string;
+  note?: string;
+}
+
 function FieldSearch() {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<jobsType[]>([]);
   const { setIsLoading } = useContext(LoadingContext);
-  const { language } = useParams();
+  const { language } = useParams<{ language: languagesType }>();
   const currentLan = language || "ru";
 
-  const fieldKey = {
+  const fieldKey: Record<string, number> = {
     "Врачи / Специалисты (Physicians & Specialists)": 5121,
     "Медицинский и сестринский персонал (Nursing & Clinical Staff)": 5119,
     "Менеджмент и управленческий персонал (Leadership & Management)": 5120,
     "Лабораторные службы (Diagnostics)": 5122,
   };
-  const [selectedKey, setSelectedKey] = useState(
+  const [selectedKey, setSelectedKey] = useState<string>(
     "Врачи / Специалисты (Physicians & Specialists)"
   );
 
-  const staticFields = {
+  const staticFields: Record<
+    string,
+    Record<languagesType, staticFieldsValuesType>
+  > = {
     "Врачи / Специалисты (Physicians & Specialists)": {
       ru: {
         invitation:
@@ -293,12 +320,11 @@ function FieldSearch() {
       try {
         // setIsLoading(true);
         const id = fieldKey[selectedKey];
-        const res = await axios.get(
+        const res = await axios.get<databaseJobsType[]>(
           `https://hr.centralasian.uz/api/social/vacancies?division=${id}`
         );
 
-        const data = res.data;
-        const formattedJobs = data.map((item) => ({
+        const formattedJobs: jobsType[] = res.data.map((item) => ({
           title: item.title,
           numberOfApplicants: item.onWaitingList,
           jobID: item.id,
@@ -317,7 +343,7 @@ function FieldSearch() {
 
   const fieldName =
     currentLan === "ru"
-      ? selectedKey.split("(")[0].trim()
+      ? selectedKey?.split("(")[0]?.trim()
       : selectedKey.match(/\((.*?)\)/)?.[1]?.trim() || selectedKey;
   const selected = staticFields[selectedKey]?.[currentLan];
   const blockHeader =
@@ -338,7 +364,7 @@ function FieldSearch() {
         {Object.entries(staticFields).map(([key, field]) => {
           const label =
             currentLan === "ru"
-              ? key.split("(")[0].trim()
+              ? key?.split("(")[0]?.trim()
               : key.match(/\((.*?)\)/)?.[1]?.trim() || key;
 
           return (
@@ -424,9 +450,9 @@ function FieldSearch() {
           <Pagination
             itemsPerPage={4}
             className="JobApplicationCards-Container"
-            paginationFor={selected.name}
+            paginationFor={fieldName || ""}
           >
-            {jobs.map((job, index) => (
+            {jobs?.map((job, index) => (
               <JobApplicationCard
                 key={index}
                 title={job.title}

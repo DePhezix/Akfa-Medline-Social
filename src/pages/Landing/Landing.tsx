@@ -9,7 +9,7 @@ import FieldSearch from "../../sections/LandingPage/FieldSearch/FieldSearch";
 import Contacts from "../../sections/LandingPage/Contacts/Contacts";
 import { useContext, useEffect, useState, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { LoadingContext } from "../../contexts/LoadingContext";
+import { LoadingContext } from "../../contexts/LoadingContext.js";
 import Loading from "../../sections/Global/Loading/Loading";
 
 function LandingPage() {

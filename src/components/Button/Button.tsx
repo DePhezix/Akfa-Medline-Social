@@ -1,7 +1,23 @@
 import './Button.scss'
+import { MouseEventHandler, CSSProperties, ReactNode } from 'react'
 
-function Button({text, imgSrc, variant, additionalStyle, onButtonClick, buttonType, children, className, fontSize}) {
-    const variants = {
+type buttonVariant = "black" | "black2" | "white" | "transparent"
+type fontsType = "sm"
+
+type Props = {
+  text?: string,
+  imgSrc?: string,
+  variant?: buttonVariant,
+  additionalStyle?: CSSProperties,
+  onButtonClick?: MouseEventHandler,
+  buttonType?: "reset" | "button" | "submit" | undefined,
+  className?: string, 
+  fontSize?: fontsType,
+  children?: ReactNode
+}
+
+function Button({text, imgSrc, variant, additionalStyle, onButtonClick, buttonType = 'button', children, className, fontSize}: Props) {
+    const variants: Record<buttonVariant, CSSProperties> = {
       black: {
         backgroundColor: "#222222",
         color: "#ffffff",
@@ -18,17 +34,20 @@ function Button({text, imgSrc, variant, additionalStyle, onButtonClick, buttonTy
       transparent: {
         backgroundColor: "transparent",
         color: "#000"
-      }
-    };
-    const fontSizes = {
-      sm: {
-        fontSize: "13px"
       },
-    }
-    const combinedStyles = {...variants[variant], ...additionalStyle}
+    };
+    const fontSizes: Record<fontsType, CSSProperties> = {
+      sm: {
+        fontSize: "13px",
+      },
+    };
+    const combinedStyles = {
+      ...(variant ? variants[variant] : {}),
+      ...additionalStyle,
+    };
     return (
       <button
-        type={buttonType || 'button'}
+        type={buttonType}
         className={`button ${className ? className : ""}`}
         style={combinedStyles}
         onClick={onButtonClick}

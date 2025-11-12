@@ -1,5 +1,5 @@
 import './Loading.scss'
-import { LoadingContext } from '../../../contexts/LoadingContext'
+import { LoadingContext } from '../../../contexts/LoadingContext.js'
 import { useContext } from 'react'
 import LoadingImage from "/images/loading.png";
 
@@ -15,7 +15,6 @@ function Loading() {
       >
         <img src={LoadingImage} alt="loading" />
       </div>
-      // <></>
     ); 
 }
 

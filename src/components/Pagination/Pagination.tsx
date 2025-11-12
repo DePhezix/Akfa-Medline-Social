@@ -1,19 +1,28 @@
-import { useState, useEffect } from "react";
+import { Children, useState, ReactNode } from "react";
 import "./Pagination.scss";
 import DownArrow from "/svgs/downArrow.svg";
 
-function Pagination({ children, itemsPerPage = 5, className = "", paginationFor = 'none' }) {
-  const [paginationRecords, setPaginationRecords] = useState({})
+type Props = {
+  children: ReactNode,
+  itemsPerPage: number,
+  className: string,
+  paginationFor: string,
+}
 
-  const currentPage = paginationRecords[paginationFor] ?  paginationRecords[paginationFor] : 1
+type PaginationType = Record<string, number>
+
+function Pagination({ children, itemsPerPage = 5, className = "", paginationFor = 'none' }: Props) {
+  const [paginationRecords, setPaginationRecords] = useState<PaginationType>({})
+
+  const currentPage = paginationRecords[paginationFor]  || 1
   
-  const childArray = Array.isArray(children) ? children : [children];
-  const totalPages = Math.max(1, Math.ceil(childArray.length / itemsPerPage));
+const childArray = Children.toArray(children);
+  const totalPages: number = Math.max(1, Math.ceil(childArray.length / itemsPerPage));
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = childArray.slice(startIndex, startIndex + itemsPerPage);
+  const startIndex: number = (currentPage - 1) * itemsPerPage;
+  const currentItems: ReactNode[] = childArray.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
 
     setPaginationRecords((prev) => ({

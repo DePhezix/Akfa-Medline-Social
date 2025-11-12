@@ -1,11 +1,19 @@
 import "./Invitation.scss";
 import { useParams } from "react-router-dom";
 
-function InvitationSection() {
-  const { language } = useParams();
-  const currentLan = language || "ru";
+type languagesType = "en" | "ru";
 
-  const text = {
+interface textType {
+  header: string;
+  detail1: string;
+  detail2: string;
+}
+
+function InvitationSection() {
+  const { language } = useParams<{ language: languagesType }>();
+  const currentLan: languagesType = language || "ru";
+
+  const text: Record<languagesType, textType> = {
     ru: {
       header: "Приглашаем врачей и медицинских специалистов в нашу команду!",
       detail1:

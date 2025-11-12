@@ -5,8 +5,8 @@ import RightArrow from "/svgs/right-white-arrow.svg";
 import DownArrow from "/svgs/downArrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Button from "../../../components/Button/Button";
-import { PopUpContext } from "../../../contexts/PopupContext";
+import Button from "../../../components/Button/Button.js";
+import { PopUpContext } from "../../../contexts/PopupContext.js";
 
 function Header() {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
@@ -27,12 +27,12 @@ function Header() {
     setIsPopUpOpen(false);
   };
 
-  const handleLanguage = (lan) => {
+  const handleLanguage = (lan: string) => {
     const newPath =
       lan === "ru"
-        ? basePath // remove "/en"
+        ? basePath
         : basePath.startsWith("/Akfa-Medline-Social/en")
-        ? basePath // already correct
+        ? basePath
         : `/Akfa-Medline-Social/en${basePath.replace(
             "/Akfa-Medline-Social",
             ""
@@ -46,7 +46,9 @@ function Header() {
     <nav className="header-container">
       <Link
         to={
-          currentLan === "ru" ? `/Akfa-Medline-Social/` : `/Akfa-Medline-Social/${currentLan}`
+          currentLan === "ru"
+            ? `/Akfa-Medline-Social/`
+            : `/Akfa-Medline-Social/${currentLan}`
         }
         className="header-container_logo"
       >
@@ -54,7 +56,13 @@ function Header() {
       </Link>
 
       <div className="header-container_text">
-        <HashLink smooth to={`${basePath}/#contacts`} className="navlink">
+        <HashLink
+          smooth
+          to={`/Akfa-Medline-Social/${
+            currentLan !== "ru" ? currentLan : ""
+          }#contacts`}
+          className="navlink"
+        >
           {currentLan === "ru" ? "Связаться с нами" : "Contact us"}
         </HashLink>
 

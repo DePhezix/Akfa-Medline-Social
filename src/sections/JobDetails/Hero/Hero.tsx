@@ -2,12 +2,20 @@ import "./Hero.scss";
 import VacanciesImg from "/images/vacancies.avif";
 import ClockSVG from '/svgs/clock.svg'
 
-function Hero({ imgSrc = VacanciesImg, Heading, SubHeading, CandidatesNumber, Salary }) {
+type Props = {
+  imgSrc: string,
+  Heading: string,
+  SubHeading: string,
+  CandidatesNumber: number,
+  Salary: string
+}
+
+function Hero({ imgSrc = VacanciesImg, Heading, SubHeading, CandidatesNumber, Salary }: Props) {
   return (
     <main className="JobDetailsHeroContainer">
       <div
         className="hero-img-background"
-        style={imgSrc ? { backgroundImage: `url(${imgSrc})` } : ""}
+        style={imgSrc ? { backgroundImage: `url(${imgSrc})` } : {}}
       >
         <div className="textContainer">
           <div className="heading">

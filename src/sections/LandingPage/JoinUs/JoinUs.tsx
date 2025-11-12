@@ -1,6 +1,6 @@
 import "./JoinUs.scss";
-import Card from "../../../components/Card/Card";
-import Button from "../../../components/Button/Button";
+import Card from "../../../components/Card/Card.js";
+import Button from "../../../components/Button/Button.js";
 import Star from "/svgs/star.svg";
 import Circles from "/svgs/2_circles.svg";
 import Community from "/svgs/community.svg";
@@ -9,11 +9,26 @@ import bckgrndImg from "/images/doctor_holding_stethoscope.jpg";
 import { HashLink } from "react-router-hash-link";
 import { useParams } from "react-router-dom";
 
-function JoinUsSection() {
-    const { language } = useParams();
-    const currentLan = language || "ru";
+type languagesType = "en" | "ru"
 
-  const content = {
+interface cardDataType {
+  imgSrc: string;
+  title: string;
+  details: string;
+}
+
+interface contentType {
+  header: string;
+  subtitle: string;
+  button: string;
+  cardsData: cardDataType[]
+}
+
+function JoinUsSection() {
+    const { language } = useParams<{language: languagesType}>();
+    const currentLan: languagesType = language || "ru";
+
+  const content: Record<languagesType, contentType> = {
     ru: {
       header: "Хотите работать у нас?",
       subtitle:
