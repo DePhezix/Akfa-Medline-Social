@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import "./Header.scss";
 import Logo from "/svgs/header_logo.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
@@ -6,11 +6,12 @@ import DownArrow from "/svgs/downArrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Button from "../../../components/Button/Button.js";
-import { PopUpContext } from "../../../contexts/PopupContext.js";
+import { useBoundStore } from "../../../store/Store.js";
 
 function Header() {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
-  const { setIsPopUpOpen } = useContext(PopUpContext);
+  const popUp = useBoundStore((state) => state.popUp)
+  const setIsPopUpOpen = useBoundStore((state) => state.setPopUp)
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -19,7 +20,7 @@ function Header() {
 
   const toggleMenu = () => {
     setIsHamburgerOpen((prev) => !prev);
-    setIsPopUpOpen((prev) => !prev);
+    setIsPopUpOpen(!popUp);
   };
 
   const handleNavClick = () => {
@@ -136,7 +137,7 @@ function Header() {
 
           <HashLink
             smooth
-            to={`${basePath}/#vacancies`}
+            to={`${basePath}#vacancies`}
             className="no_underline"
           >
             <Button

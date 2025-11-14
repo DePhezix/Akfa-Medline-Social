@@ -1,17 +1,17 @@
 import "./WaitingList.scss";
-import { useContext, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Button from "../../../components/Button/Button.js";
-import { PopUpContext } from "../../../contexts/PopupContext.js";
 import { useNavigate, useParams } from "react-router-dom";
 import RightArrow from '/svgs/right-white-arrow.svg'
+import { useBoundStore } from "../../../store/Store.js";
 
 type Props = {
-  className: string,
+  className?: string,
   setIsWaitingListOpen: Dispatch<SetStateAction<boolean>>
 }
 
 function WaitingList({ className, setIsWaitingListOpen }: Props) {
-  const { setIsPopUpOpen } = useContext(PopUpContext);
+  const setIsPopUpOpen = useBoundStore(state => state.setPopUp)
   const { language } = useParams();
   const navigate = useNavigate();
 

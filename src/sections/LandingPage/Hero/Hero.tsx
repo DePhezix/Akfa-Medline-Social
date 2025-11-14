@@ -1,23 +1,15 @@
 import "./Hero.scss";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import HeroImage from "/svgs/hero.svg";
 import SearchIcon from "/svgs/search-icon.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import Button from "../../../components/Button/Button.js";
-import axios from "axios";
 import { HashLink } from "react-router-hash-link";
-import HeroSearch from "../HeroSearch/HeroSearch";
-import { LoadingContext } from "../../../contexts/LoadingContext.js";
-import { PopUpContext } from "../../../contexts/PopupContext.js";
+import HeroSearch from "../HeroSearch/HeroSearch.js";
 import { useParams } from "react-router-dom";
+import { useBoundStore } from "../../../store/Store.js";
 
 type languageType = "en" | "ru";
-
-type waitngListType = {
-  ru: string | undefined;
-  en: string | undefined;
-  count: number;
-};
 
 interface textType {
   heading: string;
@@ -27,16 +19,11 @@ interface textType {
   subheader: string;
 }
 
-interface backendWaitlistDataType {
-  name: string;
-  response: number;
-}
-
 function Hero() {
-  const [waitingList, setWaitingList] = useState<waitngListType[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const { setIsPopUpOpen } = useContext(PopUpContext);
-  const { setIsLoading } = useContext(LoadingContext);
+  const waitingList = useBoundStore((state) => state.vacancyStats);
+  const fetchWaitingList = useBoundStore((state) => state.fetchAndSetVacancyStats)
+  const setIsPopUpOpen = useBoundStore(state => state.setPopUp)
   const { language } = useParams<{ language: languageType }>();
   const currentLan = language || "ru";
 
@@ -64,33 +51,7 @@ function Hero() {
   };
 
   useEffect(() => {
-    const fetchWaitListData = async () => {
-      try {
-        // setIsLoading(true);
-        const res = await axios.get<backendWaitlistDataType[]>(
-          "https://hr.centralasian.uz/api/dashboard/social/v3/stats/by-schools"
-        );
-
-        const parsedList: waitngListType[] = res.data.map((item) => {
-          const match = item.name.match(/^(.*?)\s*\((.*?)\)/);
-          const russian = match ? match[1]?.trim() : item.name;
-          const english = match ? match[2]?.trim() : item.name;
-          return {
-            ru: russian,
-            en: english,
-            count: item.response,
-          };
-        });
-
-        setWaitingList(parsedList);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchWaitListData();
+    fetchWaitingList()
   }, []);
 
   return (

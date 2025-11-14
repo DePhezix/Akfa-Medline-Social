@@ -1,7 +1,6 @@
 import "./JoinWaitingList.scss";
 import {
   useState,
-  useContext,
   Dispatch,
   SetStateAction,
   ChangeEvent,
@@ -12,10 +11,9 @@ import Input from "../../../components/Input/Input.js";
 import DownArrow from "/svgs/downArrow.svg";
 import Button from "../../../components/Button/Button.js";
 import Plus from "/svgs/plus.svg";
-import { PopUpContext } from "../../../contexts/PopupContext.js";
-import { LoadingContext } from "../../../contexts/LoadingContext.js";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import { postApplicant } from "../../../ApiCalls/postApplicant.js";
+import { useBoundStore } from "../../../store/Store.js";
 
 type Props = {
   isOpen: boolean;
@@ -58,8 +56,13 @@ interface formType {
   cv: { file: File | undefined | null; name: string };
 }
 
+interface postApplicantArgumentsType extends formType {
+  jobid: string;
+  resume: File;
+}
+
 function JoinWaitingList({ isOpen, setIsOpen }: Props) {
-  const { jobid } = useParams();
+  const { jobid } = useParams<{ jobid: string }>();
   const [phase, setPhase] = useState(1);
   const [errors, setErrors] = useState<errorType>({});
   const [toast, setToast] = useState<toastType>({
@@ -80,8 +83,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
     employmentStatus: "",
     cv: { file: null, name: "" },
   });
-  const { setIsPopUpOpen } = useContext(PopUpContext);
-  const { setIsLoading } = useContext(LoadingContext);
+  const setIsPopUpOpen = useBoundStore((state) => state.setPopUp)
 
   const handleInputChange = (field: string) => (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -98,10 +100,10 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
 
   const showToast = (msg: string, error: boolean) => {
     setToast({ message: msg, visible: true, error: error });
-    // setTimeout(
-    //   () => setToast({ message: "", visible: false, error: false }),
-    //   4000
-    // );
+    setTimeout(
+      () => setToast({ message: "", visible: false, error: false }),
+      4000
+    );
   };
 
   const validateForm = () => {
@@ -243,46 +245,21 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
   };
 
   const onFormConfirm = async () => {
-    setIsLoading(true);
-    try {
-      const formDataToSend: any = new FormData();
+    if (!jobid || !formData.cv.file) return;
+    const postApplicantArguments: postApplicantArgumentsType = {
+      ...formData,
+      jobid,
+      resume: formData.cv.file,
+    };
+    const applicantPost = await postApplicant(postApplicantArguments);
 
-      formDataToSend.append("vacancyId", Number(jobid));
-      formDataToSend.append("full_name", formData.fullName);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("phone_number", formData.phone);
-      formDataToSend.append("country_of_citizenship", formData.citizenship);
-      formDataToSend.append(
-        "degree_and_field_of_study",
-        formData.educationLevel
-      );
-      formDataToSend.append(
-        "language",
-        formData.languages.map((l) => l.name).join(", ")
-      );
-      formDataToSend.append("total_years", "Unknown");
-      formDataToSend.append("when_you_start", formData.startDate);
-      formDataToSend.append("relocate", true);
-      formDataToSend.append("job_recent_title", "LinkedIn");
-      formDataToSend.append("interested_joint_university", "string");
-      formDataToSend.append("resume", formData.cv.file);
-
-      await axios.post(
-        "https://hr.centralasian.uz/api/applicants/apply",
-        formDataToSend
-      );
-
+    if (applicantPost == "success") {
       setIsPopUpOpen(false);
       setIsOpen(false);
       setPhase(1);
       resetForm();
-    } catch (err: any) {
-      const msg =
-        err.response?.data?.message ||
-        "Failed to submit form. Please try again.";
-      showToast(msg, true);
-    } finally {
-      setIsLoading(false);
+    } else {
+      showToast(applicantPost, true)
     }
   };
 
@@ -294,7 +271,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData((prev) => {
-      const file = (e.target as HTMLInputElement)?.files?.[0]
+      const file = (e.target as HTMLInputElement)?.files?.[0];
       return {
         ...prev,
         cv: {

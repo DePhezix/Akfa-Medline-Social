@@ -1,19 +1,15 @@
 import "./HeroSearch.scss";
 import {
   useState,
-  useContext,
-  useEffect,
   Dispatch,
   SetStateAction,
   ChangeEvent,
   MouseEvent
 } from "react";
-import { LoadingContext } from "../../../contexts/LoadingContext.js";
-import { PopUpContext } from "../../../contexts/PopupContext.js";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import CloseImg from "/svgs/x.svg";
 import SearchImg from "/svgs/search-icon.svg";
+import { useBoundStore } from "../../../store/Store.js";
 
 type Props = {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
@@ -28,34 +24,12 @@ interface backendVacanciesData {
 type languagesType = "en" | "ru"
 
 function HeroSearch({ setIsSearchOpen }: Props) {
-  const { setIsLoading } = useContext(LoadingContext);
-  const { setIsPopUpOpen } = useContext(PopUpContext);
+  const setIsPopUpOpen = useBoundStore(state => state.setPopUp)
   const { language } = useParams<{language: languagesType}>();
 
-  const [vacancies, setVacancies] = useState<backendVacanciesData[]>([]);
-  const [filteredVacancies, setFilteredVacancies] = useState<backendVacanciesData[]>([]);
+  const vacancies = useBoundStore((state) => state.vacancies);
+  const [filteredVacancies, setFilteredVacancies] = useState<backendVacanciesData[]>(vacancies.slice(0, 8));
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get<backendVacanciesData[]>(
-          "https://hr.centralasian.uz/api/social/vacancies"
-        );
-
-        if (Array.isArray(res.data)) {
-          setVacancies(res.data);
-          setFilteredVacancies(res.data.slice(0, 8));
-        }
-      } catch (err) {
-        console.error("Error fetching vacancies:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [setIsLoading]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();

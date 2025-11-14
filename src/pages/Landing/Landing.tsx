@@ -1,23 +1,25 @@
 import "./Landing.scss";
-import Hero from "../../sections/LandingPage/Hero/Hero";
-import InvitationSection from "../../sections/LandingPage/LandingInvitation/Invitation";
-import JoinUsSection from "../../sections/LandingPage/JoinUs/JoinUs";
-import ClinicAdvantages from "../../sections/LandingPage/ClinicAdvantages/ClinicAdvantages";
-import ApplicationRequirements from "../../sections/LandingPage/ApplicationRequirements/ApplicationRequirements";
-import HiringDepartments from "../../sections/LandingPage/HiringDepartments/HiringDepartments";
-import FieldSearch from "../../sections/LandingPage/FieldSearch/FieldSearch";
-import Contacts from "../../sections/LandingPage/Contacts/Contacts";
-import { useContext, useEffect, useState, useRef } from "react";
+import Hero from "../../sections/LandingPage/Hero/Hero.js";
+import InvitationSection from "../../sections/LandingPage/LandingInvitation/Invitation.js";
+import JoinUsSection from "../../sections/LandingPage/JoinUs/JoinUs.js";
+import ClinicAdvantages from "../../sections/LandingPage/ClinicAdvantages/ClinicAdvantages.js";
+import ApplicationRequirements from "../../sections/LandingPage/ApplicationRequirements/ApplicationRequirements.js";
+import HiringDepartments from "../../sections/LandingPage/HiringDepartments/HiringDepartments.js";
+import FieldSearch from "../../sections/LandingPage/FieldSearch/FieldSearch.js";
+import Contacts from "../../sections/LandingPage/Contacts/Contacts.js";
+import Loading from "../../sections/Global/Loading/Loading.js";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { LoadingContext } from "../../contexts/LoadingContext.js";
-import Loading from "../../sections/Global/Loading/Loading";
+import { useBoundStore } from '../../store/Store.js'
 
 function LandingPage() {
-  const { isLoading, setIsLoading } = useContext(LoadingContext);
+  const isLoading = useBoundStore((state) => state.loading)
+  const setIsLoading = useBoundStore((state) => state.setLoading)
   const { language } = useParams();
   const { hash } = useLocation();
   const [currentLan, setCurrentLan] = useState(language || "ru");
   const isInitialRender = useRef(true);
+  const fetchVacancies = useBoundStore((state) => state.fetchAndSetVacancies)
 
   useEffect(() => {
     setCurrentLan(language || "ru");
@@ -42,6 +44,10 @@ function LandingPage() {
       }
     }
   }, [isLoading, hash]);
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
 
   return (
     <>

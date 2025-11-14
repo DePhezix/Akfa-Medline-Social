@@ -3,7 +3,7 @@ import VacanciesImg from "/images/vacancies.avif";
 import ClockSVG from '/svgs/clock.svg'
 
 type Props = {
-  imgSrc: string,
+  imgSrc?: string,
   Heading: string,
   SubHeading: string,
   CandidatesNumber: number,

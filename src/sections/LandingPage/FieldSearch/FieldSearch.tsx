@@ -1,25 +1,12 @@
 import "./FieldSearch.scss";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import JobApplicationCard from "../../../components/JobApplicationCard/JobApplicationCard.js";
 import Notice from "/svgs/notice.svg";
-import axios from "axios";
-import { LoadingContext } from "../../../contexts/LoadingContext.js";
 import Pagination from "../../../components/Pagination/Pagination.js";
 import { useParams } from "react-router-dom";
+import { useBoundStore } from "../../../store/Store.js";
 
 type languagesType = "en" | "ru";
-
-interface jobsType {
-  title: string;
-  numberOfApplicants: number;
-  jobID: number;
-}
-
-interface databaseJobsType {
-  title: string;
-  onWaitingList: number;
-  id: number;
-}
 
 interface staticFieldsValuesType {
   invitation: string;
@@ -32,10 +19,12 @@ interface staticFieldsValuesType {
 }
 
 function FieldSearch() {
-  const [jobs, setJobs] = useState<jobsType[]>([]);
-  const { setIsLoading } = useContext(LoadingContext);
   const { language } = useParams<{ language: languagesType }>();
   const currentLan = language || "ru";
+  const jobs = useBoundStore((state) => state.vacanciesByDivision);
+  const fetchJobs = useBoundStore(
+    (state) => state.fetchAndSetVacanciesByDivision
+  );
 
   const fieldKey: Record<string, number> = {
     "Врачи / Специалисты (Physicians & Specialists)": 5121,
@@ -316,29 +305,9 @@ function FieldSearch() {
   };
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        // setIsLoading(true);
-        const id = fieldKey[selectedKey];
-        const res = await axios.get<databaseJobsType[]>(
-          `https://hr.centralasian.uz/api/social/vacancies?division=${id}`
-        );
-
-        const formattedJobs: jobsType[] = res.data.map((item) => ({
-          title: item.title,
-          numberOfApplicants: item.onWaitingList,
-          jobID: item.id,
-        }));
-
-        setJobs(formattedJobs);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchJobs();
+    if (fieldKey[selectedKey]) {
+      fetchJobs(fieldKey[selectedKey] ?? 0);
+    }
   }, [selectedKey]);
 
   const fieldName =

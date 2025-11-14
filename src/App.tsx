@@ -1,15 +1,14 @@
 import "./App.css";
-import { useContext, useEffect } from "react";
-import { LoadingContext } from "./contexts/LoadingContext.js";
+import {useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./layouts/layout.js";
 
 import LandingPage from "./pages/Landing/Landing.js";
 import JobDetails from "./pages/JobDetails/JobDetails.js";
-import { PopUpContext } from "./contexts/PopupContext.js";
+import { useBoundStore } from "./store/Store.js";
 
 function App() {
-  const { isPopUpOpen } = useContext(PopUpContext);
+  const isPopUpOpen = useBoundStore(state => state.popUp)
 
   useEffect(() => {
     const originalOverflow: string = document.body.style.overflow;

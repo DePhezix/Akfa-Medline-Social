@@ -1,11 +1,10 @@
+import { useBoundStore } from '../../../store/Store.js';
 import './Loading.scss'
-import { LoadingContext } from '../../../contexts/LoadingContext.js'
-import { useContext } from 'react'
 import LoadingImage from "/images/loading.png";
 
 function Loading() {
-    const { isLoading } = useContext(LoadingContext)
-    return (
+const isLoading = useBoundStore(state => state.loading)
+  return (
       <div
         className={`LoadingContainer ${
           isLoading
