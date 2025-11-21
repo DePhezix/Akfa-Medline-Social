@@ -1,4 +1,3 @@
-import "./WaitingList.scss";
 import { Dispatch, SetStateAction } from "react";
 import Button from "../../../components/Button/Button.js";
 import { useNavigate, useParams } from "react-router-dom";
@@ -32,21 +31,21 @@ function WaitingList({ className, setIsWaitingListOpen }: Props) {
 
   return (
     <div
-      className={`JobDetailsWaitingListContainer ${className ? className : ""}`}
+      className={`flex flex-col rounded-[16px] gap-[.75rem] w-full ${className ? className : ""}`}
     >
       <Button
         text="Submit an application"
         onButtonClick={handleWaitingButtonClick}
         variant="black"
-        additionalStyle={{ padding: "12px 10px"}}
+        className="p-[12px] pl-[10px] pr-[10px] rounded-none"
         fontSize='sm'
         imgSrc={RightArrow}
       />
       <Button
         text="Back to Job Listings"
         onButtonClick={handleReturnButtonClick}
+        className='rounded-none'
         variant="transparent"
-        additionalStyle={{ border: "1px solid #e5e7eb"}}
         fontSize='sm'
       />
     </div>

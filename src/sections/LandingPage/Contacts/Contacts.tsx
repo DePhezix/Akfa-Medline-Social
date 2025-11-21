@@ -1,4 +1,3 @@
-import "./Contacts.scss";
 import PhoneSVG from "/svgs/phone.svg";
 import MailSVG from "/svgs/mail.svg";
 import LocationSVG from "/svgs/location.svg";
@@ -73,31 +72,40 @@ function Contacts() {
   const selectedContacts: contactsListType[] = ContactsList[currentLan];
 
   return (
-    <section className="ContactsContainer" id="contacts">
-      <div className="contacts">
-        <h2 className="contacts-header">
+    <section
+      className="flex flex-col w-[1280px] gap-[43px] mb-[80px] max-2xl:w-full"
+      id="contacts"
+    >
+      <div className="flex w-full flex-col gap-[42px]">
+        <h2 className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] text-[56px]">
           {currentLan === "ru" ? "Контакты" : "Contacts"}
         </h2>
-        <div className="contacts-list">
+        <div className="flex gap-[24px] flex-wrap">
           {selectedContacts.map((contact, index) => (
             <a
               href={contact.link}
               key={index}
-              className="contactContainer"
+              className="max-2xl:p-[20px] flex flex-col flex-1 rounded-[16px] p-[32px] gap-[40px] border border-solid border-[#52525a] min-w-[280px] cursor-pointer no-underline text-black"
               target={index === 2 ? "_blank" : "_self"}
               rel="noopener noreferrer"
             >
-              <figure className="icon-container">
+              <figure className="w-[40px] h-[40px] rounded-[8px] bg-red flex justify-center items-center">
                 <img src={contact.imgSrc} alt="" className="icon" />
               </figure>
-              <div className="text-container">
-                <div className="contacts-headerContainer">
-                  <h3 className="header">{contact.title}</h3>
+              <div className="flex flex-col gap-[19px]">
+                <div className="flex flex-col gap-[7.09px]">
+                  <h3 className="font-[600] text-[21px] leading-[33.6px] tracking-[-0.5px]">
+                    {contact.title}
+                  </h3>
                   {contact.text1 && (
-                    <p className="subtitle">{contact.text1}</p>
+                    <p
+                      className="text-[16px] leading-[27.2px] text-[#232f3a] whitespace-nowrap"
+                    >
+                      {contact.text1}
+                    </p>
                   )}
                 </div>
-                <p className="contact">{contact.text2}</p>
+                <p className="font-[500] text-[17px] leading-[27.2px] tracking-[-0.5px]">{contact.text2}</p>
               </div>
             </a>
           ))}
@@ -112,7 +120,7 @@ function Contacts() {
         }
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
-        className="maps"
+        className="max-2xl:w-full max-md:h-[440px] max-sm:h-[358px] w-[1280px] h-[550px] border-0 rounded-[10px]"
         allowFullScreen
       />
     </section>

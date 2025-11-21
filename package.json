@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-google-maps/api": "^2.20.7",
     "@reduxjs/toolkit": "^2.10.1",
+    "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.13.2",
     "gh-pages": "^6.3.0",
     "imask": "^7.6.1",
@@ -25,6 +26,7 @@
     "redux-toolkit": "^1.1.2",
     "sass": "^1.94.0",
     "svgr": "^1.10.0",
+    "tailwindcss": "^4.1.17",
     "use-sync-external-store": "^1.6.0",
     "zustand": "^5.0.8"
   },

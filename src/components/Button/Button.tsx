@@ -1,4 +1,3 @@
-import './Button.scss'
 import { MouseEventHandler, CSSProperties, ReactNode } from 'react'
 
 type buttonVariant = "black" | "black2" | "white" | "transparent"
@@ -16,51 +15,34 @@ type Props = {
   children?: ReactNode
 }
 
-function Button({text, imgSrc, variant, additionalStyle, onButtonClick, buttonType = 'button', children, className, fontSize}: Props) {
-    const variants: Record<buttonVariant, CSSProperties> = {
-      black: {
-        backgroundColor: "#222222",
-        color: "#ffffff",
-      },
-      black2: {
-        backgroundColor: "#1E1E1F",
-        color: "#ffffff",
-      },
-      white: {
-        color: "#1E1E1F",
-        backgroundColor: "#ffffff",
-        border: "1px solid #1E1E1F33",
-      },
-      transparent: {
-        backgroundColor: "transparent",
-        color: "#000"
-      },
+function Button({text, imgSrc, variant, onButtonClick, buttonType = 'button', children, className, fontSize}: Props) {
+    const variantClasses: Record<buttonVariant, string> = {
+      black: "!bg-[#222222] !text-white",
+      black2: "!bg-[#1E1E1F] !text-white",
+      white: "!bg-white !text-[#1E1E1F] !border !border-[#1E1E1F33]",
+      transparent:
+        "!bg-transparent !text-black !border !border-solid !border-[#e5e7eb]",
     };
-    const fontSizes: Record<fontsType, CSSProperties> = {
-      sm: {
-        fontSize: "13px",
-      },
-    };
-    const combinedStyles = {
-      ...(variant ? variants[variant] : {}),
-      ...additionalStyle,
+
+    const fontClasses: Record<fontsType, string> = {
+      sm: "!text-[13px]",
     };
     return (
       <button
         type={buttonType}
-        className={`button ${className ? className : ""}`}
-        style={combinedStyles}
+        className={`flex rounded-[5px] p-[16px] gap-[7px] bg-red items-center text-white w-full cursor-pointer border-0 justify-center duration-300 ease-in-out hover:brightness-[0.85] hover:-translate-y-px ${variant ? variantClasses[variant] : ""} ${
+          className ? className : ""
+        }`}
         onClick={onButtonClick}
       >
         {text && (
           <div
-            className="text"
-            style={fontSize ? { ...fontSizes[fontSize] } : {}}
+            className={`w-full min-w-[119px] h-[19px] text-[16px] flex items-center justify-center ${fontSize ? fontClasses[fontSize]  : ""}`}
           >
             {text}
           </div>
         )}
-        {imgSrc && <img src={imgSrc} className="image" />}
+        {imgSrc && <img src={imgSrc} />}
         {children}
       </button>
     );

@@ -1,5 +1,4 @@
 import { Children, useState, ReactNode } from "react";
-import "./Pagination.scss";
 import DownArrow from "/svgs/downArrow.svg";
 
 type Props = {
@@ -32,26 +31,28 @@ const childArray = Children.toArray(children);
   };
 
   return (
-    <div className="PaginationContainer">
-      <div className={`paginated-content ${className}`}>{currentItems}</div>
+    <div className="flex flex-col items-center gap-[24px] w-fiull">
+      <div className={`w-full ${className}`}>{currentItems}</div>
 
-      <div className="pagination-controls">
+      <div
+        className="flex items-center justify-center gap-[16px] text-[1rem]  select-none"
+      >
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="arrowContainer"
+          className="w-[35px] h-[35px] flex items-center justify-center bg-red border-0 rounded-[8px] cursor-pointer hover:not-disabled:bg-[#c30629] active:not-disabled:translate-y-[0] disabled:opacity-40 disabled:cursor-default disabled:transform-none"
         >
-          <img src={DownArrow} alt="back arrow" className="arrow arrow--back" />
+          <img src={DownArrow} alt="back arrow" className="w-[18px] h-[18px] invert transition-transform duration-200 ease-linear rotate-90" />
         </button>
-        <span>
+        <span className="font-[500] text-[#333] m-w-[60px] text-center">
           {currentPage} / {totalPages}
         </span>
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="arrowContainer"
+          className="w-[35px] h-[35px] flex items-center justify-center bg-red border-0 rounded-[8px] cursor-pointer hover:not-disabled:bg-[#c30629] active:not-disabled:translate-y-[0] disabled:opacity-40 disabled:cursor-default disabled:transform-none"
         >
-          <img src={DownArrow} alt="next arrow" className="arrow arrow--next" />
+          <img src={DownArrow} alt="next arrow" className="w-[18px] h-[18px] invert transition-transform duration-200 ease-linear -rotate-90" />
         </button>
       </div>
     </div>

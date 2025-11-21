@@ -1,4 +1,3 @@
-import "./FieldSearch.scss";
 import { useState, useEffect } from "react";
 import JobApplicationCard from "../../../components/JobApplicationCard/JobApplicationCard.js";
 import Notice from "/svgs/notice.svg";
@@ -321,13 +320,13 @@ function FieldSearch() {
       : `Job Vacancies for ${fieldName}`;
 
   return (
-    <section className="FieldSearchContainer" id="vacancies">
-      <header className="FieldSearchContainer-header">
+    <section className="max-2xl:w-full flex flex-col w-[1280px] gap-[32px] text-black mb-[80px]" id="vacancies">
+      <header className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] font-[500] text-[48px] leading-[67.2px] tracking-[-1%] align-middle">
         {currentLan === "ru" ? "Поиск по направлениям" : "Search by Faculty"}
       </header>
 
       <nav
-        className="FieldSearchContainer-fieldsContainer"
+        className="flex w-full pb-[36px] gap-[9px] border-b border-solid border-[#e3e5e5] overflow-x-auto [&::-webkit-scrollbar]:hidden"
         aria-label="Job categories"
       >
         {Object.entries(staticFields).map(([key, field]) => {
@@ -340,30 +339,30 @@ function FieldSearch() {
             <button
               key={key}
               type="button"
-              className={`fieldContainer ${
-                key === selectedKey ? "selected" : ""
+              className={`max-2xl:min-w-[270px] rounded-[5px] p-[22px] pt-[11px] pb-[12.19px] cursor-pointer border border-solid border-[#e3e5e5] transition duration-500 ease-linear ${
+                key === selectedKey ? "bg-red text-white border-0" : ""
               }`}
               onClick={() => setSelectedKey(key)}
             >
-              <span className="field">{label}</span>
+              <span className="font-[600] text-[16px] leading-[27.2px] align-middle text-center">{label}</span>
             </button>
           );
         })}
       </nav>
 
       {selected && (
-        <article className="block">
-          <header className="block-header">{blockHeader}</header>
+        <article className="max-2xl:w-full flex flex-col gap-[15px] w-[1250.53px] mb-[16px]">
+          <header className="max-2xl:text-[32px] max-2xl:leading-[40px] w-full font-[500] text-[36px] leading-[50.4px] tracking-[-1px] align-middle">{blockHeader}</header>
 
-          <div className="block-allDetailsContainer">
+          <div className="flex flex-col gap-[16px] text-[14px] leading-[23.8px]">
             {selected.invitation && (
-              <p className="invitation">{selected.invitation}</p>
+              <p className="font-[600] align-middle">{selected.invitation}</p>
             )}
 
             {selected.benefits?.length > 0 && (
-              <div className="benefits-list">
+              <div>
                 {selected.benefits.map((benefit, index) => (
-                  <span key={index} className="benefits-item">
+                  <span key={index}>
                     {benefit}
                   </span>
                 ))}
@@ -371,20 +370,18 @@ function FieldSearch() {
             )}
 
             {selected.values && (
-              <section className="detailsContainer">
-                <h3 className="header">{selected.values.header}</h3>
+              <section className="flex flex-col gap-[12px]">
+                <h3 className="font-[600]">{selected.values.header}</h3>
                 <p
-                  className="details"
                   dangerouslySetInnerHTML={{ __html: selected.values.details }}
                 />
               </section>
             )}
 
             {selected.requirements && (
-              <section className="detailsContainer">
-                <h3 className="header">{selected.requirements.header}</h3>
+              <section className="flex flex-col gap-[12px]">
+                <h3 className="font-[600]">{selected.requirements.header}</h3>
                 <p
-                  className="details"
                   dangerouslySetInnerHTML={{
                     __html: selected.requirements.details,
                   }}
@@ -393,10 +390,9 @@ function FieldSearch() {
             )}
 
             {selected.workingConditions && (
-              <section className="detailsContainer">
-                <h3 className="header">{selected.workingConditions.header}</h3>
+              <section className="flex flex-col gap-[12px]">
+                <h3 className="font-[600]">{selected.workingConditions.header}</h3>
                 <p
-                  className="details"
                   dangerouslySetInnerHTML={{
                     __html: selected.workingConditions.details,
                   }}
@@ -405,7 +401,7 @@ function FieldSearch() {
             )}
 
             {selected.explanation && (
-              <p className="explanation">* {selected.explanation}</p>
+              <p className="font-[700]">* {selected.explanation}</p>
             )}
           </div>
         </article>
@@ -413,12 +409,11 @@ function FieldSearch() {
 
       {jobs.length > 0 && (
         <section
-          className="JobApplicationCardsSection"
           aria-label="Job listings"
         >
           <Pagination
             itemsPerPage={4}
-            className="JobApplicationCards-Container"
+            className="max-2xl:w-full flex w-[1260px] flex-wrap gap-[32px] justify-between"
             paginationFor={fieldName || ""}
           >
             {jobs?.map((job, index) => (
@@ -435,9 +430,9 @@ function FieldSearch() {
       )}
 
       {selected?.note && (
-        <aside className="noteContainer" role="note">
+        <aside className="rounded-[12px] p-[20px] flex gap-[12px] bg-[#fff3e6]" role="note">
           <img src={Notice} alt="Note icon" />
-          <p className="note">{selected.note}</p>
+          <p className="w-[1204px] text-[16px] leading-[150%] text-[#dd790c]">{selected.note}</p>
         </aside>
       )}
     </section>

@@ -1,4 +1,4 @@
-import "./JoinWaitingList.scss";
+
 import {
   useState,
   Dispatch,
@@ -288,56 +288,58 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
 
   return (
     <div
-      className={`WaitingListContainer 
-      ${!isOpen ? "WaitingListContainer--hidden" : ""}`}
+      className={`h-screen w-screen top-[0] fixed flex justify-center z-10000 bg-[rgba(0,0,0,0.45)] backdrop-blur-[6px]  overflow-y-auto animate-fadeIn p-[60px] [&_input,select]:transition-[border,box-shadow]  [&_input,select]:duration-200  [&_input,select]:ease-linear [&_input,select]:focus:border-[#0057ff] [&_input,select]:focus:outline-0  [&_input,select]:focus:shadow-blue max-sm-md:bg-white max-sm-md:p-[0]
+      ${!isOpen ? "hidden" : ""}`}
       style={phase === 2 ? { alignItems: "center" } : {}}
       onClick={handleClose}
     >
       <div
-        className={`WaitingList ${phase === 2 ? "WaitingList--phase2" : ""}`}
+        className={`flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] p-[40px] gap-[36px] text-black h-min shadow-middle translate-y-[10px] animate-slideUp max-sm-md:h-min max-sm-md:m-[0] max-sm-md:p-[40px] max-sm-md:pl-[20px] max-sm-md:pr-[20px] max-sm-md:shadow-none max-sm-md:bg-white ${
+          phase === 2 ? "items-center mt-[0] max-sm:w-full max-sm:h-screen justify-center gap-[64px]" : ""
+        }`}
         onClick={StopPropogate}
       >
-        <div className="WaitingList-headerAndCloseContainer">
+        <div className="flex w-full gap-[48px] items-start justify-end">
           {phase === 1 && (
-            <div className="WaitingList-headerContainer">
-              <div className="header">Join the Waiting List</div>
+            <div className=" w-full">
+              <div className=" text-[40px] max-sm-md:text-[24px]">Join the Waiting List</div>
             </div>
           )}
           <img
             onClick={handleClose}
             src={X}
             alt="close button"
-            className="close-button"
+            className="w-[28px] h-[28px] cursor-pointer rounded-[50%] flex justify-center items-center transition duration-250 ease-linear hover:bg-[rgba(0,0,0,0.1)] hover:rotate-90"
           />
         </div>
 
         <>
           <div
-            className={`WaitingList-details ${
-              phase === 2 ? "WaitingList-details--hidden" : ""
+            className={`flex flex-col gap-[16px] ${
+              phase === 2 ? "hidden" : ""
             }`}
           >
-            <div className="WaitingList-invitation">
+            <div className="font-[700] text-[20px] max-sm-md:font-[400]">
               Would you like to join us?
             </div>
-            <div className="WaitlingList-building">
+            <div className="text-[16px] leading-[150%] text-gray]">
               We are building a waiting list of candidates for a new, modern
               clinic that will soon open its doors. If you're interested in
               working with us, simply fill out this short form — we’ll contact
               you as soon as the active recruitment phase begins.
             </div>
-            <div className="WaitilingList-ultimatum">
+            <div className="font-[700] text-[20px] max-sm-md:font-[400]">
               Be the first one we invite for an interview!
             </div>
           </div>
 
-          <form className="WaitingList-form">
+          <form className="flex w-full flex-col gap-24px">
             <div
-              className={`FormWrapper FormWrapper--phase1 ${
-                phase === 2 ? "FormWrapper--phase1--hidden" : ""
+              className={`flex w-full flex-col gap-[24px]  ${
+                phase === 2 ? "hidden" : ""
               }`}
             >
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   label="Full Name"
                   placeholder="Your full name"
@@ -359,7 +361,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
 
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   inputType="tel"
                   label="Phone number"
@@ -381,7 +383,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
 
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   label="Date of Birth"
                   placeholder="Your date of birth"
@@ -403,7 +405,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
 
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   label="Education Level"
                   placeholder="Choose your educational level"
@@ -428,7 +430,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
 
-              <div className="input-container2">
+              <div className="flex flex-col w-full gap-[13px] ">
                 {formData.languages.map((lang, i) => (
                   <Input
                     key={i}
@@ -458,7 +460,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                   />
                 ))}
 
-                <div className="languageButtonContainer">
+                <div className="max-sm-md:w-full  w-min flex justify-between items-center gap-[40px]">
                   <Button
                     text="Add Language"
                     imgSrc={Plus}
@@ -475,12 +477,12 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                     onClick={removeLanguage}
                     src={X}
                     alt="close button"
-                    className="language-remove-button"
+                    className="w-[25px] h-[25px] flex items-center justify-center cursor-pointer opacity-80 transition duration-200 rounded-full hover:opacity-100 hover:scale-110"
                   />
                 </div>
               </div>
 
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   label="When can you start if offered the position?"
                   placeholder="Enter when you can start if offered the position"
@@ -490,7 +492,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
 
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   label="Your current employment status"
                   placeholder="Select your current employment status"
@@ -518,7 +520,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
 
-              <div className="input-container">
+              <div className="max-sm-md:flex-col flex w-full gap-[24px]">
                 <Input
                   label="Please upload your CV"
                   placeholder="Submit your CV"
@@ -544,19 +546,21 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
               />
             </div>
             <div
-              className={`FormWrapper FormWrapper--phase2  ${
-                phase === 1 ? "FormWrapper--phase2--hidden" : ""
+              className={`flex flex-col items-center gap-[36px]  ${
+                phase === 1 ? "hidden" : ""
               }`}
             >
-              <div className="textContainer">
-                <div className="thanks">Thank you!</div>
-                <div className="consent">
+              <div className="max-sm:h-min max-sm:gap-[64px] flex h-min items-center gap-[36px] flex-col">
+                <div className="max-sm:text-[32px] max-sm:font-[600] font-mediator-serif-narrow-web text-[42px] font-[400] leading-[53px]">
+                  Thank you!
+                </div>
+                <div className="max-sm:text-gray  text-[16px] leading-[150%] text-center">
                   By submitting this form, I consent to the collection and
                   processing of my personal data in accordance with the
                   organization's privacy policy
                 </div>
               </div>
-              <div className="buttonsContainer">
+              <div className="max-sm:w-full max-sm:flex-col flex w-[327px] gap-[24px]">
                 <Button text="Back" variant="white" onButtonClick={onBack} />
                 <Button
                   text="Confirm"
@@ -565,7 +569,11 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                 />
               </div>
             </div>
-            {toast.visible && <div className="toast">{toast.message}</div>}
+            {toast.visible && (
+              <div className="fixed top-[0] left-1/2 -translate-x-1/2 bg-red text-white p-[12px] pl-[24px] pr-[24px] rounded-[8px] font-[500] z-9999 ">
+                {toast.message}
+              </div>
+            )}
           </form>
         </>
       </div>

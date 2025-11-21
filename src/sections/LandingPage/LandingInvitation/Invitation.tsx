@@ -1,4 +1,3 @@
-import "./Invitation.scss";
 import { useParams } from "react-router-dom";
 
 type languagesType = "en" | "ru";
@@ -31,11 +30,11 @@ function InvitationSection() {
   };
 
   return (
-    <section className="invitation_container">
-      <h2 className="header">{text[currentLan].header}</h2>
-      <div className="details">
-        <p className="detail detail1">{text[currentLan].detail1}</p>
-        <p className="detail detail2">{text[currentLan].detail2}</p>
+    <section className="max-2xl:w-full flex flex-col gap-[24px] w-[1280px] text-black mt-[80px] mb-[80px]">
+      <h2 className="max-2xl:w-full max-2xl:h-min max-md:leading-[40px] w-[628px] h-[96px] font-[700] text-[32px] leading-[150%] tracking-[-1px]">{text[currentLan].header}</h2>
+      <div className="max-2xl:justify-between max-md:flex-col flex gap-[24px] font-[400] text-[20px] leading-[150%] tracking-[-1px]">
+        <p className="max-2xl:h-min max-md:w-full max-md:text-[16px] max-md:leading-[25px] w-[628px] h-[180px]">{text[currentLan].detail1}</p>
+        <p className="max-2xl:h-min max-md:w-full max-md:text-[16px] max-md:leading-[25px] w-[628px] h-[180px]">{text[currentLan].detail2}</p>
       </div>
     </section>
   );

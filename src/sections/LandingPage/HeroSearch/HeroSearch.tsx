@@ -1,4 +1,3 @@
-import "./HeroSearch.scss";
 import {
   useState,
   Dispatch,
@@ -67,29 +66,39 @@ function HeroSearch({ setIsSearchOpen }: Props) {
   };
 
   return (
-    <div className="HeroSearchContainer" onClick={handleClose}>
-      <div className="ContentContainer" onClick={stopPropagation}>
-        <div className="SearchContainer">
-          <img src={SearchImg} alt="search icon" className="search-icon" />
+    <div
+      className="fixed bg-[rgba(0,0,0,0.45)] flex items-center justify-center z-10000 backdrop-blur-[6px] overflow-y-auto animate-fadeIn h-screen w-screen"
+      onClick={handleClose}
+    >
+      <div
+        className="flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] text-black h-min shadow-middle translate-y-[10px] animate-slideUp rounded-[10px] overflow-x-hidden"
+        onClick={stopPropagation}
+      >
+        <div className="flex relative">
+          <img
+            src={SearchImg}
+            alt="search icon"
+            className="absolute left-[12px] top-1/2 -translate-y-1/2 w-[16px] h-[16px] pointer-events-none"
+          />
           <input
             type="text"
             placeholder="Search..."
             value={searchTerm}
             onChange={handleSearch}
-            className="search-input"
+            className="border-0 focus:outline-0 p-[12px] pl-[40px] pr-[40px] w-full h-[51.2px] text-[100%]"
           />
           {searchTerm && (
             <img
               src={CloseImg}
               alt="clear search"
-              className="close-button"
+              className="w-[28px] h-[28px] cursor-pointer rounded-[50%] flex justify-center items-center transition duration-250 ease-linear absolute right-[10px] top-1/2 -translate-y-1/2 hover:bg-[rgba(0,0,0,0.1) hover:translate-y-1/2 hover:rotate-90"
               onClick={clearSearch}
             />
           )}
         </div>
 
-        <div className="VacanciesContainer">
-          <div className="title">
+        <div>
+          <div className="text-[rgb(75,85,99)] bg-[rgb(243,244,246)] p-[8px] pl-[16px] pr-[16px]">
             {searchTerm
               ? filteredVacancies.length > 0
                 ? `Showing ${filteredVacancies.length} results`
@@ -97,16 +106,20 @@ function HeroSearch({ setIsSearchOpen }: Props) {
               : `Popular Vacancies (showing ${filteredVacancies.length})`}
           </div>
 
-          <div className="Vacancies">
+          <div className="overflow-y-auto h-[70vh] max-h-[584.4px]">
             {filteredVacancies.map((vacancy) => (
               <Link
                 to={getVacancyLink(vacancy.id)}
-                className="VacancyContainer"
+                className="block p-[12px] pl-[16px] pr-[16px] border-b border-solid border-[rgba(229,231,235)] h-min no-underline hover:bg-[rgb(249,250,251)]"
                 key={vacancy.id}
                 onClick={handleClose}
               >
-                <div className="vacancyTitle">{vacancy.title}</div>
-                <div className="vacancyCategory">{vacancy.category}</div>
+                <div className="font-[500] text-[rgb(17,24,39)] leading-[24px]">
+                  {vacancy.title}
+                </div>
+                <div className="text-[rgb(107,114,128)] text-[0.875rem] leading-[1.25rem] mt-[0.25rem]">
+                  {vacancy.category}
+                </div>
               </Link>
             ))}
           </div>

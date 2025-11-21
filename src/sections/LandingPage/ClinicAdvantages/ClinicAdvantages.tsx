@@ -1,4 +1,3 @@
-import "./ClinicAdvantages.scss";
 import { useParams } from "react-router-dom";
 import ClinicAdvantage from "../../../components/ClinicAdvantage/ClinicAdvantage.js";
 import CAI1 from "/images/ClinicalAdvantageImage1.jpg";
@@ -114,12 +113,19 @@ function ClinicAdvantages() {
   };
 
   return (
-    <section className="ClinicAdvantages-container" id="benefits">
-      <header className="ClinicAdvantages_header-container">
-        <h2 className="ClinicAdvantages_header">{text[currentLan].header}</h2>
-        <p className="ClinicAdvantages_subtitle">{text[currentLan].subtitle}</p>
+    <section
+      className="max-2xl:w-full max-2xl:gap-[45px] flex flex-col w-[1280px] gap-[60px] mb-[80px]"
+      id="benefits"
+    >
+      <header className="max-2xl:w-full flex flex-col gap-[16px] items-center">
+        <h2 className="max-2xl:w-full max-2xl:font-[700] max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:h-min w-[628px] h-[44px] font-[700] text-[36px] tracking-[-1px] text-center align-middle ">
+          {text[currentLan].header}
+        </h2>
+        <p className="max-2xl:text-[16px] max-2xl:leading-[24px] max-2xl:w-full max-2xl:h-min w-[628px] h-[90px] text-[20px] leading-[150%] tracking-[-1px] text-center align-middle">
+          {text[currentLan].subtitle}
+        </p>
       </header>
-      <div className="ClinicalAdvantages_list-container">
+      <div className="max-2xl:flex-row max-2xl:overflow-x-auto max-2xl:overflow-y-hidden max-2xl:gap-[16px]] [&::-webkit-scrollbar]:hidden flex flex-col gap-[40px]">
         {text[currentLan].data.map((item, index) => (
           <ClinicAdvantage
             key={index}

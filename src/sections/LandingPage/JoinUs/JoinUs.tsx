@@ -1,4 +1,3 @@
-import "./JoinUs.scss";
 import Card from "../../../components/Card/Card.js";
 import Button from "../../../components/Button/Button.js";
 import Star from "/svgs/star.svg";
@@ -85,12 +84,12 @@ function JoinUsSection() {
 
 
   return (
-    <section className="join-us_container">
-      <div className="img-container">
-        <div className="text-and-button-container">
-          <header className="text">
-            <h2 className="header">{content[currentLan].header}</h2>
-            <h5 className="subtitle">{content[currentLan].subtitle}</h5>
+    <section className="max-2xl:min-[1245px]:items-center max-2xl:w-full max-2xl:overflow-x-hidden max-2xl:bg-center flex w-[1280px] flex-col gap-[60px] mb-[60px]">
+      <div className="max-2xl:w-full max-md:flex max-md:items-end max-md:justify-center max-md:w-full max-md:rounded-[12px] max-md:p-[16px] max-md:pt-[24px] max-md:pb-[24px] max-md:h-[526px] w-[1280px] h-[685px] relative text-white">
+        <div className="max-md:static flex flex-col w-[617px] absolute top-[308px] left-[60px] gap-[32px] z-10">
+          <header className="flex flex-col gap-[16px]">
+            <h2 className="max-md:text-[32px] max-md:leading-[40px] max-md:h-min max-md:w-full max-md:mb-28px w-[473px] h-[135px] text-[56px] leading-[67.2px] tracking-[-1px] font-[400]">{content[currentLan].header}</h2>
+            <h5 className="max-md:leading-[1.75rem] max-md:text-[1.25rem] max-md:w-full max-md:font-[500]  font-[500] text-[20px] leading-[150%] tracking-[-0.5px] w-[498px]">{content[currentLan].subtitle}</h5>
           </header>
           <HashLink
             smooth
@@ -99,7 +98,7 @@ function JoinUsSection() {
                 ? "/Akfa-Medline-Social/#vacancies"
                 : `/Akfa-Medline-Social/${currentLan}#vacancies`
             }
-            className="button-container"
+            className="max-md:w-full w-max rounded-[7px] no-underline"
           >
             <Button
               text={content[currentLan].button}
@@ -111,11 +110,11 @@ function JoinUsSection() {
         <img
           src={bckgrndImg}
           alt="Doctor holding stethoscope"
-          className="dctr-img"
+          className="max-2xl:w-full max-2xl:object-cover max-md:h-[526px] w-[1280px] h-[685px] rounded-[5px] absolute top-[0] left-[0]"
         />
       </div>
 
-      <div className="join-us_cards-container">
+      <div className="max-2xl:flex-wrap flex justify-between gap-[11.5px]">
         {content[currentLan].cardsData.map((arr, index) => (
           <Card
             key={index}

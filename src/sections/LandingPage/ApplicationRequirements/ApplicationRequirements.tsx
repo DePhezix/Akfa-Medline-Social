@@ -1,4 +1,3 @@
-import "./ApplicationRequirements.scss";
 import Button from "../../../components/Button/Button.js";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import { HashLink } from "react-router-hash-link";
@@ -44,27 +43,35 @@ function ApplicationRequirements() {
   const currentText: textType = text[currentLan];
 
   return (
-    <section className="ApplicationRequirements-container">
-      <div className="ApplicationRequirements-header_container">
-        <header className="ApplicationRequirements-header">
-          <h4 className="text">{currentText.header}</h4>
+    <section className="max-2xl:w-full max-md:flex-col max-md:p-[20px] w-[1280px] flex rounded-[12px] p-[40px] gap-[42px] bg-[#f3f4f4] mb-[80px]">
+      <div className="max-md:w-full w-[568px]">
+        <header className="max-md:text-[32px] max-md:leading-[40px] font-[600] text-[36px] leading-[140%] tracking-[-0.5px] align-middle text-black">
+          <h4 className="w-full">{currentText.header}</h4>
         </header>
       </div>
 
-      <div className="ApplicationRequirements-content_container">
-        <div className="content">
-          <span className="highlight">
+      <div className="max-2xl:w-full flex flex-col pr-[8.28px] gap-[16px]">
+        <div className="max-2xl:w-full text-[16px] leading-[22.4px] align-middle w-[469px]">
+          <span className="font-[600]">
             {currentText.requirements.split(":")[0]}:
           </span>{" "}
+          {}
           {currentText.requirements.split(":")[1]}
         </div>
-        <div className="content">
-          <span className="highlight">
-            {currentText.workMode.split(":")[0]}:
-          </span>{" "}
-          {currentText.workMode.split(":")[1]}
+        <div className="max-2xl:w-full text-[16px] leading-[22.4px] align-middle w-[469px]">
+          {currentText.workMode.split(":").map((item, index) => (
+            <span key={index}>
+              {index === 0 ? (
+                <span className="font-[600]">{item}:</span>
+              ) : index != currentText.workMode.split(":").length - 1  ?  (
+                ` ${item}:`
+              ): (
+                `${item}`
+              )}
+            </span>
+          ))}
         </div>
-        <div className="deadline">
+        <div className="max-2xl:w-full max-md:text-[18px] max-md:leading-[120%] w-[469px] font-[600] text-[20px] leading-[150%] align-middle">
           {currentText.deadline} <br /> {currentText.date}
         </div>
         <HashLink
@@ -74,7 +81,7 @@ function ApplicationRequirements() {
               ? "/Akfa-Medline-Social/#vacancies"
               : `/Akfa-Medline-Social/${currentLan}#vacancies`
           }
-          className="button-container"
+          className="max-md:w-full w-max no-underline"
         >
           <Button
             text={currentText.button}

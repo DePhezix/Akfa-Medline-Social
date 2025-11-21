@@ -1,4 +1,3 @@
-import "./Landing.scss";
 import Hero from "../../sections/LandingPage/Hero/Hero.js";
 import InvitationSection from "../../sections/LandingPage/LandingInvitation/Invitation.js";
 import JoinUsSection from "../../sections/LandingPage/JoinUs/JoinUs.js";
@@ -52,7 +51,7 @@ function LandingPage() {
   return (
     <>
       {isLoading ? (
-        <div className="LandingLoadingWrapper">
+        <div className="mt-[100px] h-[200px] flex flex-col items-center text-red text-[20px] font-[600] gap-[20px]">
           <Loading />
           <p className="subtitle">
             {currentLan === "ru" ? "Загрузка страницы..." : "Loading page..."}
@@ -61,7 +60,7 @@ function LandingPage() {
       ) : (
         <>
           <Hero />
-          <div className="restSections">
+          <div className="w-full flex flex-col items-center max-2xl:pl-[30px] max-2xl:pr-[30px] max-md:pl-[16px] max-md:pr-[16px] ">
             <InvitationSection />
             <JoinUsSection />
             <ClinicAdvantages />

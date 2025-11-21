@@ -1,18 +1,13 @@
 import { useBoundStore } from '../../../store/Store.js';
-import './Loading.scss'
 import LoadingImage from "/images/loading.png";
 
 function Loading() {
 const isLoading = useBoundStore(state => state.loading)
   return (
       <div
-        className={`LoadingContainer ${
-          isLoading
-            ? "LoadingContainer--loading"
-            : "LoadingContainer--not-loading"
-        }`}
+        className={`flex bg-white justify-center items-start w-screen`}
       >
-        <img src={LoadingImage} alt="loading" />
+        <img src={LoadingImage} alt="loading" className='w-[100px] animate-spin' />
       </div>
     ); 
 }

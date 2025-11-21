@@ -1,4 +1,3 @@
-import "./Input.scss";
 import { useRef, CSSProperties, ChangeEvent } from "react";
 import CalenderSVG from "/svgs/calender.svg";
 import { IMaskInput } from "react-imask";
@@ -132,17 +131,22 @@ function Input({
   };
 
   return (
-    <div className={`Input ${errorMessage ? "Input--invalid" : ""}`} id={id}>
+    <div
+      className={`flex flex-col w-full flex-1 gap-[13px] relative text-black`}
+      id={id}
+    >
       {label && (
-        <label className="Input-header">
-          {label} {required && <span className="star">*</span>}
+        <label className="text-[16px]">
+          {label} {required && <span className="text-red3">*</span>}
         </label>
       )}
-      <div className="inputContainer">
+      <div className="flex gap-[13px] relative">
         {doubleInputPlaceholder && (
           <input
             type="text"
-            className="Input-input"
+            className={`w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0  ${
+              errorMessage ? "border-red2 outline-0" : ""
+            } `}
             required={required}
             placeholder={doubleInputPlaceholder}
             disabled={doubleInputDisabled || inputDisabled}
@@ -155,11 +159,13 @@ function Input({
         )}
 
         {inputType === "date" ? (
-          <div className="dateWrapper">
+          <div className="relative flex items-center w-full">
             <input
               type="text"
               inputMode="numeric"
-              className="Input-input"
+              className={`w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0  ${
+                errorMessage ? "border-red2 outline-0" : ""
+              } `}
               required={required}
               placeholder={placeholder || "ДД/ММ/ГГГГ"}
               disabled={inputDisabled}
@@ -171,12 +177,12 @@ function Input({
               src={CalenderSVG}
               alt="calendar"
               onClick={() => dateRef.current?.showPicker?.()}
-              className="calender-icon"
+              className="absolute right-[10px] w-[20px] h-[20px] cursor-pointer opacity-70 transition-opacity duration-200 ease-in-out hover:opacity-100"
             />
             <input
               ref={dateRef}
               type="date"
-              className="hidden-dateInput"
+              className="absolute left-[0] top-[0] w-full h-full opacity-0 pointer-events-none"
               onChange={handleHiddenDateChange}
             />
           </div>
@@ -187,11 +193,15 @@ function Input({
             value={value}
             onAccept={handleTelChange}
             placeholder={placeholder}
-            className="Input-input"
+            className={`w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0  ${
+              errorMessage ? "border-red2 outline-0" : ""
+            } `}
           />
         ) : inputType === "dropdown" ? (
           <select
-            className="Input-input no-arrow"
+            className={`appearance-none w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px]] flex gap-[10px] text-[16px] overflow-x-auto pr-[40px] text-[#737474] focus:outline-0 focus:text-black  cursor-pointer${
+              errorMessage ? "border-red2 outline-0" : ""
+            } `}
             required={required}
             disabled={inputDisabled}
             value={value || ""}
@@ -208,7 +218,9 @@ function Input({
           </select>
         ) : inputType === "file" ? (
           <label
-            className="Input-input fileContainer"
+            className={`w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0  justify-center h-[96px] cursor-pointer ${
+              errorMessage ? "border-red2 outline-0" : ""
+            } `}
             htmlFor={label?.replace(/\s+/g, "_") || "file_input"}
           >
             <input
@@ -216,21 +228,27 @@ function Input({
               type="file"
               required={required}
               disabled={inputDisabled}
-              className="hidden-file-input"
+              className="hidden"
               accept={fileType || ".pdf,.doc,.docx"}
               onChange={handleFileChange}
             />
-            <div className="file-box">
-              <div className="file-placeholder">
+            <div className="text-center flex flex-col gap-[12px] justify-center">
+              <div className="font-[600] pointer-events-none">
                 {value || placeholder || "Upload file"}
               </div>
-              {fileNote && <div className="file-note">{fileNote}</div>}
+              {fileNote && (
+                <div className="text-[14px] text-[#737474] pointer-events-none">
+                  {fileNote}
+                </div>
+              )}
             </div>
           </label>
         ) : (
           <input
             type={inputType || "text"}
-            className="Input-input"
+            className={`w-full border border-solid border-[#e9ebeb] bg-[#f5f5f5] p-[16px] pl-[18px] pr-[40px] flex gap-[10px] text-[16px] overflow-x-auto focus:outline-0  ${
+              errorMessage ? "border-red2 outline-0" : ""
+            } `}
             required={required}
             placeholder={placeholder}
             disabled={inputDisabled}
@@ -243,12 +261,14 @@ function Input({
           <img
             src={imgSrc}
             alt=""
-            className="Input-image"
+            className="w-[20px] f-[20px] absolute right-[18px] top-[50%] -translate-y-1/3"
             style={{ ...imgStyles }}
           />
         )}
       </div>
-      {errorMessage && <div className="Input-error">{errorMessage}</div>}
+      {errorMessage && (
+        <div className="text-red2 text-[0.85rem] mt-[-4px]">{errorMessage}</div>
+      )}
     </div>
   );
 }

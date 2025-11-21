@@ -1,4 +1,3 @@
-import './Card.scss'
 
 type Props = {
     imgSrc: string,
@@ -8,14 +7,14 @@ type Props = {
 
 function Card({imgSrc, title, details}: Props) {
     return (
-        <div className="card-container">
-            <img src={imgSrc} className='image' />
-            <div className="details-container">
-                <h3 className="title">{title}</h3>
-                <p className="details">{details}</p>
-            </div>
+      <div className="flex flex-col rounded-[16px] p-[20px] gap-[24px] bg-[#f3f4f4] flex-1 min-w-[340px] max-md:gap-[10px] max-sm:min-w-full">
+        <img src={imgSrc} className="w-[50px] h-[50px]" />
+        <div className="flex flex-col gap-[9px] max-md:gap-[10px]">
+          <h3 className="font-[600] text-[24px] tracking-[-0.56px] flex items-center h-[29px max-md:font-[400]">{title}</h3>
+          <p className="text-[15px] leading-[22.5px]">{details}</p>
         </div>
-    )
+      </div>
+    );
 }
 
 export default Card
