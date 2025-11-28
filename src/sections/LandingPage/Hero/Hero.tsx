@@ -63,7 +63,7 @@ function Hero() {
           <div className="absolute top-[109px] left-[60px] gap-[36px] w-[905px] flex flex-col max-md:static max-md:content-end max-md:items-center max-md:w-full max-md:h-full max-md:gap-[44px] max-md:p-[24px] max-md:pl-[16px] max-md:pr[16px] max-md:mb-[40px]">
             <div className="w-[628px] h-min max-md:w-full">
               <h1
-                className="w-[628px] h-[202px] text-[56px] leading-[67.2px] tracking-[-1px] align-middle max-md:text-[32px] max-md:font-[400] max-md:leading-[40px] max-md:h-min max-md:w-full"
+                className="w-[628px] h-[202px] text-[56px] leading-[67.2px] tracking-[-1px] align-middle max-md:text-[40px] max-md:font-[400] max-md:leading-[40px] max-md:h-min max-md:w-full max-[640px]:text-[32px]"
                 dangerouslySetInnerHTML={{ __html: text[currentLan].heading }}
               />
             </div>

@@ -321,7 +321,7 @@ function FieldSearch() {
 
   return (
     <section className="max-2xl:w-full flex flex-col w-[1280px] gap-[32px] text-black mb-[80px]" id="vacancies">
-      <header className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] font-[500] text-[48px] leading-[67.2px] tracking-[-1%] align-middle">
+      <header className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] font-[500] text-[48px] leading-[67.2px] tracking-[-1%] align-middle max-md:text-[36px] max-md:font-[400]">
         {currentLan === "ru" ? "Поиск по направлениям" : "Search by Faculty"}
       </header>
 
@@ -352,7 +352,7 @@ function FieldSearch() {
 
       {selected && (
         <article className="max-2xl:w-full flex flex-col gap-[15px] w-[1250.53px] mb-[16px]">
-          <header className="max-2xl:text-[32px] max-2xl:leading-[40px] w-full font-[500] text-[36px] leading-[50.4px] tracking-[-1px] align-middle">{blockHeader}</header>
+          <header className="max-2xl:text-[32px] max-2xl:leading-[40px] w-full font-[500] text-[36px] leading-[50.4px] tracking-[-1px] align-middle max-md:text-[28px] max-md:font-[600]">{blockHeader}</header>
 
           <div className="flex flex-col gap-[16px] text-[14px] leading-[23.8px]">
             {selected.invitation && (

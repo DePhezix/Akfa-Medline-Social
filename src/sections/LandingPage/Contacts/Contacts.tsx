@@ -85,7 +85,7 @@ function Contacts() {
             <a
               href={contact.link}
               key={index}
-              className="max-2xl:p-[20px] flex flex-col flex-1 rounded-[16px] p-[32px] gap-[40px] border border-solid border-[#52525a] min-w-[280px] cursor-pointer no-underline text-black"
+              className="max-2xl:p-[20px] flex flex-col flex-1 rounded-[16px] p-[32px] gap-[40px] border border-solid border-[rgba(82,82,90,0.2)] min-w-[280px] cursor-pointer no-underline text-black"
               target={index === 2 ? "_blank" : "_self"}
               rel="noopener noreferrer"
             >
@@ -98,14 +98,14 @@ function Contacts() {
                     {contact.title}
                   </h3>
                   {contact.text1 && (
-                    <p
-                      className="text-[16px] leading-[27.2px] text-[#232f3a] whitespace-nowrap"
-                    >
+                    <p className="text-[16px] leading-[27.2px] text-[#232f3a] whitespace-nowrap">
                       {contact.text1}
                     </p>
                   )}
                 </div>
-                <p className="font-[500] text-[17px] leading-[27.2px] tracking-[-0.5px]">{contact.text2}</p>
+                <p className="font-[500] text-[17px] leading-[27.2px] tracking-[-0.5px]">
+                  {contact.text2}
+                </p>
               </div>
             </a>
           ))}
