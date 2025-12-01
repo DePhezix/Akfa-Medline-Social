@@ -126,7 +126,7 @@ function Hero() {
         </div>
       </main>
 
-      {isSearchOpen && <HeroSearch setIsSearchOpen={setIsSearchOpen} />}
+      <HeroSearch setIsSearchOpen={setIsSearchOpen} isSearchOpen={isSearchOpen} />
     </>
   );
 }
