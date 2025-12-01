@@ -55,12 +55,12 @@ function Hero() {
 
   return (
     <>
-      <main className="w-full h-[650px] text-[#ffff] mt-[15.85px] pl-[15.625px] pr-[15.625px] max-2xl:overflow-x-hidden max-md:mt-[0] max-md:h-min max-md:p-[0]">
+      <main className="min-[1600px]:h-[783px] w-full h-[650px] text-[#ffff] mt-[15.85px] pl-[15.625px] pr-[15.625px] max-2xl:overflow-x-hidden max-md:mt-[0] max-md:h-min max-md:p-[0]">
         <div
-          className="h-[650px] relative rounded-[16px] bg-cover bg-no-repeat max-md:pt-[200px] max-md:flex max-md:flex-col max-md:bg-center max-md:h-min"
+          className="min-[1600px]:h-[783px] h-[650px] relative rounded-[16px] bg-cover bg-center bg-no-repeat max-md:pt-[200px] max-md:flex max-md:flex-col max-md:bg-center max-md:h-min"
           style={{ backgroundImage: `url(${HeroImage})` }}
         >
-          <div className="absolute top-[109px] left-[60px] gap-[36px] w-[905px] flex flex-col max-md:static max-md:content-end max-md:items-center max-md:w-full max-md:h-full max-md:gap-[44px] max-md:p-[24px] max-md:pl-[16px] max-md:pr[16px] max-md:mb-[40px]">
+          <div className="absolute bottom-[251px] left-[60px] gap-[36px] w-[905px] flex flex-col max-md:static max-md:content-end max-md:items-center max-md:w-full max-md:h-full max-md:gap-[44px] max-md:p-[24px] max-md:pl-[16px] max-md:pr[16px] max-md:mb-[40px]">
             <div className="w-[628px] h-min max-md:w-full">
               <h1
                 className="w-[628px] h-[202px] text-[56px] leading-[67.2px] tracking-[-1px] align-middle max-md:text-[40px] max-md:font-[400] max-md:leading-[40px] max-md:h-min max-md:w-full max-[640px]:text-[32px]"
@@ -97,7 +97,7 @@ function Hero() {
             </div>
           </div>
 
-          <div className="absolute top-[441px] left-[60px] gap-[36px] flex flex-col max-md:static max-md:pb-[40px] max-md:pl-[16px] max-md:pr-[16px]">
+          <div className="absolute bottom-[48px] left-[60px] gap-[36px] flex flex-col max-md:static max-md:pb-[40px] max-md:pl-[16px] max-md:pr-[16px]">
             <div className="flex flex-col gap-[12px] justify-center">
               <h3 className="w-max font-[500] text-[24px] tracking-[-0.5px] align-middle max-md:w-full">
                 {text[currentLan].subtitle}
