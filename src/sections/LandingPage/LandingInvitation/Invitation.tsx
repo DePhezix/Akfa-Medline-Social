@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { useRef } from 'react'
+import {fadeIn, useGSAP, ScrollTrigger} from '../../../gsapConfig.js'
 
 type languagesType = "en" | "ru";
 
@@ -11,6 +13,12 @@ interface textType {
 function InvitationSection() {
   const { language } = useParams<{ language: languagesType }>();
   const currentLan: languagesType = language || "ru";
+
+  const container = useRef<HTMLDivElement | null>(null);
+
+  useGSAP(() => {
+    fadeIn(container);
+  })
 
   const text: Record<languagesType, textType> = {
     ru: {
@@ -30,7 +38,7 @@ function InvitationSection() {
   };
 
   return (
-    <section className="max-2xl:w-full flex flex-col gap-[24px] w-[1280px] text-black mt-[80px] mb-[80px]">
+    <section className="max-2xl:w-full flex flex-col gap-[24px] w-[1280px] text-black mt-[80px] mb-[80px]" ref={container}>
       <h2 className="max-2xl:w-full max-2xl:h-min max-md:leading-[40px] w-[628px] h-[96px] font-[700] text-[32px] leading-[150%] tracking-[-1px]">{text[currentLan].header}</h2>
       <div className="max-2xl:justify-between max-md:flex-col flex gap-[24px] font-[400] text-[20px] leading-[150%] tracking-[-1px]">
         <p className="max-2xl:h-min max-md:w-full max-md:text-[16px] max-md:leading-[25px] w-[628px] h-[180px]">{text[currentLan].detail1}</p>

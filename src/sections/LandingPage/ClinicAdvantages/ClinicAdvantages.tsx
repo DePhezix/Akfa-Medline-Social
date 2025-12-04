@@ -5,6 +5,9 @@ import CAI2 from "/images/ClinicalAdvantageImage2.jpg";
 import CAI3 from "/images/ClinicalAdvantageImage3.jpg";
 import CAI4 from "/images/ClinicalAdvantageImage4.jpg";
 import CAI5 from "/images/ClinicalAdvantageImage5.png";
+import { useRef } from "react";
+
+import { fadeIn, useGSAP } from '../../../gsapConfig.js'
 
 type languagesType = "ru" | "en";
 
@@ -24,6 +27,8 @@ interface textType {
 function ClinicAdvantages() {
   const { language } = useParams<{ language: languagesType }>();
   const currentLan: languagesType = language || "ru";
+
+  const header = useRef<HTMLHeadElement | null>(null)
 
   const text: Record<languagesType, textType> = {
     ru: {
@@ -112,12 +117,16 @@ function ClinicAdvantages() {
     },
   };
 
+  useGSAP(() => {
+    fadeIn(header)
+  })
+
   return (
     <section
       className="max-2xl:w-full max-2xl:gap-[45px] flex flex-col w-[1280px] gap-[60px] mb-[80px]"
       id="benefits"
     >
-      <header className="max-2xl:w-full flex flex-col gap-[16px] items-center">
+      <header className="max-2xl:w-full flex flex-col gap-[16px] items-center" ref={header}>
         <h2 className="max-2xl:w-full max-2xl:font-[700] max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:h-min w-[628px] h-[44px] font-[700] text-[36px] tracking-[-1px] text-center align-middle ">
           {text[currentLan].header}
         </h2>

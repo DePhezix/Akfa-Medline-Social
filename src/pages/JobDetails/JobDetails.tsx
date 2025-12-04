@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Hero from "../../sections/JobDetails/Hero/Hero.js";
 import Overview from "../../sections/JobDetails/Overview/Overview.js";
@@ -7,7 +7,7 @@ import JobDetail from "../../sections/JobDetails/JobDetail/JobDetail.js";
 import Loading from "../../sections/Global/Loading/Loading.js";
 import JoinWaitingList from "../../sections/JobDetails/JoinWaitlingList/JoinWaitingList.js";
 import { useBoundStore } from '../../store/Store.js'
-
+import { useGSAP, fadeIn } from '../../gsapConfig.js'
 
 function JobDetails() {
   const { jobid, language } = useParams();
@@ -17,6 +17,10 @@ function JobDetails() {
   const currentLan = language || "ru";
   const fetchJobVacancy = useBoundStore(state => state.fetchAndSetJobVacancy)
   const jobData = useBoundStore(state => state.jobVacancy)
+
+  const contentContainer = useRef<HTMLDivElement | null>(null)
+
+   useGSAP(() => fadeIn(contentContainer));
 
   useEffect(() => {
     fetchJobVacancy(Number(jobid))
@@ -38,7 +42,7 @@ function JobDetails() {
               CandidatesNumber={jobData?.onWaitingList}
               Salary={jobData?.salary}
             />
-            <div className="flex gap-[24px] w-[1280px] justify-between max-2xl:w-full max-md:flex-col max-2xl:pr-[30px] max-2xl:pl-[30px]">
+            <div className="flex gap-[24px] w-[1280px] justify-between max-2xl:w-full max-md:flex-col max-2xl:pr-[30px] max-2xl:pl-[30px]" ref={contentContainer}>
               <div className="flex flex-col max-2xl:w-full">
                 <Overview
                   title={jobData?.title}
@@ -51,7 +55,9 @@ function JobDetails() {
                 )}
                 {jobData?.conditions && <JobDetail text={jobData.conditions} />}
               </div>
-              <div className="w-[200px] max-2xl:w-[230px] max-md:w-full">
+              <div
+                className="w-[200px] max-2xl:w-[230px] max-md:w-full"
+              >
                 <WaitingList setIsWaitingListOpen={setIsWaitingListOpen} />
               </div>
             </div>

@@ -7,6 +7,8 @@ import RightArrow from "/svgs/right-white-arrow.svg";
 import bckgrndImg from "/images/doctor_holding_stethoscope.jpg";
 import { HashLink } from "react-router-hash-link";
 import { useParams } from "react-router-dom";
+import { useRef } from 'react'
+import { useGSAP, fadeIn } from '../../../gsapConfig.js'
 
 type languagesType = "en" | "ru"
 
@@ -26,6 +28,14 @@ interface contentType {
 function JoinUsSection() {
     const { language } = useParams<{language: languagesType}>();
     const currentLan: languagesType = language || "ru";
+
+    const textContainer = useRef<HTMLDivElement | null>(null)
+    const cardsContainer = useRef<HTMLDivElement | null>(null)
+
+    useGSAP(() => {
+      fadeIn(textContainer);
+      fadeIn(cardsContainer)
+    })
 
   const content: Record<languagesType, contentType> = {
     ru: {
@@ -86,7 +96,7 @@ function JoinUsSection() {
   return (
     <section className="max-2xl:min-[1245px]:items-center max-2xl:w-full max-2xl:overflow-x-hidden max-2xl:bg-center flex w-[1280px] flex-col gap-[60px] mb-[60px]">
       <div className="max-2xl:w-full max-md:flex max-md:items-end max-md:justify-center max-md:w-full max-md:rounded-[12px] max-md:p-[16px] max-md:pt-[24px] max-md:pb-[24px] max-md:h-[526px] w-[1280px] h-[685px] relative text-white">
-        <div className="max-md:static flex flex-col w-[617px] absolute top-[308px] left-[60px] gap-[32px] z-10">
+        <div className="max-md:static flex flex-col w-[617px] absolute top-[308px] left-[60px] gap-[32px] z-10" ref={textContainer}>
           <header className="flex flex-col gap-[16px]">
             <h2 className="max-md:text-[32px] max-md:leading-[40px] max-md:h-min max-md:w-full max-md:mb-28px w-[473px] h-[135px] text-[56px] leading-[67.2px] tracking-[-1px] font-[400]">{content[currentLan].header}</h2>
             <h5 className="max-md:leading-[1.75rem] max-md:text-[1.25rem] max-md:w-full max-md:font-[500]  font-[500] text-[20px] leading-[150%] tracking-[-0.5px] w-[498px]">{content[currentLan].subtitle}</h5>
@@ -114,7 +124,7 @@ function JoinUsSection() {
         />
       </div>
 
-      <div className="max-2xl:flex-wrap flex justify-between gap-[11.5px]">
+      <div className="max-2xl:flex-wrap flex justify-between gap-[11.5px]" ref={cardsContainer}>
         {content[currentLan].cardsData.map((arr, index) => (
           <Card
             key={index}
