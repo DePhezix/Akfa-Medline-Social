@@ -97,6 +97,7 @@ function Header() {
           <div className="rounded-[10px] bg-[#eee]">
             <div className="w-[100px]">
               <select
+                aria-label="Select language"
                 className="p-[10px] appearance-none cursor-pointer w-[100px] font-[400] text-[14px] bg-transparent border-0 focus:outline-0"
                 onChange={(e) => handleLanguage(e.target.value)}
                 value={currentLan}
@@ -195,7 +196,7 @@ function Header() {
               text={currentLan === "ru" ? "Подать заявку" : "Apply now"}
               variant="black"
               imgSrc={RightArrow}
-              imgAlt='arrow'
+              imgAlt="arrow"
               onButtonClick={handleNavClick}
             />
           </HashLink>

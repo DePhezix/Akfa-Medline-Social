@@ -5,6 +5,7 @@ import {
   ChangeEvent,
   MouseEvent,
   useRef,
+  useEffect,
 } from "react";
 import { Link, useParams } from "react-router-dom";
 import CloseImg from "/svgs/x.svg";
@@ -75,7 +76,11 @@ function HeroSearch({ setIsSearchOpen, isSearchOpen }: Props) {
         duration: 0.2
       })
     }
-  }, [isSearchOpen]);
+  }, [isSearchOpen])
+  
+  useEffect(() => {
+    setFilteredVacancies(vacancies.slice(0, 8))
+  });
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
