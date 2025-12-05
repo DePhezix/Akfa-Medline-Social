@@ -16,7 +16,7 @@ interface dataType {
   details: string;
   imgSrc: string;
   inverse: boolean;
-  imgAlt?: string;
+  imgAlt: string;
 }
 
 interface textType {
@@ -43,7 +43,7 @@ function ClinicAdvantages() {
             "Поддержка повышения квалификации для врачей и медицинских сестёр без финансовой нагрузки для работника.",
           imgSrc: CAI1,
           inverse: false,
-          imgAlt: "woman sitting with desk"
+          imgAlt: "woman sitting with desk",
         },
         {
           title: "Участие в международных конференциях",
@@ -51,7 +51,7 @@ function ClinicAdvantages() {
             "Мы открываем доступ к мировым медицинским событиям. Общение с лидерами индустрии и обмен опытом обеспечен.",
           imgSrc: CAI2,
           inverse: true,
-          imgAlt: "speaker giving talk image"
+          imgAlt: "speaker giving talk image",
         },
         {
           title: "Совместные проекты с ведущими организациями",
@@ -59,7 +59,7 @@ function ClinicAdvantages() {
             "Сотрудничество с Akfa Medline, Central Asian University и другими лидерами индустрии. Работа в команде с передовыми специалистами и учёными.",
           imgSrc: CAI3,
           inverse: false,
-          imgAlt: "members working together"
+          imgAlt: "members working together",
         },
         {
           title: "Ежегодный бесплатный Check-up",
@@ -67,7 +67,7 @@ function ClinicAdvantages() {
             "Полный медицинский осмотр для наших врачей и медсестёр – мы заботимся о вашем здоровье.",
           imgSrc: CAI4,
           inverse: true,
-          imgAlt: "doctor checking patient's health"
+          imgAlt: "doctor checking patient's health",
         },
         {
           title: "Специальные медицинские услуги для семей и близких",
@@ -75,7 +75,7 @@ function ClinicAdvantages() {
             "Пакеты медуслуг для ваших близких. Поддержка и забота для всей семьи.",
           imgSrc: CAI5,
           inverse: false,
-          imgAlt: "nurse checking patient"
+          imgAlt: "nurse checking patient",
         },
       ],
     },
@@ -90,7 +90,7 @@ function ClinicAdvantages() {
             "Support for advanced training for doctors and nurses without financial burden for the employee..",
           imgSrc: CAI1,
           inverse: false,
-          imgAlt: "woman sitting with desk"
+          imgAlt: "woman sitting with desk",
         },
         {
           title: "Participation in International Conferences",
@@ -98,7 +98,7 @@ function ClinicAdvantages() {
             "We provide access to global medical events. Communication with industry leaders and exchange of experience is guaranteed.",
           imgSrc: CAI2,
           inverse: true,
-          imgAlt: "speaker giving talk image"
+          imgAlt: "speaker giving talk image",
         },
         {
           title: "Joint projects with leading organizations",
@@ -106,7 +106,7 @@ function ClinicAdvantages() {
             "Collaboration with Akfa Medline, Central Asian University and other industry leaders. Teamwork with leading specialists and scientists..",
           imgSrc: CAI3,
           inverse: false,
-          imgAlt: "members working together"
+          imgAlt: "members working together",
         },
         {
           title: "Free Annual Check-up",
@@ -114,7 +114,7 @@ function ClinicAdvantages() {
             "Complete medical examination for our doctors and nurses - we care about your health.",
           imgSrc: CAI4,
           inverse: true,
-          imgAlt: "doctor checking patient's health"
+          imgAlt: "doctor checking patient's health",
         },
         {
           title: "Special medical services for families and loved ones",
@@ -122,6 +122,7 @@ function ClinicAdvantages() {
             "Medical packages for your loved ones. Support and care for the whole family.",
           imgSrc: CAI5,
           inverse: false,
+          imgAlt: "nurse checking patient",
         },
       ],
     },
@@ -152,6 +153,7 @@ function ClinicAdvantages() {
             details={item.details}
             imgSrc={item.imgSrc}
             inverse={item.inverse}
+            imgAlt={item.imgAlt}
           />
         ))}
       </div>

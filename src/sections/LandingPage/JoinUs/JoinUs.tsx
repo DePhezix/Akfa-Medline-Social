@@ -16,7 +16,7 @@ interface cardDataType {
   imgSrc: string;
   title: string;
   details: string;
-  imgAlt?: string;
+  imgAlt: string;
 }
 
 interface contentType {
@@ -139,6 +139,7 @@ function JoinUsSection() {
             imgSrc={arr.imgSrc}
             title={arr.title}
             details={arr.details}
+            imgAlt={arr.imgAlt}
           />
         ))}
       </div>
