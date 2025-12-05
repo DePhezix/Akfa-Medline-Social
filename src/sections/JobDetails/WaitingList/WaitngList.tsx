@@ -40,6 +40,7 @@ function WaitingList({ className, setIsWaitingListOpen }: Props) {
         className="p-[12px] pl-[10px] pr-[10px] rounded-none"
         fontSize='sm'
         imgSrc={RightArrow}
+        imgAlt='right arrow'
       />
       <Button
         text="Back to Job Listings"

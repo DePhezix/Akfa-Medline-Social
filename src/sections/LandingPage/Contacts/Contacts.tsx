@@ -102,7 +102,7 @@ function Contacts() {
               rel="noopener noreferrer"
             >
               <figure className="w-[40px] h-[40px] rounded-[8px] bg-red flex justify-center items-center">
-                <img src={contact.imgSrc} alt="" className="icon" />
+                <img src={contact.imgSrc} alt=""  className='w-[25px] h-[25px]' />
               </figure>
               <div className="flex flex-col gap-[19px]">
                 <div className="flex flex-col gap-[7.09px]">
@@ -135,6 +135,7 @@ function Contacts() {
         className="max-2xl:w-full max-md:h-[440px] max-sm:h-[358px] w-[1280px] h-[550px] border-0 rounded-[10px]"
         allowFullScreen
         ref={map}
+        title='Google Maps, Central Asian University'
       />
     </section>
   );

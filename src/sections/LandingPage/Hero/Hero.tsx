@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import HeroImage from "/svgs/hero.svg";
+import HeroImage from "/images/landing-hero.avif";
 import SearchIcon from "/svgs/search-icon.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import Button from "../../../components/Button/Button.js";
@@ -83,7 +83,7 @@ function Hero() {
                   className="flex rounded-[5px] p-[24px] pt-[16px] pb-[16px] gap-[15px] bg-white items-center cursor-pointer max-md:w-full "
                   onClick={handleButtonClick}
                 >
-                  <img src={SearchIcon} />
+                  <img src={SearchIcon} alt='search icon' className='w-[20px] h-[20px]' />
                   <input
                     placeholder={text[currentLan].searchPlaceholder}
                     className="w-[256px] h-[19px] text-[#c2c2c2] text-[16px] bg-transparent pointer-events-none focus:outline-none max-md:w-full"
@@ -102,6 +102,7 @@ function Hero() {
                   <Button
                     text={text[currentLan].buttonText}
                     imgSrc={RightArrow}
+                    imgAlt='right arrow'
                   />
                 </HashLink>
               </div>
@@ -112,9 +113,9 @@ function Hero() {
                 <h3 className="w-max font-[500] text-[24px] tracking-[-0.5px] align-middle max-md:w-full">
                   {text[currentLan].subtitle}
                 </h3>
-                <h5 className="text-[12px] leading-[14.4px] h-[15px] align-middle">
+                <p className="text-[12px] leading-[14.4px] h-[15px] align-middle">
                   {text[currentLan].subheader}
-                </h5>
+                </p>
               </div>
 
               <div className="flex gap-[16.5px] max-md:grid max-md:grid-cols-2 max-md:gap-[1rem]">

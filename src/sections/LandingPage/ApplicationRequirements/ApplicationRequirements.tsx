@@ -94,6 +94,7 @@ function ApplicationRequirements() {
           <Button
             text={currentText.button}
             imgSrc={RightArrow}
+            imgAlt='right arrow'
             variant="black"
           />
         </HashLink>

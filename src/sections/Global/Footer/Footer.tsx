@@ -62,6 +62,7 @@ function Footer() {
                   <img
                     src={social.icon}
                     alt={social.alt}
+                    className='w-[15px] h-[15px]'
                   />
                 </a>
               ))}

@@ -507,6 +507,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
                   <Button
                     text="Add Language"
                     imgSrc={Plus}
+                    imgAlt='plus icon'
                     variant="black"
                     buttonType="button"
                     onButtonClick={addLanguage}

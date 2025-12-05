@@ -195,6 +195,7 @@ function Header() {
               text={currentLan === "ru" ? "Подать заявку" : "Apply now"}
               variant="black"
               imgSrc={RightArrow}
+              imgAlt='arrow'
               onButtonClick={handleNavClick}
             />
           </HashLink>

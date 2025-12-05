@@ -7,9 +7,10 @@ type Props = {
   details: string;
   imgSrc: string;
   inverse?: boolean;
+  imgAlt?: string;
 };
 
-function ClinicAdvantage({ title, details, imgSrc, inverse }: Props) {
+function ClinicAdvantage({ title, details, imgSrc, inverse, imgAlt }: Props) {
   const container = useRef<HTMLDivElement | null>(null);
 
   useGSAP(() => {
@@ -32,7 +33,7 @@ function ClinicAdvantage({ title, details, imgSrc, inverse }: Props) {
         </p>
       </div>
       <div className="w-[628px] h-[350px] rounded-[8px] overflow-hidden flex items-center justify-center max-2xl:w-full max-2xl:h-[164px] max-2xl:min-h-[164px]">
-        <img className="w-full h-full object-cover" src={imgSrc} />
+        <img className="w-full h-full object-cover" src={imgSrc} alt={imgAlt} />
       </div>
     </div>
   );

@@ -12,10 +12,11 @@ type Props = {
   buttonType?: "reset" | "button" | "submit" | undefined,
   className?: string, 
   fontSize?: fontsType,
+  imgAlt?: string,
   children?: ReactNode
 }
 
-function Button({text, imgSrc, variant, onButtonClick, buttonType = 'button', children, className, fontSize}: Props) {
+function Button({text, imgSrc, variant, onButtonClick, buttonType = 'button', children, className, fontSize, imgAlt}: Props) {
     const variantClasses: Record<buttonVariant, string> = {
       black: "!bg-[#222222] !text-white",
       black2: "!bg-[#1E1E1F] !text-white",
@@ -42,7 +43,7 @@ function Button({text, imgSrc, variant, onButtonClick, buttonType = 'button', ch
             {text}
           </div>
         )}
-        {imgSrc && <img src={imgSrc} />}
+        {imgSrc && <img src={imgSrc} className='w-[20px] h-[20px]' alt={imgAlt}  />}
         {children}
       </button>
     );

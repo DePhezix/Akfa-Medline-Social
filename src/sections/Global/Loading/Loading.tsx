@@ -1,5 +1,5 @@
 import { useBoundStore } from '../../../store/Store.js';
-import LoadingImage from "/images/loading.png";
+import LoadingImage from "/images/loading.avif";
 import {gsap, useGSAP} from '../../../gsapConfig.js'
 import { useRef } from 'react'
 
