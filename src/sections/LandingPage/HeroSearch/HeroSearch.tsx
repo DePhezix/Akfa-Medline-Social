@@ -77,10 +77,10 @@ function HeroSearch({ setIsSearchOpen, isSearchOpen }: Props) {
       })
     }
   }, [isSearchOpen])
-  
+
   useEffect(() => {
-    setFilteredVacancies(vacancies.slice(0, 8))
-  });
+    setFilteredVacancies(vacancies.slice(0, 8));
+  }, [vacancies]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
