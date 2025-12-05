@@ -2,6 +2,8 @@ import PhoneSVG from "/svgs/phone.svg";
 import MailSVG from "/svgs/mail.svg";
 import LocationSVG from "/svgs/location.svg";
 import { useParams } from 'react-router-dom'
+import { useRef } from 'react'
+import { fadeIn, useGSAP } from '../../../gsapConfig.js'
 
 type languagesType = "ru" | "en"
 
@@ -71,16 +73,26 @@ function Contacts() {
 
   const selectedContacts: contactsListType[] = ContactsList[currentLan];
 
+  const heading = useRef<HTMLHeadingElement | null>(null)
+  const contactsContainer = useRef<HTMLDivElement | null>(null)
+  const map = useRef<HTMLIFrameElement | null>(null)
+
+  useGSAP(() => {
+    fadeIn(heading)
+    fadeIn(contactsContainer)
+    fadeIn(map)
+  })
+
   return (
     <section
       className="flex flex-col w-[1280px] gap-[43px] mb-[80px] max-2xl:w-full"
       id="contacts"
     >
       <div className="flex w-full flex-col gap-[42px]">
-        <h2 className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] text-[56px]">
+        <h2 className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] text-[56px]" ref={heading}>
           {currentLan === "ru" ? "Контакты" : "Contacts"}
         </h2>
-        <div className="flex gap-[24px] flex-wrap">
+        <div className="flex gap-[24px] flex-wrap" ref={contactsContainer}>
           {selectedContacts.map((contact, index) => (
             <a
               href={contact.link}
@@ -122,6 +134,7 @@ function Contacts() {
         referrerPolicy="no-referrer-when-downgrade"
         className="max-2xl:w-full max-md:h-[440px] max-sm:h-[358px] w-[1280px] h-[550px] border-0 rounded-[10px]"
         allowFullScreen
+        ref={map}
       />
     </section>
   );

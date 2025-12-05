@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import JobApplicationCard from "../../../components/JobApplicationCard/JobApplicationCard.js";
 import Notice from "/svgs/notice.svg";
 import Pagination from "../../../components/Pagination/Pagination.js";
 import { useParams } from "react-router-dom";
 import { useBoundStore } from "../../../store/Store.js";
+import { useGSAP, fadeIn } from "../../../gsapConfig.js";
 
 type languagesType = "en" | "ru";
 
@@ -18,6 +19,15 @@ interface staticFieldsValuesType {
 }
 
 function FieldSearch() {
+  const header = useRef<HTMLDivElement | null>(null)
+  const textContainer = useRef<HTMLDivElement | null>(null)
+
+  useGSAP(() => {
+    fadeIn(header)
+    fadeIn(textContainer)
+  })
+
+
   const { language } = useParams<{ language: languagesType }>();
   const currentLan = language || "ru";
   const jobs = useBoundStore((state) => state.vacanciesByDivision);
@@ -320,121 +330,136 @@ function FieldSearch() {
       : `Job Vacancies for ${fieldName}`;
 
   return (
-    <section className="max-2xl:w-full flex flex-col w-[1280px] gap-[32px] text-black mb-[80px]" id="vacancies">
-      <header className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] font-[500] text-[48px] leading-[67.2px] tracking-[-1%] align-middle max-md:text-[36px] max-md:font-[400]">
-        {currentLan === "ru" ? "Поиск по направлениям" : "Search by Faculty"}
-      </header>
+    <section
+      className="max-2xl:w-full flex flex-col w-[1280px] gap-[32px] text-black mb-[80px]"
+      id="vacancies"
+    >
+      <div className="flex flex-col gap-[32px]" ref={header}>
+        <header className="max-2xl:text-[32px] max-2xl:leading-[40px] max-2xl:font-[700] font-[500] text-[48px] leading-[67.2px] tracking-[-1%] align-middle max-md:text-[36px] max-md:font-[400]">
+          {currentLan === "ru" ? "Поиск по направлениям" : "Search by Faculty"}
+        </header>
 
-      <nav
-        className="flex w-full pb-[36px] gap-[9px] border-b border-solid border-[#e3e5e5] overflow-x-auto [&::-webkit-scrollbar]:hidden"
-        aria-label="Job categories"
-      >
-        {Object.entries(staticFields).map(([key, field]) => {
-          const label =
-            currentLan === "ru"
-              ? key?.split("(")[0]?.trim()
-              : key.match(/\((.*?)\)/)?.[1]?.trim() || key;
-
-          return (
-            <button
-              key={key}
-              type="button"
-              className={`max-2xl:min-w-[270px] rounded-[5px] p-[22px] pt-[11px] pb-[12.19px] cursor-pointer border border-solid border-[#e3e5e5] transition duration-500 ease-linear ${
-                key === selectedKey ? "bg-red text-white border-0" : ""
-              }`}
-              onClick={() => setSelectedKey(key)}
-            >
-              <span className="font-[600] text-[16px] leading-[27.2px] align-middle text-center">{label}</span>
-            </button>
-          );
-        })}
-      </nav>
-
-      {selected && (
-        <article className="max-2xl:w-full flex flex-col gap-[15px] w-[1250.53px] mb-[16px]">
-          <header className="max-2xl:text-[32px] max-2xl:leading-[40px] w-full font-[500] text-[36px] leading-[50.4px] tracking-[-1px] align-middle max-md:text-[28px] max-md:font-[600]">{blockHeader}</header>
-
-          <div className="flex flex-col gap-[16px] text-[14px] leading-[23.8px]">
-            {selected.invitation && (
-              <p className="font-[600] align-middle">{selected.invitation}</p>
-            )}
-
-            {selected.benefits?.length > 0 && (
-              <div>
-                {selected.benefits.map((benefit, index) => (
-                  <span key={index}>
-                    {benefit}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {selected.values && (
-              <section className="flex flex-col gap-[12px]">
-                <h3 className="font-[600]">{selected.values.header}</h3>
-                <p
-                  dangerouslySetInnerHTML={{ __html: selected.values.details }}
-                />
-              </section>
-            )}
-
-            {selected.requirements && (
-              <section className="flex flex-col gap-[12px]">
-                <h3 className="font-[600]">{selected.requirements.header}</h3>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: selected.requirements.details,
-                  }}
-                />
-              </section>
-            )}
-
-            {selected.workingConditions && (
-              <section className="flex flex-col gap-[12px]">
-                <h3 className="font-[600]">{selected.workingConditions.header}</h3>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: selected.workingConditions.details,
-                  }}
-                />
-              </section>
-            )}
-
-            {selected.explanation && (
-              <p className="font-[700]">* {selected.explanation}</p>
-            )}
-          </div>
-        </article>
-      )}
-
-      {jobs.length > 0 && (
-        <section
-          aria-label="Job listings"
+        <nav
+          className="flex w-full pb-[36px] gap-[9px] border-b border-solid border-[#e3e5e5] overflow-x-auto [&::-webkit-scrollbar]:hidden"
+          aria-label="Job categories"
         >
-          <Pagination
-            itemsPerPage={4}
-            className="max-2xl:w-full flex w-[1260px] flex-wrap gap-[32px] justify-between"
-            paginationFor={fieldName || ""}
-          >
-            {jobs?.map((job, index) => (
-              <JobApplicationCard
-                key={index}
-                title={job.title}
-                numberOfApplicants={job.numberOfApplicants}
-                jobID={job.jobID}
-                language={currentLan}
-              />
-            ))}
-          </Pagination>
-        </section>
-      )}
+          {Object.entries(staticFields).map(([key, field]) => {
+            const label =
+              currentLan === "ru"
+                ? key?.split("(")[0]?.trim()
+                : key.match(/\((.*?)\)/)?.[1]?.trim() || key;
 
-      {selected?.note && (
-        <aside className="rounded-[12px] p-[20px] flex gap-[12px] bg-[#fff3e6]" role="note">
-          <img src={Notice} alt="Note icon" />
-          <p className="w-[1204px] text-[16px] leading-[150%] text-[#dd790c]">{selected.note}</p>
-        </aside>
-      )}
+            return (
+              <button
+                key={key}
+                type="button"
+                className={`max-2xl:min-w-[270px] rounded-[5px] p-[22px] pt-[11px] pb-[12.19px] cursor-pointer border border-solid border-[#e3e5e5] transition duration-500 ease-linear ${
+                  key === selectedKey ? "bg-red text-white border-0" : ""
+                }`}
+                onClick={() => setSelectedKey(key)}
+              >
+                <span className="font-[600] text-[16px] leading-[27.2px] align-middle text-center">
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+      <div className="flex flex-col gap-[32px]" ref={textContainer}>
+        {selected && (
+          <article className="max-2xl:w-full flex flex-col gap-[15px] w-[1250.53px] mb-[16px]">
+            <header className="max-2xl:text-[32px] max-2xl:leading-[40px] w-full font-[500] text-[36px] leading-[50.4px] tracking-[-1px] align-middle max-md:text-[28px] max-md:font-[600]">
+              {blockHeader}
+            </header>
+
+            <div className="flex flex-col gap-[16px] text-[14px] leading-[23.8px]">
+              {selected.invitation && (
+                <p className="font-[600] align-middle">{selected.invitation}</p>
+              )}
+
+              {selected.benefits?.length > 0 && (
+                <div>
+                  {selected.benefits.map((benefit, index) => (
+                    <span key={index}>{benefit}</span>
+                  ))}
+                </div>
+              )}
+
+              {selected.values && (
+                <section className="flex flex-col gap-[12px]">
+                  <h3 className="font-[600]">{selected.values.header}</h3>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: selected.values.details,
+                    }}
+                  />
+                </section>
+              )}
+
+              {selected.requirements && (
+                <section className="flex flex-col gap-[12px]">
+                  <h3 className="font-[600]">{selected.requirements.header}</h3>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: selected.requirements.details,
+                    }}
+                  />
+                </section>
+              )}
+
+              {selected.workingConditions && (
+                <section className="flex flex-col gap-[12px]">
+                  <h3 className="font-[600]">
+                    {selected.workingConditions.header}
+                  </h3>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: selected.workingConditions.details,
+                    }}
+                  />
+                </section>
+              )}
+
+              {selected.explanation && (
+                <p className="font-[700]">* {selected.explanation}</p>
+              )}
+            </div>
+          </article>
+        )}
+
+        {jobs.length > 0 && (
+          <section aria-label="Job listings">
+            <Pagination
+              itemsPerPage={4}
+              className="max-2xl:w-full flex w-[1260px] flex-wrap gap-[32px] justify-between"
+              paginationFor={fieldName || ""}
+            >
+              {jobs?.map((job, index) => (
+                <JobApplicationCard
+                  key={index}
+                  title={job.title}
+                  numberOfApplicants={job.numberOfApplicants}
+                  jobID={job.jobID}
+                  language={currentLan}
+                />
+              ))}
+            </Pagination>
+          </section>
+        )}
+
+        {selected?.note && (
+          <aside
+            className="rounded-[12px] p-[20px] flex gap-[12px] bg-[#fff3e6]"
+            role="note"
+          >
+            <img src={Notice} alt="Note icon" />
+            <p className="w-[1204px] text-[16px] leading-[150%] text-[#dd790c]">
+              {selected.note}
+            </p>
+          </aside>
+        )}
+      </div>
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Logo from "/svgs/header_logo.svg";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import DownArrow from "/svgs/downArrow.svg";
@@ -6,6 +6,7 @@ import { HashLink } from "react-router-hash-link";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Button from "../../../components/Button/Button.js";
 import { useBoundStore } from "../../../store/Store.js";
+import { gsap, useGSAP } from "../../../gsapConfig.js";
 
 function Header() {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
@@ -16,6 +17,28 @@ function Header() {
 
   const currentLan = pathname.includes("/en") ? "en" : "ru";
   const basePath = pathname.replace("/en", "");
+
+  const mobileMenu = useRef<HTMLDivElement | null>(null)
+
+ useGSAP(() => {
+   const el = mobileMenu.current;
+
+   if (isHamburgerOpen) {
+     gsap.fromTo(
+       el,
+       { opacity: 0, scale: 1.05 },
+       { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+     );
+   } else {
+     gsap.to(el, {
+       opacity: 0,
+       scale: 1.05,
+       duration: 0.2,
+       ease: "power2.inOut",
+     });
+   }
+ }, [isHamburgerOpen]);
+
 
   const toggleMenu = () => {
     setIsHamburgerOpen((prev) => !prev);
@@ -114,9 +137,10 @@ function Header() {
       </div>
 
       <div
-        className={`hidden fixed right-[0]  bg-white z-1050 w-screen h-[calc(100vh-95.5px)] flex-col justify-end p-[32px] pl-[16px] pr-[16px] border-0 max-md:top-[95.5px] max-sm:top-[80px] max-sm:h-[calc(100vh-80px)] ${
-          isHamburgerOpen ? "flex! animate-fadeIn" : ""
+        className={`fixed right-[0]  bg-white z-1050 w-screen h-[calc(100vh-95.5px)] flex-col justify-end p-[32px] pl-[16px] pr-[16px] border-0 max-md:top-[95.5px] max-sm:top-[80px] max-sm:h-[calc(100vh-80px)] ${
+          isHamburgerOpen ? "flex" : "hidden"
         }`}
+        ref={mobileMenu}
       >
         <div className="flex flex-col gap-[24px]">
           <div className="flex flex-col gap-[32px]">

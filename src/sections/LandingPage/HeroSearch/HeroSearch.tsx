@@ -3,15 +3,18 @@ import {
   Dispatch,
   SetStateAction,
   ChangeEvent,
-  MouseEvent
+  MouseEvent,
+  useRef,
 } from "react";
 import { Link, useParams } from "react-router-dom";
 import CloseImg from "/svgs/x.svg";
 import SearchImg from "/svgs/search-icon.svg";
 import { useBoundStore } from "../../../store/Store.js";
+import { gsap, useGSAP } from "../../../gsapConfig.js";
 
 type Props = {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+  isSearchOpen: boolean;
 };
 
 interface backendVacanciesData {
@@ -20,15 +23,59 @@ interface backendVacanciesData {
   category: string;
 }
 
-type languagesType = "en" | "ru"
+type languagesType = "en" | "ru";
 
-function HeroSearch({ setIsSearchOpen }: Props) {
-  const setIsPopUpOpen = useBoundStore(state => state.setPopUp)
-  const { language } = useParams<{language: languagesType}>();
+function HeroSearch({ setIsSearchOpen, isSearchOpen }: Props) {
+  const setIsPopUpOpen = useBoundStore((state) => state.setPopUp);
+  const { language } = useParams<{ language: languagesType }>();
 
   const vacancies = useBoundStore((state) => state.vacancies);
-  const [filteredVacancies, setFilteredVacancies] = useState<backendVacanciesData[]>(vacancies.slice(0, 8));
+  const [filteredVacancies, setFilteredVacancies] = useState<
+    backendVacanciesData[]
+  >(vacancies.slice(0, 8));
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const container = useRef<HTMLDivElement | null>(null);
+  const menu = useRef<HTMLDivElement | null>(null);
+
+  useGSAP(() => {
+    const el = container.current;
+    const el2 = menu.current;
+
+    if (isSearchOpen) {
+      gsap.to(el, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+
+      gsap.fromTo(
+        el2,
+        {
+          opacity: 0,
+          translateY: 40,
+        },
+        {
+          opacity: 1,
+          translateY: 10,
+          duration: 0.35,
+        }
+      );
+
+    } else {
+      gsap.to(el, {
+        opacity: 0,
+        scale: 1.05,
+        duration: 0.2,
+      });
+      gsap.to(el, {
+        opacity: 0,
+        translate: 40,
+        duration: 0.2
+      })
+    }
+  }, [isSearchOpen]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
@@ -67,12 +114,16 @@ function HeroSearch({ setIsSearchOpen }: Props) {
 
   return (
     <div
-      className="fixed bg-[rgba(0,0,0,0.45)] flex items-center justify-center z-10000 backdrop-blur-[6px] overflow-y-auto animate-fadeIn h-screen w-screen"
+      className={`fixed bg-[rgba(0,0,0,0.45)] items-center justify-center z-10000 backdrop-blur-[6px] overflow-y-auto h-screen w-screen ${
+        isSearchOpen ? "flex" : "hidden"
+      }`}
       onClick={handleClose}
+      ref={container}
     >
       <div
-        className="flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] text-black h-min shadow-middle translate-y-[10px] animate-slideUp rounded-[10px] overflow-x-hidden"
+        className="flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] text-black h-min shadow-middle translate-y-[10px] rounded-[10px] overflow-x-hidden"
         onClick={stopPropagation}
+        ref={menu}
       >
         <div className="flex relative">
           <img

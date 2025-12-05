@@ -1,10 +1,10 @@
-
 import {
   useState,
   Dispatch,
   SetStateAction,
   ChangeEvent,
   MouseEvent,
+  useRef,
 } from "react";
 import X from "/svgs/x.svg";
 import Input from "../../../components/Input/Input.js";
@@ -14,6 +14,7 @@ import Plus from "/svgs/plus.svg";
 import { useParams } from "react-router-dom";
 import { postApplicant } from "../../../ApiCalls/postApplicant.js";
 import { useBoundStore } from "../../../store/Store.js";
+import { gsap, useGSAP } from "../../../gsapConfig.js";
 
 type Props = {
   isOpen: boolean;
@@ -83,20 +84,56 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
     employmentStatus: "",
     cv: { file: null, name: "" },
   });
-  const setIsPopUpOpen = useBoundStore((state) => state.setPopUp)
+  const setIsPopUpOpen = useBoundStore((state) => state.setPopUp);
 
-  const handleInputChange = (field: string) => (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setErrors((prev) => ({
-      ...prev,
-      [field]: null,
-    }));
-    setFormData((prev) => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
-  };
+  const container = useRef<HTMLDivElement | null>(null);
+  const menu = useRef<HTMLDivElement | null>(null);
+
+  useGSAP(() => {
+    const el = container.current;
+    const el2 = menu.current;
+
+    if (isOpen) {
+      gsap.to(el, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      gsap.fromTo(el2, {
+        opacity: 0,
+        translateY: 40,
+      }, {
+        opacity: 1,
+        translateY: 10,
+        duration: 0.35,
+      })
+    } else {
+      gsap.to(el, {
+        opacity: 0,
+        scale: 1.05,
+        duration: 0.2,
+      });
+      gsap.to(el2, {
+        translateY: 40,
+        opacity: 0,
+        duration: 0.2,
+      })
+    }
+  }, [isOpen]);
+
+  const handleInputChange =
+    (field: string) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: null,
+      }));
+      setFormData((prev) => ({
+        ...prev,
+        [field]: e.target.value,
+      }));
+    };
 
   const showToast = (msg: string, error: boolean) => {
     setToast({ message: msg, visible: true, error: error });
@@ -259,7 +296,7 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
       setPhase(1);
       resetForm();
     } else {
-      showToast(applicantPost, true)
+      showToast(applicantPost, true);
     }
   };
 
@@ -288,21 +325,27 @@ function JoinWaitingList({ isOpen, setIsOpen }: Props) {
 
   return (
     <div
-      className={`h-screen w-screen top-[0] fixed flex justify-center z-10000 bg-[rgba(0,0,0,0.45)] backdrop-blur-[6px]  overflow-y-auto animate-fadeIn p-[60px] [&_input,select]:transition-[border,box-shadow]  [&_input,select]:duration-200  [&_input,select]:ease-linear [&_input,select]:focus:border-[#0057ff] [&_input,select]:focus:outline-0  [&_input,select]:focus:shadow-blue max-sm-md:bg-white max-sm-md:p-[0]
+      className={`h-screen w-screen top-[0] fixed flex justify-center z-10000 bg-[rgba(0,0,0,0.45)] backdrop-blur-[6px]  overflow-y-auto p-[60px] [&_input,select]:transition-[border,box-shadow]  [&_input,select]:duration-200  [&_input,select]:ease-linear [&_input,select]:focus:border-[#0057ff] [&_input,select]:focus:outline-0  [&_input,select]:focus:shadow-blue max-sm-md:bg-white max-sm-md:p-[0]
       ${!isOpen ? "hidden" : ""}`}
       style={phase === 2 ? { alignItems: "center" } : {}}
       onClick={handleClose}
+      ref={container}
     >
       <div
-        className={`flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] p-[40px] gap-[36px] text-black h-min shadow-middle translate-y-[10px] animate-slideUp max-sm-md:h-min max-sm-md:m-[0] max-sm-md:p-[40px] max-sm-md:pl-[20px] max-sm-md:pr-[20px] max-sm-md:shadow-none max-sm-md:bg-white ${
-          phase === 2 ? "items-center mt-[0] max-sm:w-full max-sm:h-screen justify-center gap-[64px]" : ""
+        className={`flex flex-col w-[758px] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] p-[40px] gap-[36px] text-black h-min shadow-middle max-sm-md:h-min max-sm-md:m-[0] max-sm-md:p-[40px] max-sm-md:pl-[20px] max-sm-md:pr-[20px] max-sm-md:shadow-none max-sm-md:bg-white ${
+          phase === 2
+            ? "items-center mt-[0] max-sm:w-full max-sm:h-screen justify-center gap-[64px]"
+            : ""
         }`}
+        ref={menu}
         onClick={StopPropogate}
       >
         <div className="flex w-full gap-[48px] items-start justify-end">
           {phase === 1 && (
             <div className=" w-full">
-              <div className=" text-[40px] max-sm-md:text-[24px]">Join the Waiting List</div>
+              <div className=" text-[40px] max-sm-md:text-[24px]">
+                Join the Waiting List
+              </div>
             </div>
           )}
           <img

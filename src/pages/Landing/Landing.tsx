@@ -20,29 +20,29 @@ function LandingPage() {
   const isInitialRender = useRef(true);
   const fetchVacancies = useBoundStore((state) => state.fetchAndSetVacancies)
 
-  useEffect(() => {
-    setCurrentLan(language || "ru");
+  // useEffect(() => {
+  //   setCurrentLan(language || "ru");
 
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
-    }
+  //   if (isInitialRender.current) {
+  //     isInitialRender.current = false;
+  //     return;
+  //   }
 
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 300);
-    return () => clearTimeout(timer);
-  }, [language]);
+  //   setIsLoading(true);
+  //   const timer = setTimeout(() => setIsLoading(false), 300);
+  //   return () => clearTimeout(timer);
+  // }, [language]);
 
-  useEffect(() => {
-    if (!isLoading && hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      }
-    }
-  }, [isLoading, hash]);
+  // useEffect(() => {
+  //   if (!isLoading && hash) {
+  //     const element = document.querySelector(hash);
+  //     if (element) {
+  //       setTimeout(() => {
+  //         element.scrollIntoView({ behavior: "smooth" });
+  //       }, 100);
+  //     }
+  //   }
+  // }, [isLoading, hash]);
 
   useEffect(() => {
     fetchVacancies()

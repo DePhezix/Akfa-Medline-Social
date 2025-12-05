@@ -2,6 +2,8 @@ import Button from "../../../components/Button/Button.js";
 import RightArrow from "/svgs/right-white-arrow.svg";
 import { HashLink } from "react-router-hash-link";
 import { useParams } from "react-router-dom";
+import { useRef } from 'react'
+import { useGSAP, fadeIn } from '../../../gsapConfig.js'
 
 interface textType {
   header: string;
@@ -42,8 +44,14 @@ function ApplicationRequirements() {
   const currentLan: languagesType = language || "ru";
   const currentText: textType = text[currentLan];
 
+  const container = useRef<HTMLDivElement | null>(null)
+
+  useGSAP(() => {
+    fadeIn(container)
+  })
+
   return (
-    <section className="max-2xl:w-full max-md:flex-col max-md:p-[20px] w-[1280px] flex rounded-[12px] p-[40px] gap-[42px] bg-[#f3f4f4] mb-[80px]">
+    <section className="max-2xl:w-full max-md:flex-col max-md:p-[20px] w-[1280px] flex rounded-[12px] p-[40px] gap-[42px] bg-[#f3f4f4] mb-[80px]" ref={container}>
       <div className="max-md:w-full w-[568px]">
         <header className="max-md:text-[32px] max-md:leading-[40px] font-[600] text-[36px] leading-[140%] tracking-[-0.5px] align-middle text-black">
           <h4 className="w-full">{currentText.header}</h4>
