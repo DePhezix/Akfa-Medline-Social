@@ -30,6 +30,7 @@
     "svgr": "^1.10.0",
     "tailwindcss": "^4.1.17",
     "use-sync-external-store": "^1.6.0",
+    "vite-plugin-preload": "^0.4.4",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
